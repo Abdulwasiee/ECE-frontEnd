@@ -1,0 +1,57 @@
+/* CourseList.module.css */
+
+.container {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #f0f0f0;
+}
+
+.editIcon {
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.editIcon:hover {
+  color: #0056b3;
+}
+
+/* Responsive styles */
+@media (min-width: 600px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .listItem {
+    padding: 1rem;
+  }
+}
