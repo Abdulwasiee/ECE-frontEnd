@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/Auth";
 import { axiosInstance } from "../../utility/Axios";
 import signinStyles from "./SignIn.module.css";
-import Layout from "../Layout/Layout";
 
 const SignIn = () => {
   const { login } = useContext(AuthContext);
@@ -52,7 +51,7 @@ const SignIn = () => {
             id_number: "",
             first_name: "",
           });
-          navigate("/");
+          navigate("/home");
         } else {
           setError("Token not received.");
         }

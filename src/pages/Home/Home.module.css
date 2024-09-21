@@ -1,0 +1,98 @@
+/* Mobile-first styles (default) */
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.nav {
+  width: 100%;
+  max-width: 400px;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.menuItem {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.menuLink {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.navButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.navButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.navButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Tablet styles (min-width: 768px) */
+@media (min-width: 768px) {
+  .homeContainer {
+    padding: 40px;
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+
+  .nav {
+    max-width: 600px;
+  }
+}
+
+/* Desktop styles (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .homeContainer {
+    padding: 60px;
+  }
+
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .menuList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .menuItem {
+    width: 45%; /* 2 items per row */
+  }
+}

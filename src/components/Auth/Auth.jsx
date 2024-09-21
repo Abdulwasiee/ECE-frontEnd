@@ -4,12 +4,13 @@ import { axiosInstance } from "../../utility/Axios.jsx";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // State to store authentication status and user information
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({
     role_id: null,
     batch_ids: [],
     stream_id: null,
+    first_name: null,
+    last_name: null,
   });
 
   const checkAuthStatus = async () => {
@@ -20,7 +21,6 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      // Use token directly if it's in the correct format
       const authHeader = `Bearer ${token}`;
 
       const response = await axiosInstance.get("/api/checkUser", {
@@ -33,14 +33,17 @@ export const AuthProvider = ({ children }) => {
       if (response.data.success) {
         setIsAuthenticated(true);
 
-        // Extract role, batch IDs, and stream ID from the response
-        const { role_id, batch_ids, stream_id } = response.data;
+        // Extract role, batch IDs, stream ID, first name, and last name from the response
+        const { role_id, batch_ids, stream_id, first_name, last_name } =
+          response.data;
 
         // Update the userInfo state
         setUserInfo({
           role_id,
           batch_ids,
           stream_id,
+          first_name,
+          last_name,
         });
       } else {
         setIsAuthenticated(false);
@@ -56,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (token) => {
-    localStorage.setItem("authToken", token); 
+    localStorage.setItem("authToken", token);
     await checkAuthStatus();
   };
 
@@ -67,6 +70,8 @@ export const AuthProvider = ({ children }) => {
       role_id: null,
       batch_ids: [],
       stream_id: null,
+      first_name: null,
+      last_name: null,
     });
   };
 

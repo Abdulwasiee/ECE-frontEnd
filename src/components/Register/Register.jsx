@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/Auth";
 import { axiosInstance } from "../../utility/Axios";
 import registerStyles from "./Register.module.css";
-import Layout from "./../Layout/Layout";
+
 
 const Register = () => {
   const { login } = useContext(AuthContext);
