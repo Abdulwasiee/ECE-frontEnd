@@ -18,37 +18,54 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
     handleEdit(courseId);
   };
 
-  const renderCourses = (courseList) =>
-    courseList.map((course) => (
-      <li
-        key={course.course_id}
-        className={styles.listItem}
-        onClick={() => onCourseClick(course.course_id)}
-      >
-        <span>
-          {course.course_name}
-          {course.batch_year && ` - Batch Year: ${course.batch_year}`}
-        </span>
-        {(roleId === 1 || roleId === 4 || roleId === 5) && (
-          <FaEdit
-            className={styles.editIcon}
-            onClick={(e) => renderEditIcon(course.course_id, e)}
-          />
-        )}
-      </li>
-    ));
+  const renderCoursesTable = (courseList) => (
+    <table className={styles.table}>
+      <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Course Code</th>
+          <th>Batch Year</th>
+          <th>Semester</th>
+          {roleId === 1 || roleId === 4 || roleId === 5 ? (
+            <th>Actions</th>
+          ) : null}
+        </tr>
+      </thead>
+      <tbody>
+        {courseList.map((course) => (
+          <tr
+            key={course.course_id}
+            onClick={() => onCourseClick(course.course_id)}
+          >
+            <td>{course.course_name}</td>
+            <td>{course.course_code}</td>
+            <td>{course.batch_year}</td>
+            <td>
+              {course.semester_id === 1 ? "1st Semester" : "2nd Semester"}
+            </td>
+            {(roleId === 1 || roleId === 4 || roleId === 5) && (
+              <td>
+                <FaEdit
+                  className={styles.editIcon}
+                  onClick={(e) => renderEditIcon(course.course_id, e)}
+                />
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Courses</h2>
-      {courses.length > 0 && (
-        <ul className={styles.list}>{renderCourses(courses)}</ul>
-      )}
+      {courses.length > 0 && renderCoursesTable(courses)}
 
       {staffCourses.length > 0 && (
         <div>
           <h2 className={styles.title}>Staff Courses</h2>
-          <ul className={styles.list}>{renderCourses(staffCourses)}</ul>
+          {renderCoursesTable(staffCourses)}
         </div>
       )}
     </div>

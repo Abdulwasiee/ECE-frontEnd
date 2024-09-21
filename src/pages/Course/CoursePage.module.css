@@ -1,0 +1,84 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.batchMenu, .semesterMenu {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.batchButton, .semesterButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.batchButton:hover, .semesterButton:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-top: 20px;
+  font-size: 18px;
+}
+.addCourseButton {
+  position: sticky;
+  top: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-end;
+}
+
+.addCourseButton:hover {
+  background-color: #218838;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .batchMenu, .semesterMenu {
+    width: 100%;
+    max-width: 90%;
+  }
+
+  .batchButton, .semesterButton {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .batchButton, .semesterButton {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .error {
+    font-size: 16px;
+  }
+}

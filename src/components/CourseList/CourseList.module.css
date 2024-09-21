@@ -1,57 +1,66 @@
-/* CourseList.module.css */
-
 .container {
-  padding: 1rem;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.list {
-  list-style-type: none;
-  padding: 0;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
 }
 
-.listItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
+.table th, .table td {
+  padding: 12px 15px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 0.5rem;
-  transition: background-color 0.2s;
-  cursor: pointer;
+  text-align: left;
 }
 
-.listItem:hover {
-  background-color: #f0f0f0;
+.table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
 }
 
 .editIcon {
   color: #007bff;
   cursor: pointer;
-  transition: color 0.2s;
 }
 
 .editIcon:hover {
   color: #0056b3;
 }
 
-/* Responsive styles */
-@media (min-width: 600px) {
-  .container {
-    padding: 2rem;
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .table {
+    font-size: 14px;
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .table {
+    font-size: 12px;
   }
 
-  .listItem {
-    padding: 1rem;
+  .title {
+    font-size: 18px;
   }
 }
