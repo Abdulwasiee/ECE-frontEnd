@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import NewsPage from "./pages/News/NewsPage";
 import CoursePage from "./pages/Course/CoursePage";
 import AddCoursePage from "./pages/Course/AddCourse";
+import StudentPage from "./pages/Users/StudentsPage";
 function Router() {
   return (
     <>
@@ -40,6 +41,14 @@ function Router() {
           element={
             <Protect>
               <AddCoursePage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/students"
+          element={
+            <Protect>
+              <StudentPage />
             </Protect>
           }
         />

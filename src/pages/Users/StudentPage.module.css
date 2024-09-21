@@ -1,0 +1,24 @@
+.studentPageContainer {
+  padding: 20px;
+}
+
+.heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.batchSelection {
+  margin-bottom: 20px;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+.select {
+  padding: 5px;
+}
+
+.error {
+  color: red;
+}

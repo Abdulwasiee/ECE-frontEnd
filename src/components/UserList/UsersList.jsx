@@ -21,7 +21,9 @@ const UsersList = ({ usersData, isStudentData }) => {
   }
 
   const handleRowClick = (id) => {
-    navigate(`/contact/${id}`);
+    if (!isStudentData) {
+      navigate(`/contact/${id}`);
+    }
   };
 
   const handleDeleteUser = async (userId) => {
