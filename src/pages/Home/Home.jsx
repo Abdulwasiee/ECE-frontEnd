@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import styles from "./Home.module.css";
@@ -6,21 +6,7 @@ import { AuthContext } from "../../components/Auth/Auth";
 
 const Home = () => {
   const { userInfo } = useContext(AuthContext);
-  const { first_name, last_name, role_id, batch_ids, stream_id } = userInfo; // Destructure userInfo
-  const [error, setError] = useState(null);
-
-  const renderProfileCard = () => {
-    return (
-      <div className={styles.profileCard}>
-        <h2>User Profile</h2>
-        {first_name && <p>First Name: {first_name}</p>}
-        {last_name && <p>Last Name: {last_name}</p>}
-        {role_id && <p>Role ID: {role_id}</p>}
-        {batch_ids.length > 0 && <p>Batch IDs: {batch_ids.join(", ")}</p>}
-        {stream_id && <p>Stream ID: {stream_id}</p>}
-      </div>
-    );
-  };
+  const { first_name, last_name, role_id } = userInfo;
 
   const renderMenu = () => {
     if (!role_id) return null;
@@ -72,14 +58,18 @@ const Home = () => {
     );
   };
 
-  if (error) return <p className={styles.error}>{error}</p>;
-
   return (
     <Layout>
       <div className={styles.homeContainer}>
-        <h1 className={styles.heading}>Welcome to the Dashboard</h1>
-        {renderProfileCard()}
-        {renderMenu()}
+        <div className={styles.profileCard}>
+          <h2>
+            {first_name} {last_name}
+          </h2>
+        </div>
+        <div className={styles.welcomeContainer}>
+          <h2 className={styles.welcomeMessage}>Welcome to the Dashboard</h2>
+          <div className={styles.menuContainer}>{renderMenu()}</div>
+        </div>
       </div>
     </Layout>
   );

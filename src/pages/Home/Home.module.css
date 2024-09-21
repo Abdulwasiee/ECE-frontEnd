@@ -1,54 +1,73 @@
-/* Home.module.css */
-
 .homeContainer {
-  padding: 1rem;
-  text-align: center;
-}
-
-.heading {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-start; /* Align items to the start */
+  padding: 20px;
 }
 
 .profileCard {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: rgb(125, 68, 10);
+  padding: 15px;
+  margin-bottom: 20px; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.welcomeContainer {
+  text-align: center; /* Center the welcome message and menu */
+  width: 100%;
+}
+
+.welcomeMessage {
+  color: #2c3e50; /* Dark text color */
+  margin: 10px 0; /* Space around the message */
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center the menu */
 }
 
 .menuList {
+  display: flex;
+  flex-wrap: wrap; /* Wrap on smaller screens */
   list-style-type: none;
   padding: 0;
 }
 
 .menuItem {
-  margin: 0.5rem 0;
+  margin: 0 15px; /* Space between menu items */
 }
 
 .menuLink {
   text-decoration: none;
-  color: #007bff;
+  color: #2980b9; /* Link color */
   font-weight: bold;
 }
 
 .menuLink:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* Underline on hover */
+}
+
+.menuItem {
+  padding: 10px;
+  background-color: #bdc3c7; /* Menu item background color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.menuItem:hover {
+  background-color: #95a5a6; /* Darker background on hover */
 }
 
 /* Responsive styles */
-@media (min-width: 600px) {
-  .homeContainer {
-    padding: 2rem;
+@media (max-width: 600px) {
+  .menuList {
+    flex-direction: column; /* Vertical layout for small screens */
   }
-
-  .profileCard {
-    padding: 2rem;
-  }
-
-  .heading {
-    font-size: 2rem;
+  .menuItem {
+    margin-bottom: 10px; /* Space between vertical items */
+    margin-right: 0; /* Remove horizontal margin */
   }
 }
