@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Authentication/Landing";
 import Protect from "./components/Protection/protect";
 import Home from "./pages/Home/Home";
+import NewsPage from "./pages/News/NewsPage";
 function Router() {
   return (
     <>
@@ -13,6 +14,14 @@ function Router() {
           element={
             <Protect>
               <Home />
+            </Protect>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <Protect>
+              <NewsPage/>
             </Protect>
           }
         />

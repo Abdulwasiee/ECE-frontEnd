@@ -1,0 +1,79 @@
+/* News.module.css */
+
+.newsPage {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading {
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: red;
+  margin: 20px 0;
+}
+
+/* News List Styles */
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  margin: 10px 0;
+}
+
+.menuLink {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Sticky Buttons */
+.stickyButtons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.addButton,
+.myPostsButton {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  background-color: #007bff;
+}
+
+.addButton:hover,
+.myPostsButton:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .newsPage {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 40px;
+  }
+
+  .stickyButtons {
+    flex-direction: row;
+    position: static;
+  }
+  
+  .addButton,
+  .myPostsButton {
+    margin: 0 10px;
+  }
+}

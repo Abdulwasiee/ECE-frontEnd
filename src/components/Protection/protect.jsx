@@ -4,12 +4,17 @@ import { AuthContext } from "../Auth/Auth";
 
 const Protect = ({ children }) => {
   const { isAuthenticated } = useContext(AuthContext);
+  const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/signin");
-    }
+    const checkAndRedirect = () => {
+      if (!token) {
+        navigate("/signin");
+      }
+    };
+
+    checkAndRedirect();
   }, [isAuthenticated, navigate]);
 
   return isAuthenticated ? <>{children}</> : null;
