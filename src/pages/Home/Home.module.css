@@ -1,36 +1,31 @@
-/* Mobile-first styles (default) */
+/* Home.module.css */
+
 .homeContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  padding: 1rem;
+  text-align: center;
 }
 
 .heading {
   font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.nav {
-  width: 100%;
-  max-width: 400px;
+.profileCard {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .menuList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   list-style-type: none;
   padding: 0;
 }
 
 .menuItem {
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
+  margin: 0.5rem 0;
 }
 
 .menuLink {
@@ -39,60 +34,21 @@
   font-weight: bold;
 }
 
-.navButtons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+.menuLink:hover {
+  text-decoration: underline;
 }
 
-.navButton {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  flex: 1;
-  margin: 0 5px;
-}
-
-.navButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-/* Tablet styles (min-width: 768px) */
-@media (min-width: 768px) {
+/* Responsive styles */
+@media (min-width: 600px) {
   .homeContainer {
-    padding: 40px;
+    padding: 2rem;
+  }
+
+  .profileCard {
+    padding: 2rem;
   }
 
   .heading {
     font-size: 2rem;
-  }
-
-  .nav {
-    max-width: 600px;
-  }
-}
-
-/* Desktop styles (min-width: 1024px) */
-@media (min-width: 1024px) {
-  .homeContainer {
-    padding: 60px;
-  }
-
-  .heading {
-    font-size: 2.5rem;
-  }
-
-  .menuList {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .menuItem {
-    width: 45%; /* 2 items per row */
   }
 }

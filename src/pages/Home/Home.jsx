@@ -6,13 +6,24 @@ import { AuthContext } from "../../components/Auth/Auth";
 
 const Home = () => {
   const { userInfo } = useContext(AuthContext);
-  const userId = userInfo.user_id;
-  const roleId = userInfo.role_id;
+  const { first_name, last_name, role_id, batch_ids, stream_id } = userInfo; // Destructure userInfo
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // Track the current position in the menu
+
+  const renderProfileCard = () => {
+    return (
+      <div className={styles.profileCard}>
+        <h2>User Profile</h2>
+        {first_name && <p>First Name: {first_name}</p>}
+        {last_name && <p>Last Name: {last_name}</p>}
+        {role_id && <p>Role ID: {role_id}</p>}
+        {batch_ids.length > 0 && <p>Batch IDs: {batch_ids.join(", ")}</p>}
+        {stream_id && <p>Stream ID: {stream_id}</p>}
+      </div>
+    );
+  };
 
   const renderMenu = () => {
-    if (!roleId) return null;
+    if (!role_id) return null;
 
     const menuItems = {
       1: [
@@ -28,13 +39,13 @@ const Home = () => {
       ],
       3: [
         { to: "/myCourses", text: "My Courses" },
-        { to: `/contact/${userId}`, text: "Contact Address" },
+        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
         { to: "/news", text: "News" },
       ],
       4: [
         { to: "/news", text: "News" },
         { to: "/users", text: "Staff" },
-        { to: `/contact/${userId}`, text: "Contact Address" },
+        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
       ],
       5: [
         { to: "/users", text: "Staff" },
@@ -44,13 +55,12 @@ const Home = () => {
       ],
     };
 
-    const menu = menuItems[roleId] || [];
-    const visibleItems = menu.slice(currentIndex, currentIndex + 3); // Show 3 items at a time
+    const menu = menuItems[role_id] || [];
 
     return (
       <nav className={styles.nav}>
         <ul className={styles.menuList}>
-          {visibleItems.map((item, index) => (
+          {menu.map((item, index) => (
             <li key={index} className={styles.menuItem}>
               <Link to={item.to} className={styles.menuLink}>
                 {item.text}
@@ -58,24 +68,6 @@ const Home = () => {
             </li>
           ))}
         </ul>
-        <div className={styles.navButtons}>
-          <button
-            className={styles.navButton}
-            onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
-            disabled={currentIndex === 0}
-          >
-            &larr; Prev
-          </button>
-          <button
-            className={styles.navButton}
-            onClick={() =>
-              setCurrentIndex((prev) => Math.min(prev + 1, menu.length - 3))
-            }
-            disabled={currentIndex >= menu.length - 3}
-          >
-            Next &rarr;
-          </button>
-        </div>
       </nav>
     );
   };
@@ -86,6 +78,7 @@ const Home = () => {
     <Layout>
       <div className={styles.homeContainer}>
         <h1 className={styles.heading}>Welcome to the Dashboard</h1>
+        {renderProfileCard()}
         {renderMenu()}
       </div>
     </Layout>
