@@ -1,0 +1,130 @@
+/* LogIn.module.css */
+.signinContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 90%;
+  margin: auto;
+  transition: all 0.3s ease;
+}
+
+.signinHeader {
+  font-size: 1.8rem;
+  color: #343a40;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.signinForm {
+  width: 100%;
+}
+
+.formInput {
+  margin-bottom: 1rem;
+}
+
+.formInput input {
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formInput input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.passwordInput {
+  position: relative;
+}
+
+.passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 1.25rem;
+}
+
+.signinButton {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.signinButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.errorMessage {
+  color: #dc3545;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.successMessage {
+  color: #28a745;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.toggleForm {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.toggleForm p {
+  margin: 0;
+}
+
+.toggleForm button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+}
+
+.toggleForm button:hover {
+  color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (min-width: 600px) {
+  .signinContainer {
+    max-width: 400px;
+    padding: 3rem;
+  }
+
+  .signinHeader {
+    font-size: 2rem;
+  }
+
+  .signinButton {
+    font-size: 1.2rem;
+  }
+}
