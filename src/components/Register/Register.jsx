@@ -74,119 +74,115 @@ const Register = () => {
   };
 
   return (
-    <Layout>
-      <div className={registerStyles.registerContainer}>
-        <h2 className={registerStyles.registerTitle}>Register</h2>
-        <form onSubmit={handleSubmit} className={registerStyles.registerForm}>
-          <div className={registerStyles.formInput}>
-            <input
-              type="text"
-              id="first_name"
-              name="first_name"
-              placeholder="First name"
-              value={formData.first_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className={registerStyles.formInput}>
-            <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              placeholder="Last name"
-              value={formData.last_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className={registerStyles.formInput}>
-            <input
-              type="text"
-              id="id_number"
-              name="id_number"
-              placeholder="ID Number"
-              value={formData.id_number}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className={registerStyles.formInput}>
-            <select
-              id="batch_id"
-              name="batch_id"
-              value={formData.batch_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select batch</option>
-              <option value="1">2nd Year</option>
-              <option value="2">3rd Year</option>
-              <option value="3">4th Year</option>
-              <option value="4">5th Year</option>
-            </select>
-          </div>
-          {formData.batch_id === "3" && (
-            <>
-              <div className={registerStyles.formInput}>
-                <select
-                  id="semester"
-                  name="semester"
-                  value={formData.semester}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select semester</option>
-                  <option value="1">First Semester</option>
-                  <option value="2">Second Semester</option>
-                </select>
-              </div>
-              {formData.semester === "2" && (
-                <div className={registerStyles.formInput}>
-                  <select
-                    id="stream_id"
-                    name="stream_id"
-                    value={formData.stream_id}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select stream</option>
-                    <option value="1">Computer</option>
-                    <option value="2">Communication</option>
-                    <option value="3">Control</option>
-                    <option value="4">Power</option>
-                  </select>
-                </div>
-              )}
-            </>
-          )}
-          {formData.batch_id === "4" && (
+    <div className={registerStyles.registerContainer}>
+      <h2 className={registerStyles.registerTitle}>Register</h2>
+      <form onSubmit={handleSubmit} className={registerStyles.registerForm}>
+        <div className={registerStyles.formInput}>
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            placeholder="First name"
+            value={formData.first_name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={registerStyles.formInput}>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            placeholder="Last name"
+            value={formData.last_name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={registerStyles.formInput}>
+          <input
+            type="text"
+            id="id_number"
+            name="id_number"
+            placeholder="ID Number"
+            value={formData.id_number}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={registerStyles.formInput}>
+          <select
+            id="batch_id"
+            name="batch_id"
+            value={formData.batch_id}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select batch</option>
+            <option value="1">2nd Year</option>
+            <option value="2">3rd Year</option>
+            <option value="3">4th Year</option>
+            <option value="4">5th Year</option>
+          </select>
+        </div>
+        {formData.batch_id === "3" && (
+          <>
             <div className={registerStyles.formInput}>
               <select
-                id="stream_id"
-                name="stream_id"
-                value={formData.stream_id}
+                id="semester"
+                name="semester"
+                value={formData.semester}
                 onChange={handleChange}
                 required
               >
-                <option value="">Select stream</option>
-                <option value="1">Computer</option>
-                <option value="2">Communication</option>
-                <option value="3">Power</option>
-                <option value="4">Control</option>
+                <option value="">Select semester</option>
+                <option value="1">First Semester</option>
+                <option value="2">Second Semester</option>
               </select>
             </div>
-          )}
-          <button type="submit" className={registerStyles.registerButton}>
-            Register
-          </button>
-          {error && <p className={registerStyles.errorMessage}>{error}</p>}
-          {message && (
-            <p className={registerStyles.successMessage}>{message}</p>
-          )}
-        </form>
-      </div>
-    </Layout>
+            {formData.semester === "2" && (
+              <div className={registerStyles.formInput}>
+                <select
+                  id="stream_id"
+                  name="stream_id"
+                  value={formData.stream_id}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select stream</option>
+                  <option value="1">Computer</option>
+                  <option value="2">Communication</option>
+                  <option value="3">Control</option>
+                  <option value="4">Power</option>
+                </select>
+              </div>
+            )}
+          </>
+        )}
+        {formData.batch_id === "4" && (
+          <div className={registerStyles.formInput}>
+            <select
+              id="stream_id"
+              name="stream_id"
+              value={formData.stream_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select stream</option>
+              <option value="1">Computer</option>
+              <option value="2">Communication</option>
+              <option value="3">Power</option>
+              <option value="4">Control</option>
+            </select>
+          </div>
+        )}
+        <button type="submit" className={registerStyles.registerButton}>
+          Register
+        </button>
+        {error && <p className={registerStyles.errorMessage}>{error}</p>}
+        {message && <p className={registerStyles.successMessage}>{message}</p>}
+      </form>
+    </div>
   );
 };
 

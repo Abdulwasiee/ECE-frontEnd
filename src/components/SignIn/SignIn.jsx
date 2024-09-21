@@ -67,88 +67,86 @@ const SignIn = () => {
   };
 
   return (
-    <Layout>
-      <div className={signinStyles.signinContainer}>
-        <h2 className={signinStyles.signinHeader}>
-          {isStudent ? "Student Login" : "Admin Login"}
-        </h2>
-        <form onSubmit={handleSubmit} className={signinStyles.signinForm}>
-          {isStudent ? (
-            <>
-              <div className={signinStyles.formInput}>
-                <input
-                  type="text"
-                  id="id_number"
-                  name="id_number"
-                  placeholder="Enter your ID number"
-                  value={formData.id_number}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className={signinStyles.formInput}>
-                <input
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  placeholder="Enter your first name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className={signinStyles.formInput}>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div
-                className={`${signinStyles.formInput} ${signinStyles.passwordInput}`}
+    <div className={signinStyles.signinContainer}>
+      <h2 className={signinStyles.signinHeader}>
+        {isStudent ? "Student Login" : "Admin Login"}
+      </h2>
+      <form onSubmit={handleSubmit} className={signinStyles.signinForm}>
+        {isStudent ? (
+          <>
+            <div className={signinStyles.formInput}>
+              <input
+                type="text"
+                id="id_number"
+                name="id_number"
+                placeholder="Enter your ID number"
+                value={formData.id_number}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className={signinStyles.formInput}>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                placeholder="Enter your first name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={signinStyles.formInput}>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div
+              className={`${signinStyles.formInput} ${signinStyles.passwordInput}`}
+            >
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <button
+                type="button"
+                className={signinStyles.passwordToggle}
+                onClick={() => setShowPassword(!showPassword)}
               >
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-                <button
-                  type="button"
-                  className={signinStyles.passwordToggle}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEye /> : <FaEyeSlash />}
-                </button>
-              </div>
-            </>
-          )}
-          <button type="submit" className={signinStyles.signinButton}>
-            Sign In
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </button>
+            </div>
+          </>
+        )}
+        <button type="submit" className={signinStyles.signinButton}>
+          Sign In
+        </button>
+        {error && <p className={signinStyles.errorMessage}>{error}</p>}
+        {message && <p className={signinStyles.successMessage}>{message}</p>}
+      </form>
+      <div className={signinStyles.toggleForm}>
+        <p>
+          {isStudent ? "Do you have a role?" : "Are you a student?"}
+          <button onClick={() => setIsStudent(!isStudent)}>
+            {isStudent ? "Switch to Admin Login" : "Switch to Student Login"}
           </button>
-          {error && <p className={signinStyles.errorMessage}>{error}</p>}
-          {message && <p className={signinStyles.successMessage}>{message}</p>}
-        </form>
-        <div className={signinStyles.toggleForm}>
-          <p>
-            {isStudent ? "Do you have a role?" : "Are you a student?"}
-            <button onClick={() => setIsStudent(!isStudent)}>
-              {isStudent ? "Switch to Admin Login" : "Switch to Student Login"}
-            </button>
-          </p>
-        </div>
+        </p>
       </div>
-    </Layout>
+    </div>
   );
 };
 
