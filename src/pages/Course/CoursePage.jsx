@@ -2,9 +2,17 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import CourseList from "../../components/CourseList/CourseList";
-import styles from "./CoursePage.module.css";
-import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
+import {
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Box,
+  Typography,
+} from "@mui/material";
+import Layout from "../../components/Layout/Layout";
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);
@@ -38,7 +46,7 @@ const CoursePage = () => {
         }
       );
       console.log(response);
-      if (response.status == 200) {
+      if (response.status === 200) {
         const courseList = response.data.result.courses;
         console.log(courseList);
         if (courseList.length === 0) {
@@ -61,82 +69,87 @@ const CoursePage = () => {
     navigate(`/materials/${courseId}`);
   };
 
-  const handleBatchSelection = (batchId) => {
-    setSelectedBatch(batchId);
+  const handleBatchSelection = (event) => {
+    setSelectedBatch(event.target.value);
   };
 
-  const handleSemesterSelection = (semesterId) => {
-    setSelectedSemester(semesterId);
+  const handleSemesterSelection = (event) => {
+    setSelectedSemester(event.target.value);
   };
-
-  const renderBatchMenu = () => {
-    if (role_id === 2 || role_id === 5) return null;
-
-    return (
-      <div className={styles.batchMenu}>
-        <h2>Select Batch Year:</h2>
-        <button
-          onClick={() => handleBatchSelection(1)}
-          className={styles.batchButton}
-        >
-          2nd Year
-        </button>
-        <button
-          onClick={() => handleBatchSelection(2)}
-          className={styles.batchButton}
-        >
-          3rd Year
-        </button>
-        <button
-          onClick={() => handleBatchSelection(3)}
-          className={styles.batchButton}
-        >
-          4th Year
-        </button>
-      </div>
-    );
-  };
-
-  const renderSemesterMenu = () => (
-    <div className={styles.semesterMenu}>
-      <h2>Select Semester:</h2>
-      <button
-        onClick={() => handleSemesterSelection(1)}
-        className={styles.semesterButton}
-      >
-        1st Semester
-      </button>
-      <button
-        onClick={() => handleSemesterSelection(2)}
-        className={styles.semesterButton}
-      >
-        2nd Semester
-      </button>
-    </div>
-  );
 
   const handleAddCourse = () => {
     navigate("/addCourse");
   };
 
+  const renderBatchDropdown = () => {
+    if (role_id === 2 || role_id === 5) return null;
+
+    return (
+      <Box mb={3}>
+        <FormControl fullWidth>
+          <InputLabel id="batch-select-label">Select Batch</InputLabel>
+          <Select
+            labelId="batch-select-label"
+            value={selectedBatch}
+            label="Select Batch"
+            onChange={handleBatchSelection}
+          >
+            <MenuItem value={1}>2nd Year</MenuItem>
+            <MenuItem value={2}>3rd Year</MenuItem>
+            <MenuItem value={3}>4th Year</MenuItem>
+            <MenuItem value={4}>5th Year</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  };
+
+  const renderSemesterDropdown = () => (
+    <Box mb={3}>
+      <FormControl fullWidth>
+        <InputLabel id="semester-select-label">Select Semester</InputLabel>
+        <Select
+          labelId="semester-select-label"
+          value={selectedSemester}
+          label="Select Semester"
+          onChange={handleSemesterSelection}
+        >
+          <MenuItem value={1}>1st Semester</MenuItem>
+          <MenuItem value={2}>2nd Semester</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+
   return (
     <Layout>
-      <div className={styles.container}>
+      <Box p={3} maxWidth="1200px" mx="auto">
         {(role_id === 4 || role_id === 1 || role_id === 5) && (
-          <button className={styles.addCourseButton} onClick={handleAddCourse}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleAddCourse}
+            sx={{ mb: 3 }}
+          >
             Add Course
-          </button>
+          </Button>
         )}
-        {renderBatchMenu()}
-        {renderSemesterMenu()}
+
+        {renderBatchDropdown()}
+        {renderSemesterDropdown()}
 
         <CourseList
           courses={courses}
           onCourseClick={handleCourseSelection}
           roleId={role_id}
         />
-        {error && <p className={styles.error}>{error}</p>}
-      </div>
+        {error && (
+          <Typography variant="body2" color="error" mt={2}>
+            {error}
+          </Typography>
+        )}
+      </Box>
     </Layout>
   );
 };

@@ -18,6 +18,10 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
     handleEdit(courseId);
   };
 
+  // Helper function to determine if any course has a non-null stream name
+  const hasStreamColumn = (courseList) =>
+    courseList.some((course) => course.stream_name !== null);
+
   const renderCoursesTable = (courseList) => (
     <table className={styles.table}>
       <thead>
@@ -26,9 +30,8 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
           <th>Course Code</th>
           <th>Batch Year</th>
           <th>Semester</th>
-          {roleId === 1 || roleId === 4 || roleId === 5 ? (
-            <th>Actions</th>
-          ) : null}
+          {hasStreamColumn(courseList) && <th>Stream</th>}
+          {(roleId === 1 || roleId === 4 || roleId === 5) && <th>Actions</th>}
         </tr>
       </thead>
       <tbody>
@@ -43,6 +46,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
             <td>
               {course.semester_id === 1 ? "1st Semester" : "2nd Semester"}
             </td>
+            {course.stream_name && <td>{course.stream_name}</td>}
             {(roleId === 1 || roleId === 4 || roleId === 5) && (
               <td>
                 <FaEdit

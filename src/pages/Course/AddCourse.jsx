@@ -1,9 +1,17 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
-import styles from "./addCourse.module.css";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
+import styles from "./addCourse.module.css"
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 const AddCoursePage = () => {
   const { userInfo } = useContext(AuthContext);
@@ -11,8 +19,8 @@ const AddCoursePage = () => {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [semesterId, setSemesterId] = useState(1);
-  const [batchId, setBatchId] = useState(role_id === 5 ? batch_ids[0] : null);
-  const [streamId, setStreamId] = useState(null);
+  const [batchId, setBatchId] = useState(role_id === 5 ? batch_ids[0] : "");
+  const [streamId, setStreamId] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -51,48 +59,55 @@ const AddCoursePage = () => {
     if (role_id === 5) return null;
 
     return (
-      <div className={styles.formGroup}>
-        <label htmlFor="batch_id">Batch:</label>
-        <select
+      <FormControl fullWidth margin="normal">
+        <InputLabel id="batch-label">Batch</InputLabel>
+        <Select
+          labelId="batch-label"
           id="batch_id"
           value={batchId}
           onChange={(e) => {
             setBatchId(e.target.value);
-            setStreamId(null); // Reset stream selection on batch change
+            setStreamId(""); // Reset stream selection on batch change
           }}
+          label="Batch"
         >
-          <option value={1}>2nd Year</option>
-          <option value={2}>3rd Year</option>
-          <option value={3}>4th Year</option>
-          <option value={5}>5th Year</option>
-        </select>
-      </div>
+          <MenuItem value={1}>2nd Year</MenuItem>
+          <MenuItem value={2}>3rd Year</MenuItem>
+          <MenuItem value={3}>4th Year</MenuItem>
+          <MenuItem value={4}>5th Year</MenuItem>
+        </Select>
+      </FormControl>
     );
   };
 
-  const renderStreamSelection = () => {
-    // Stream selection for 4th year, 2nd semester and 5th year
-    if ((batchId === "3" && semesterId === "2") || batchId === "5") {
-      return (
-        <div className={styles.formGroup}>
-          <label htmlFor="stream_id">Stream:</label>
-          <select
-            id="stream_id"
-            value={streamId}
-            onChange={(e) => setStreamId(e.target.value)}
-            required
-          >
-            <option value="">Select Stream</option>
-            <option value={1}>Computer</option>
-            <option value={2}>Communication</option>
-            <option value={3}>Control</option>
-            <option value={4}>Power</option>
-          </select>
-        </div>
-      );
-    }
-    return null;
-  };
+ const renderStreamSelection = () => {
+   // Make sure batchId and semesterId are compared as numbers
+   if (
+     (Number(batchId) === 3 && Number(semesterId) === 2) ||
+     Number(batchId) === 4
+   ) {
+     return (
+       <FormControl fullWidth margin="normal">
+         <InputLabel id="stream-label">Stream</InputLabel>
+         <Select
+           labelId="stream-label"
+           id="stream_id"
+           value={streamId}
+           onChange={(e) => setStreamId(e.target.value)}
+           label="Stream"
+           required
+         >
+           <MenuItem value="">Select Stream</MenuItem>
+           <MenuItem value={1}>Computer</MenuItem>
+           <MenuItem value={2}>Communication</MenuItem>
+           <MenuItem value={3}>Control</MenuItem>
+           <MenuItem value={4}>Power</MenuItem>
+         </Select>
+       </FormControl>
+     );
+   }
+   return null;
+ };
 
   return (
     <Layout>
@@ -100,42 +115,48 @@ const AddCoursePage = () => {
         <h2>Add New Course</h2>
         {error && <p className={styles.error}>{error}</p>}
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="course_name">Course Name:</label>
-            <input
-              type="text"
-              id="course_name"
-              value={courseName}
-              onChange={(e) => setCourseName(e.target.value)}
-              required
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="course_code">Course Code:</label>
-            <input
-              type="text"
-              id="course_code"
-              value={courseCode}
-              onChange={(e) => setCourseCode(e.target.value)}
-              required
-            />
-          </div>
-          {renderBatchSelection()} 
-          <div className={styles.formGroup}>
-            <label htmlFor="semester_id">Semester:</label>
-            <select
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Course Name"
+            id="course_name"
+            value={courseName}
+            onChange={(e) => setCourseName(e.target.value)}
+            required
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Course Code"
+            id="course_code"
+            value={courseCode}
+            onChange={(e) => setCourseCode(e.target.value)}
+            required
+          />
+          {renderBatchSelection()}
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="semester-label">Semester</InputLabel>
+            <Select
+              labelId="semester-label"
               id="semester_id"
               value={semesterId}
               onChange={(e) => setSemesterId(e.target.value)}
+              label="Semester"
             >
-              <option value={1}>1st Semester</option>
-              <option value={2}>2nd Semester</option>
-            </select>
-          </div>
+              <MenuItem value={1}>1st Semester</MenuItem>
+              <MenuItem value={2}>2nd Semester</MenuItem>
+            </Select>
+          </FormControl>
           {renderStreamSelection()}
-          <button type="submit" className={styles.submitButton}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Add Course
-          </button>
+          </Button>
         </form>
       </div>
     </Layout>
