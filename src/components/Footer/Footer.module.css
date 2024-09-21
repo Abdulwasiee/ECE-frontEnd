@@ -1,0 +1,33 @@
+/* General reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Footer container styling for mobile */
+.footer {
+  background-color: #003366; /* ECE department theme */
+  color: white;
+  text-align: center;
+  padding: 20px 15px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-top: 3px solid #ffd700; /* Gold accent */
+}
+
+/* Tablet and larger viewports */
+@media (min-width: 768px) {
+  .footer {
+    padding: 30px 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Desktop and larger viewports */
+@media (min-width: 1024px) {
+  .footer {
+    padding: 40px 60px;
+    font-size: 1.1rem;
+  }
+}

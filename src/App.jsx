@@ -1,10 +1,12 @@
 import { useState } from "react";
-
+import { AuthProvider } from "./components/Auth/Auth";
+import { BrowserRouter } from "react-router-dom";
 function App() {
   return (
-    <>
-      <h1>Test</h1>
-    </>
+    <AuthProvider>
+      <BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
