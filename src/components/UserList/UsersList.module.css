@@ -1,0 +1,136 @@
+/* Base styles for mobile devices */
+.usersListContainer {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Allow horizontal scrolling for small screens */
+}
+
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: #4a90e2;
+  color: #ffffff;
+  padding: 10px;
+  text-align: left;
+  font-size: 1em;
+}
+
+.tableRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tableRow:hover {
+  background-color: #e9f5ff;
+}
+
+.tableCell {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9em; /* Slightly smaller font size for mobile */
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.editIcon,
+.deleteIcon {
+  cursor: pointer;
+  color: #4a90e2;
+  font-size: 1.2em;
+  transition: color 0.2s;
+}
+
+.editIcon:hover {
+  color: #2b7fda;
+}
+
+.deleteIcon:hover {
+  color: #d9534f;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.confirmButton,
+.cancelButton {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em; /* Smaller font size for buttons */
+}
+
+.confirmButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #45a049;
+}
+
+.cancelButton:hover {
+  background-color: #e53935;
+}
+
+.noUsers {
+  text-align: center;
+  color: #999;
+  font-size: 1em;
+}
+
+/* Media queries for larger screens */
+@media (min-width: 600px) {
+  .tableHeader {
+    font-size: 1.2em;
+  }
+
+  .tableCell {
+    font-size: 1em;
+  }
+
+  .confirmButton,
+  .cancelButton {
+    font-size: 1em;
+  }
+
+  .actionButtons {
+    gap: 15px;
+  }
+
+  .editIcon,
+  .deleteIcon {
+    font-size: 1.5em;
+  }
+}
