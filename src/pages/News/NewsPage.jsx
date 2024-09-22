@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../utility/axios";
+import { axiosInstance } from "../../utility/Axios";
 import NewsList from "../../components/NewsList/NewsList";
 import styles from "./NesPage.module.css";
 import Layout from "../../components/Layout/Layout";
@@ -24,6 +24,7 @@ const NewsPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(Response);
         setNewsData(newsResponse.data.result.result);
         setLoading(false);
       } catch (err) {
@@ -47,13 +48,13 @@ const NewsPage = () => {
           <div className={styles.stickyButtons}>
             <button
               className={styles.addButton}
-              onClick={() => navigate("/addNews")}
+              onClick={() => navigate("/postNews")}
             >
               Post News
             </button>
             <button
               className={styles.myPostsButton}
-              onClick={() => navigate("/myNews")}
+              onClick={() => navigate("/myPosts")}
             >
               My Posts
             </button>

@@ -9,6 +9,8 @@ import AddCoursePage from "./pages/Course/AddCourse";
 import StudentPage from "./pages/Users/StudentsPage";
 import UsersPage from "./pages/Users/UsersPage";
 import CreateUserPage from "./pages/Users/CreateUser";
+import PostNews from "./pages/News/PostNews";
+import MyNewsPage from "./pages/News/MyPost";
 function Router() {
   return (
     <>
@@ -66,7 +68,23 @@ function Router() {
           path="/createUser"
           element={
             <Protect>
-              <CreateUserPage/>
+              <CreateUserPage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/postNews"
+          element={
+            <Protect>
+              <PostNews />
+            </Protect>
+          }
+        />
+        <Route
+          path="/myPosts"
+          element={
+            <Protect>
+              <MyNewsPage />
             </Protect>
           }
         />

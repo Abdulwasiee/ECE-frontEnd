@@ -2,10 +2,11 @@ import React from "react";
 import styles from "./NewsList.module.css"; // Import CSS module
 
 const NewsList = ({ newsData }) => {
-  if (!newsData.length) {
-    return <h2 className={styles.newsTitle}>No news available.</h2>;
+  {
+    if (newsData.length == 0) {
+      return <h2 className={styles.newsTitle}>No news available.</h2>;
+    }
   }
-
   return (
     <div className={styles.newsList}>
       {newsData.map((news, index) => (

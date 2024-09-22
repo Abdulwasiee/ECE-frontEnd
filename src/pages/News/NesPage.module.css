@@ -1,79 +1,59 @@
-/* News.module.css */
-
 .newsPage {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 80px;
+  position: relative; /* Ensure sticky positioning of buttons is relative to this container */
 }
 
 .loading {
-  font-size: 18px;
-  color: #666;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #007bff;
 }
 
 .error {
-  color: red;
-  margin: 20px 0;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #dc3545;
 }
 
-/* News List Styles */
-.menuList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menuItem {
-  margin: 10px 0;
-}
-
-.menuLink {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
-}
-
-/* Sticky Buttons */
 .stickyButtons {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  position: fixed; /* Use fixed positioning */
+  top: 100px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  z-index: 1000; /* Ensure it stays on top of other content */
 }
 
 .addButton,
 .myPostsButton {
-  margin: 5px;
-  padding: 10px 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
   border: none;
   border-radius: 5px;
+  color: #fff;
   cursor: pointer;
-  color: white;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.addButton {
   background-color: #007bff;
 }
 
-.addButton:hover,
-.myPostsButton:hover {
+.myPostsButton {
+  background-color: #28a745;
+}
+
+.addButton:hover {
   background-color: #0056b3;
 }
 
-/* Media Queries */
-@media (min-width: 768px) {
-  .newsPage {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 40px;
-  }
-
-  .stickyButtons {
-    flex-direction: row;
-    position: static;
-  }
-  
-  .addButton,
-  .myPostsButton {
-    margin: 0 10px;
-  }
+.myPostsButton:hover {
+  background-color: #218838;
 }

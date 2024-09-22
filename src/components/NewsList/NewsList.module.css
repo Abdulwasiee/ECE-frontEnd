@@ -1,76 +1,93 @@
-
 .newsList {
-  padding: 1rem;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .newsItem {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 80%;
+  max-width: 800px; /* Limit width for large screens */
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 15vh;
+}
+
+.newsItem::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #ffffff;
+  border-bottom: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  transform: translateY(100%);
+}
+
+.newsItem:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.newsLeft::before {
+  left: 20px; /* Adjust position for left-aligned items */
+}
+
+.newsRight::before {
+  left: auto;
+  right: 20px; /* Adjust position for right-aligned items */
+}
+
+.newsLeft {
+  align-self: flex-start;
+  background-color: #e3f2fd;
+}
+
+.newsRight {
+  align-self: flex-end;
+  background-color: #ffe0b2;
 }
 
 .newsTitle {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.6em;
   margin: 0;
+  color: #333;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ddd;
 }
 
 .newsContent {
-  font-size: 1rem;
-  color: #555;
-  margin: 0.5rem 0;
+  font-size: 1.1em;
+  margin: 10px 0;
+  color: #444;
 }
 
 .newsInfo {
-  font-size: 0.875rem;
-  color: #777;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+  text-align: right;
 }
 
-/* Responsive styles for tablets and larger screens */
-@media (min-width: 600px) {
-  .newsList {
-    padding: 2rem;
-  }
-
+@media (max-width: 768px) {
   .newsItem {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem;
+    width: 95%;
+    padding: 15px;
   }
 
-  .newsTitle {
-    font-size: 1.75rem;
-  }
-
-  .newsContent {
-    font-size: 1.125rem;
-  }
-
-  .newsInfo {
-    font-size: 1rem;
-  }
-}
-
-/* Responsive styles for desktops */
-@media (min-width: 900px) {
-  .newsItem {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .newsTitle {
-    font-size: 2rem;
-  }
-
-  .newsContent {
-    font-size: 1.25rem;
-  }
-
-  .newsInfo {
-    font-size: 1.125rem;
+  .newsItem::before {
+    left: 15px; /* Adjust tail position for smaller screens */
   }
 }
