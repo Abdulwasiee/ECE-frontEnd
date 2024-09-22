@@ -1,95 +1,159 @@
+/* Container for the material list */
 .container {
-  padding: 1rem;
-}
-
-.title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-}
-
-.listItem {
-  margin-bottom: 1rem;
-  background: #f9f9f9;
+  width: 100%;
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 0.5rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
-.materialItem {
+/* Title styling */
+.title {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  background: linear-gradient(180deg, #f0f4f8, #ffffff);
+  border-radius: 8px;
+}
+
+/* List styling */
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List item styling */
+.listItem {
+  font-size: 1.1rem;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.bookIcon {
-  margin-right: 0.5rem;
+/* Hover effect for list items */
+.listItem:hover {
+  background-color: #e9ecef;
 }
 
+/* Book icon styling */
+.bookIcon {
+  font-size: 1.5rem;
+  color: #28a745; /* Changed to green */
+  margin-right: 10px;
+}
+
+/* Material item layout */
+.materialItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Link styling within list items */
 .link {
-  flex-grow: 1;
+  font-size: 1.2rem;
+  font-weight: 500;
   color: #007bff;
   text-decoration: none;
+  flex-grow: 1;
+  margin-left: 10px;
 }
 
+/* Link hover effect */
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Time info styling */
 .description {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: left;
+  flex-grow: 1;
+  margin-left: 20px;
 }
 
+/* Action icons styling */
 .actionIcons {
   display: flex;
-  gap: 0.5rem;
+  gap: 40px;
 }
 
-.editIcon,
-.deleteIcon {
+/* Individual icon styling */
+.editIcon {
+  font-size: 1.2rem;
+  color: #ffcc00; /* Changed to yellow */
   cursor: pointer;
 }
 
+.editIcon:hover {
+  color: #ffc107;
+}
+
+.deleteIcon {
+  font-size: 1.2rem;
+  color: #dc3545; /* Changed to red */
+  cursor: pointer;
+}
+
+.deleteIcon:hover {
+  color: #e3342f;
+}
+
+/* Modal styling */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modalContent {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 5px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
   text-align: center;
+  width: 300px;
 }
 
 .modalActions {
   display: flex;
-  justify-content: space-around;
-  margin-top: 1rem;
-}
-
-.confirmButton,
-.cancelButton {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .confirmButton {
   background-color: #28a745;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .cancelButton {
   background-color: #dc3545;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
 }

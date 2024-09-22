@@ -1,0 +1,136 @@
+/* PostMaterial.module.css */
+
+.fileUploadContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+}
+
+.heading {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: #ff4d4d;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.success {
+  color: #4caf50;
+  background-color: #e6ffe6;
+  border: 1px solid #4caf50;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.submitButton {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .fileUploadContainer {
+    padding: 15px;
+  }
+
+  .heading {
+    font-size: 20px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .submitButton {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fileUploadContainer {
+    padding: 10px;
+  }
+
+  .heading {
+    font-size: 18px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .input {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .submitButton {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
