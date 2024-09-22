@@ -40,8 +40,8 @@ const CoursePage = () => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            streamId: stream_id,
-            semesterId: selectedSemester,
+            stream_id: stream_id,
+            semester_id: selectedSemester,
           },
         }
       );

@@ -6,6 +6,7 @@ import { axiosInstance } from "../../utility/Axios";
 import { AuthContext } from "../Auth/Auth";
 
 const UsersList = ({ usersData, isStudentData }) => {
+  console.log(usersData)
   const navigate = useNavigate();
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
