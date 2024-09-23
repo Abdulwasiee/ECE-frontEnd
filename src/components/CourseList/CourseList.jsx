@@ -43,9 +43,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
             <td>{course.course_name}</td>
             <td>{course.course_code}</td>
             <td>{course.batch_year}</td>
-            <td>
-              {course.semester_id === 1 ? "1st Semester" : "2nd Semester"}
-            </td>
+            <td>{course.semester_id == 1 ? "1st Semester" : "2nd Semester"}</td>
             {course.stream_name && <td>{course.stream_name}</td>}
             {(roleId === 1 || roleId === 4 || roleId === 5) && (
               <td>
