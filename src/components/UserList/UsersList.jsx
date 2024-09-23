@@ -54,7 +54,9 @@ const UsersList = ({ usersData, isStudentData }) => {
                 <th className={styles.tableHeader}>Course</th>
                 <th className={styles.tableHeader}>Batch Year</th>
                 <th className={styles.tableHeader}>Semester</th>{" "}
-                {/* New column */}
+                {/* New column for semester */}
+                <th className={styles.tableHeader}>Stream</th>{" "}
+                {/* New column for stream */}
                 <th className={styles.tableHeader}>Created Date</th>
               </>
             )}
@@ -84,6 +86,10 @@ const UsersList = ({ usersData, isStudentData }) => {
                     {item.semester_name}
                   </td>{" "}
                   {/* Display semester */}
+                  <td className={styles.tableCell}>
+                    {item.stream_name ? item.stream_name : "N/A"}
+                  </td>{" "}
+                  {/* Display stream if available */}
                   <td className={styles.tableCell}>
                     {new Date(item.created_at).toLocaleDateString()}
                   </td>
