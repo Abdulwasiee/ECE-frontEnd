@@ -40,21 +40,17 @@ const SignIn = () => {
         },
       });
 
-      if (response.status === 200) {
-        if (response.data.response.token) {
-          await login(response.data.response.token);
-          setMessage(response.data.response.message);
-          setError("");
-          setFormData({
-            email: "",
-            password: "",
-            id_number: "",
-            first_name: "",
-          });
-          navigate("/home");
-        } else {
-          setError("Token not received.");
-        }
+      if (response.data.response.token) {
+        await login(response.data.response.token);
+        setMessage(response.data.response.message);
+        setError("");
+        setFormData({
+          email: "",
+          password: "",
+          id_number: "",
+          first_name: "",
+        });
+        navigate("/home");
       } else {
         setError(response.data.response.message);
         setMessage("");
@@ -81,7 +77,6 @@ const SignIn = () => {
                 placeholder="Enter your ID number"
                 value={formData.id_number}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className={signinStyles.formInput}>
@@ -92,7 +87,6 @@ const SignIn = () => {
                 placeholder="Enter your first name"
                 value={formData.first_name}
                 onChange={handleChange}
-                required
               />
             </div>
           </>
@@ -106,7 +100,6 @@ const SignIn = () => {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                required
               />
             </div>
             <div
@@ -119,7 +112,6 @@ const SignIn = () => {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
-                required
               />
               <button
                 type="button"

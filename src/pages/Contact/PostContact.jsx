@@ -40,7 +40,7 @@ const PostContactInfo = () => {
         setError("");
         setTimeout(() => {
           window.location.reload();
-        }, 200); 
+        }, 200);
       } else {
         setError(response.data.result.message);
         setSuccess("");
