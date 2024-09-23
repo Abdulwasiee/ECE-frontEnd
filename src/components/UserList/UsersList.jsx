@@ -6,7 +6,6 @@ import { axiosInstance } from "../../utility/Axios";
 import { AuthContext } from "../Auth/Auth";
 
 const UsersList = ({ usersData, isStudentData }) => {
-  console.log(usersData)
   const navigate = useNavigate();
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
@@ -54,6 +53,8 @@ const UsersList = ({ usersData, isStudentData }) => {
               <>
                 <th className={styles.tableHeader}>Course</th>
                 <th className={styles.tableHeader}>Batch Year</th>
+                <th className={styles.tableHeader}>Semester</th>{" "}
+                {/* New column */}
                 <th className={styles.tableHeader}>Created Date</th>
               </>
             )}
@@ -79,6 +80,10 @@ const UsersList = ({ usersData, isStudentData }) => {
                 <>
                   <td className={styles.tableCell}>{item.course_name}</td>
                   <td className={styles.tableCell}>{item.batch_year}</td>
+                  <td className={styles.tableCell}>
+                    {item.semester_name}
+                  </td>{" "}
+                  {/* Display semester */}
                   <td className={styles.tableCell}>
                     {new Date(item.created_at).toLocaleDateString()}
                   </td>

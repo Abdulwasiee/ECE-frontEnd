@@ -4,7 +4,6 @@ import { AuthContext } from "../Auth/Auth";
 import { axiosInstance } from "../../utility/Axios";
 import registerStyles from "./Register.module.css";
 
-
 const Register = () => {
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
@@ -50,29 +49,35 @@ const Register = () => {
         "/api/student/register",
         dataToSend
       );
-      localStorage.removeItem("authToken");
-      await login(response.data.token);
-      setMessage(response.data.message);
-      setError("");
-      setFormData({
-        first_name: "",
-        last_name: "",
-        id_number: "",
-        batch_id: "",
-        semester: "",
-        stream_id: "",
-      }); // Reset form
-      setTimeout(() => {
-        navigate("/home");
-      }, 500);
+
+      // Check if response message is "success"
+      if (response.data.success) {
+        setMessage(response.data.message);
+        setError("");
+        localStorage.removeItem("authToken");
+        await login(response.data.token);
+
+        setFormData({
+          first_name: "",
+          last_name: "",
+          id_number: "",
+          batch_id: "",
+          semester: "",
+          stream_id: "",
+        }); // Reset form
+
+        setTimeout(() => {
+          navigate("/home");
+        }, 500);
+      } else {
+        setError(response.data.message);
+        setMessage("");
+      }
     } catch (error) {
-      setError(
-        error.response?.data?.message || "An unexpected error occurred."
-      );
+      setError(error.message);
       setMessage("");
     }
   };
-
   return (
     <div className={registerStyles.registerContainer}>
       <h2 className={registerStyles.registerTitle}>Register</h2>
@@ -85,7 +90,6 @@ const Register = () => {
             placeholder="First name"
             value={formData.first_name}
             onChange={handleChange}
-            required
           />
         </div>
         <div className={registerStyles.formInput}>
@@ -96,7 +100,6 @@ const Register = () => {
             placeholder="Last name"
             value={formData.last_name}
             onChange={handleChange}
-            required
           />
         </div>
         <div className={registerStyles.formInput}>
@@ -107,7 +110,6 @@ const Register = () => {
             placeholder="ID Number"
             value={formData.id_number}
             onChange={handleChange}
-            required
           />
         </div>
         <div className={registerStyles.formInput}>
@@ -116,7 +118,6 @@ const Register = () => {
             name="batch_id"
             value={formData.batch_id}
             onChange={handleChange}
-            required
           >
             <option value="">Select batch</option>
             <option value="1">2nd Year</option>
@@ -133,7 +134,6 @@ const Register = () => {
                 name="semester"
                 value={formData.semester}
                 onChange={handleChange}
-                required
               >
                 <option value="">Select semester</option>
                 <option value="1">First Semester</option>
@@ -147,7 +147,6 @@ const Register = () => {
                   name="stream_id"
                   value={formData.stream_id}
                   onChange={handleChange}
-                  required
                 >
                   <option value="">Select stream</option>
                   <option value="1">Computer</option>
@@ -166,7 +165,6 @@ const Register = () => {
               name="stream_id"
               value={formData.stream_id}
               onChange={handleChange}
-              required
             >
               <option value="">Select stream</option>
               <option value="1">Computer</option>
