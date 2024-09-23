@@ -36,13 +36,6 @@
   background-color: #0056b3;
 }
 
-.contactCard {
-  /* Styles for the contact card */
-}
-
-.contactDetails {
-  /* Styles for the contact details */
-}
 
 @media (max-width: 768px) {
   .contactPageContainer {
