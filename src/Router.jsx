@@ -13,6 +13,9 @@ import PostNews from "./pages/News/PostNews";
 import MyNewsPage from "./pages/News/MyPost";
 import FileUploadPage from "./pages/Material/PostMaterial";
 import MaterialPage from "./pages/Material/MaterialPage";
+import StaffCoursePage from "./pages/Course/staffCourse";
+import ContactPage from "./pages/Contact/ContactPage";
+import PostContactInfo from "./pages/Contact/PostContact";
 function Router() {
   return (
     <>
@@ -103,6 +106,30 @@ function Router() {
           element={
             <Protect>
               <MaterialPage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/myCourses"
+          element={
+            <Protect>
+              <StaffCoursePage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/contact/:userId"
+          element={
+            <Protect>
+              <ContactPage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/addContact"
+          element={
+            <Protect>
+              <PostContactInfo />
             </Protect>
           }
         />

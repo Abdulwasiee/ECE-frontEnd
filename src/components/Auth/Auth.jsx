@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     stream_id: null,
     first_name: null,
     last_name: null,
+    user_id: null,
   });
 
   const checkAuthStatus = async () => {
@@ -29,13 +30,18 @@ export const AuthProvider = ({ children }) => {
           Authorization: authHeader,
         },
       });
-
       if (response.data.success) {
         setIsAuthenticated(true);
 
         // Extract role, batch IDs, stream ID, first name, and last name from the response
-        const { role_id, batch_ids, stream_id, first_name, last_name } =
-          response.data;
+        const {
+          role_id,
+          batch_ids,
+          stream_id,
+          first_name,
+          last_name,
+          user_id,
+        } = response.data;
 
         // Update the userInfo state
         setUserInfo({
@@ -44,6 +50,7 @@ export const AuthProvider = ({ children }) => {
           stream_id,
           first_name,
           last_name,
+          user_id,
         });
       } else {
         setIsAuthenticated(false);

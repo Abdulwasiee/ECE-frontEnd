@@ -42,6 +42,13 @@ const FileUploadPage = () => {
       { batch_id: 4, batch_name: "5th Year" },
     ]);
   };
+ const fetchUserBatches = (userBatches) => {
+   const updatedBatches = userBatches.map((batch, index) => ({
+     batch_id: batch,
+     batch_name: `${batch + 1} year`,
+   }));
+   setBatches(updatedBatches);
+ };
 
   const fetchCourses = async (batchId, semester_id = "", stream_id = "") => {
     if (!batchId) return;

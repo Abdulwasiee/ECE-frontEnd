@@ -1,0 +1,60 @@
+.contactPageContainer {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loadingMessage {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+.addContactSection {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.addContactButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.addContactButton:hover {
+  background-color: #0056b3;
+}
+
+.contactCard {
+  /* Styles for the contact card */
+}
+
+.contactDetails {
+  /* Styles for the contact details */
+}
+
+@media (max-width: 768px) {
+  .contactPageContainer {
+    padding: 15px;
+  }
+
+  .errorMessage,
+  .loadingMessage {
+    font-size: 1em;
+  }
+
+  .addContactButton {
+    font-size: 0.9em;
+  }
+}

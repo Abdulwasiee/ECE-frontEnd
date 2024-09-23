@@ -1,0 +1,39 @@
+/* StaffCourse.module.css */
+
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.postMaterialButton {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.postMaterialButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}

@@ -237,7 +237,7 @@ const CreateUserPage = () => {
                 >
                   <option value="">Select Course</option>
                   {courseOptions.map((course) => (
-                    <option key={course.id} value={course.id}>
+                    <option key={course.course_id} value={course.course_id}>
                       {course.course_name}
                     </option>
                   ))}
