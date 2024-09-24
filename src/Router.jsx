@@ -94,7 +94,7 @@ function Router() {
           }
         />
         <Route
-          path="/postMaterial"
+          path="/postMaterial/:courseId"
           element={
             <Protect>
               <FileUploadPage />

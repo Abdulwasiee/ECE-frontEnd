@@ -78,11 +78,6 @@ const CoursePage = () => {
   const handleAddCourse = () => {
     navigate("/addCourse");
   };
-
-  const handlePostMaterial = () => {
-    navigate("/postMaterial");
-  };
-
   const renderBatchDropdown = () => {
     if (role_id === 2 || role_id === 5) return null;
 
@@ -126,18 +121,6 @@ const CoursePage = () => {
   return (
     <Layout>
       <Box p={3} maxWidth="1200px" mx="auto">
-        {(role_id === 1 || role_id === 3) && (
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handlePostMaterial}
-            sx={{ mb: 3 }}
-          >
-            Post Material
-          </Button>
-        )}
-
         {(role_id === 4 || role_id === 1 || role_id === 5) && (
           <Button
             variant="contained"

@@ -8,7 +8,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const { userInfo } = useContext(AuthContext);
   const roleId = userInfo.role_id;
   const navigate = useNavigate();
-
+console.log(courses)
   const handleEdit = (courseId) => {
     navigate(`/editCourse/${courseId}`);
   };
@@ -38,7 +38,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
         {courseList.map((course) => (
           <tr
             key={course.course_id}
-            onClick={() => onCourseClick(course.course_id)}
+            onClick={() => onCourseClick(course.batch_course_id)}
           >
             <td>{course.course_name}</td>
             <td>{course.course_code}</td>

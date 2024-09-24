@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Add useNavigate for redirection
 import { axiosInstance } from "../../utility/Axios";
 import MaterialList from "../../components/MaterialList/MaterialList";
 import styles from "./MaterialPage.module.css";
 import Layout from "../../components/Layout/Layout";
-import { AuthContext } from "../../components/Auth/Auth"; 
+import { AuthContext } from "../../components/Auth/Auth";
 
 const MaterialPage = () => {
-  const { courseId } = useParams(); 
+  const { courseId } = useParams();
   const [materials, setMaterials] = useState([]);
   const [error, setError] = useState(null);
 
-  const { userInfo } = useContext(AuthContext); 
-  const roleId = userInfo?.role_id; 
+  const { userInfo } = useContext(AuthContext);
+  const roleId = userInfo?.role_id;
+  const navigate = useNavigate(); // For redirecting to post-material page
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -23,8 +24,7 @@ const MaterialPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-console.log(response)
-        if (response.status==200) {
+        if (response.status === 200) {
           if (response.data.data.result.length === 0) {
             setError(response.data.data.result.message);
             setMaterials([]); // Ensure the materials state is cleared
@@ -47,13 +47,24 @@ console.log(response)
     fetchMaterials();
   }, [courseId]);
 
+  // Handle button click to redirect to post material page
+  const handlePostMaterial = () => {
+    navigate(`/postMaterial/${courseId}`);
+  };
+
   return (
     <Layout>
       <div className={styles.container}>
         <h1 className={styles.title}>Course Materials</h1>
-        <MaterialList materials={materials} roleId={roleId} />{" "}
-        {/* Pass roleId */}
+        <MaterialList materials={materials} roleId={roleId} />
         {error && <p className={styles.error}>{error}</p>}
+
+        {/* Conditionally render "Post Material" button for Admin, Staff, and Representative */}
+        {(roleId === 1 || roleId === 3 || roleId === 5) && (
+          <button className={styles.postButton} onClick={handlePostMaterial}>
+            Post Material
+          </button>
+        )}
       </div>
     </Layout>
   );
