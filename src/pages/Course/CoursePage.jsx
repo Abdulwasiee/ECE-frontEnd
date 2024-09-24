@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import Layout from "../../components/Layout/Layout";
+import styles from "./CoursePage.module.css"; // Import the CSS module
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);
@@ -78,63 +79,63 @@ const CoursePage = () => {
   const handleAddCourse = () => {
     navigate("/addCourse");
   };
+
   const renderBatchDropdown = () => {
     if (role_id === 2 || role_id === 5) return null;
 
     return (
-      <Box mb={3}>
-        <FormControl fullWidth>
-          <InputLabel id="batch-select-label">Select Batch</InputLabel>
-          <Select
-            labelId="batch-select-label"
-            value={selectedBatch}
-            label="Select Batch"
-            onChange={handleBatchSelection}
-          >
-            <MenuItem value={1}>2nd Year</MenuItem>
-            <MenuItem value={2}>3rd Year</MenuItem>
-            <MenuItem value={3}>4th Year</MenuItem>
-            <MenuItem value={4}>5th Year</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      <FormControl className={styles.smallSelect}>
+        <InputLabel id="batch-select-label">Select Batch</InputLabel>
+        <Select
+          labelId="batch-select-label"
+          value={selectedBatch}
+          label="Select Batch"
+          onChange={handleBatchSelection}
+        >
+          <MenuItem value={1}>2nd Year</MenuItem>
+          <MenuItem value={2}>3rd Year</MenuItem>
+          <MenuItem value={3}>4th Year</MenuItem>
+          <MenuItem value={4}>5th Year</MenuItem>
+        </Select>
+      </FormControl>
     );
   };
 
   const renderSemesterDropdown = () => (
-    <Box mb={3}>
-      <FormControl fullWidth>
-        <InputLabel id="semester-select-label">Select Semester</InputLabel>
-        <Select
-          labelId="semester-select-label"
-          value={selectedSemester}
-          label="Select Semester"
-          onChange={handleSemesterSelection}
-        >
-          <MenuItem value={1}>1st Semester</MenuItem>
-          <MenuItem value={2}>2nd Semester</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
+    <FormControl className={styles.smallSelect}>
+      <InputLabel id="semester-select-label">Select Semester</InputLabel>
+      <Select
+        labelId="semester-select-label"
+        value={selectedSemester}
+        label="Select Semester"
+        onChange={handleSemesterSelection}
+      >
+        <MenuItem value={1}>1st Semester</MenuItem>
+        <MenuItem value={2}>2nd Semester</MenuItem>
+      </Select>
+    </FormControl>
   );
 
   return (
     <Layout>
-      <Box p={3} maxWidth="1200px" mx="auto">
+      <Box className={styles.buttonContainer}>
         {(role_id === 4 || role_id === 1 || role_id === 5) && (
           <Button
             variant="contained"
             color="primary"
-            fullWidth
             onClick={handleAddCourse}
-            sx={{ mb: 3 }}
+            className={styles.addButton}
           >
             Add Course
           </Button>
         )}
+      </Box>
 
-        {renderBatchDropdown()}
-        {renderSemesterDropdown()}
+      <Box p={3} maxWidth="1200px" mx="auto" className={styles.container}>
+        <Box className={styles.dropdownContainer}>
+          {renderBatchDropdown()}
+          {renderSemesterDropdown()}
+        </Box>
 
         <CourseList
           courses={courses}

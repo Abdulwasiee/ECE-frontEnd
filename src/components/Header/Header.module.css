@@ -17,6 +17,7 @@
   border-bottom: 3px solid #ffd700; /* Gold accent color */
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 
 /* Logo container for mobile */

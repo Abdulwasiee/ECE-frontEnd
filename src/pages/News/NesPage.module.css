@@ -2,6 +2,7 @@
   padding: 20px;
   margin-bottom: 80px;
   position: relative; /* Ensure sticky positioning of buttons is relative to this container */
+  min-height: 70vh;
 }
 
 .loading {

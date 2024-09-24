@@ -1,27 +1,17 @@
 .newsPage {
   padding: 20px;
-  max-width: 800px;
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #877474;
+  min-height: 75vh;
 }
 
 .heading {
   font-size: 1.8em;
   margin-bottom: 20px;
-  color: #333;
+  color: #f6f5f5;
   text-align: center;
 }
 
-.loading {
-  font-size: 1.2rem;
-  text-align: center;
-  color: #007bff;
-}
 
-.error {
-  font-size: 1.2rem;
-  text-align: center;
-  color: #dc3545;
-}
