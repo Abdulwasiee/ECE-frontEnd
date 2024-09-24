@@ -66,7 +66,7 @@ const UsersPage = () => {
       setStreamId("");
     }
 
-    fetchUsers(selectedRoleId, semesterId, batchParam, streamId);
+    fetchUsers(selectedRoleId, null, batchParam, null);
   };
 
   const handleStreamChange = (event) => {
@@ -134,31 +134,8 @@ const UsersPage = () => {
           </div>
         )}
 
-        {/* Stream selection for staff only */}
-        {(role_id === 1 || role_id === 4) &&
-          selectedRoleId === "3" &&
-          (batchId === "3" || batchId === "4") && (
-            <div className={styles.streamSelection}>
-              <label htmlFor="streamSelect" className={styles.label}>
-                Select Stream:
-              </label>
-              <select
-                id="streamSelect"
-                value={streamId}
-                onChange={handleStreamChange}
-                className={styles.select}
-              >
-                <option value="">Select Stream</option>
-                <option value="1">Computer Engineering</option>
-                <option value="2">Communication</option>
-                <option value="3">Control</option>
-                <option value="4">Power Engineering</option>
-              </select>
-            </div>
-          )}
-
         {/* Semester selection for staff only */}
-        {selectedRoleId === "3" && (
+        {selectedRoleId === "3" && batchId === "3" && (
           <div className={styles.semesterSelection}>
             <label htmlFor="semesterSelect" className={styles.label}>
               Select Semester:
@@ -175,6 +152,28 @@ const UsersPage = () => {
             </select>
           </div>
         )}
+
+        {/* Stream selection for staff only */}
+        {(selectedRoleId === "3" && batchId === "3" && semesterId === "2") ||
+        batchId === "4" ? (
+          <div className={styles.streamSelection}>
+            <label htmlFor="streamSelect" className={styles.label}>
+              Select Stream:
+            </label>
+            <select
+              id="streamSelect"
+              value={streamId}
+              onChange={handleStreamChange}
+              className={styles.select}
+            >
+              <option value="">Select Stream</option>
+              <option value="1">Computer Engineering</option>
+              <option value="2">Communication</option>
+              <option value="3">Control</option>
+              <option value="4">Power Engineering</option>
+            </select>
+          </div>
+        ) : null}
 
         {/* Add User Button for admins, representatives, and department */}
         {(role_id === 1 || role_id === 5 || role_id === 4) && (

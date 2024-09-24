@@ -20,15 +20,16 @@ const CoursePage = () => {
   const [error, setError] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState(1); // Default batch for students and representatives
   const [selectedSemester, setSelectedSemester] = useState(null);
+  const [selectedStream, setSelectedStream] = useState(null); // State for selected stream
   const { userInfo } = useContext(AuthContext);
-  const { role_id, stream_id } = userInfo;
+  const { role_id } = userInfo;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedSemester) {
       fetchCourses();
     }
-  }, [selectedBatch, selectedSemester]);
+  }, [selectedBatch, selectedSemester, selectedStream]); // Added selectedStream to dependencies
 
   const fetchCourses = async () => {
     const token = localStorage.getItem("authToken");
@@ -41,7 +42,7 @@ const CoursePage = () => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            stream_id: stream_id,
+            stream_id: selectedStream, // Include selected stream ID
             semester_id: selectedSemester,
           },
         }
@@ -70,10 +71,16 @@ const CoursePage = () => {
 
   const handleBatchSelection = (event) => {
     setSelectedBatch(event.target.value);
+    setSelectedStream(null); // Reset stream selection when batch changes
   };
 
   const handleSemesterSelection = (event) => {
     setSelectedSemester(event.target.value);
+    setSelectedStream(null); // Reset stream selection when semester changes
+  };
+
+  const handleStreamSelection = (event) => {
+    setSelectedStream(event.target.value);
   };
 
   const handleAddCourse = () => {
@@ -116,6 +123,32 @@ const CoursePage = () => {
     </FormControl>
   );
 
+  const renderStreamDropdown = () => {
+    // Only show stream dropdown if selectedBatch is 4 or 5 and selectedSemester is 2
+    if (
+      (selectedBatch === 3 && selectedSemester === 2) ||
+      selectedBatch === 4
+    ) {
+      return (
+        <FormControl className={styles.smallSelect}>
+          <InputLabel id="stream-select-label">Select Stream</InputLabel>
+          <Select
+            labelId="stream-select-label"
+            value={selectedStream}
+            label="Select Stream"
+            onChange={handleStreamSelection}
+          >
+            <MenuItem value={1}>Computer</MenuItem>
+            <MenuItem value={2}>Communication</MenuItem>
+            <MenuItem value={3}>Control</MenuItem>
+            <MenuItem value={4}>Power</MenuItem>
+          </Select>
+        </FormControl>
+      );
+    }
+    return null; // Don't render if conditions aren't met
+  };
+
   return (
     <Layout>
       <Box className={styles.buttonContainer}>
@@ -135,6 +168,7 @@ const CoursePage = () => {
         <Box className={styles.dropdownContainer}>
           {renderBatchDropdown()}
           {renderSemesterDropdown()}
+          {renderStreamDropdown()} {/* Include stream dropdown */}
         </Box>
 
         <CourseList
@@ -143,9 +177,11 @@ const CoursePage = () => {
           roleId={role_id}
         />
         {error && (
-          <Typography variant="body2" color="error" mt={2}>
-            {error}
-          </Typography>
+          <Box textAlign="center" mt={2}>
+            <Typography variant="body2" color="error">
+              {error}
+            </Typography>
+          </Box>
         )}
       </Box>
     </Layout>

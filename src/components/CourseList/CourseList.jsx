@@ -8,7 +8,6 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const { userInfo } = useContext(AuthContext);
   const roleId = userInfo.role_id;
   const navigate = useNavigate();
-console.log(courses)
   const handleEdit = (courseId) => {
     navigate(`/editCourse/${courseId}`);
   };

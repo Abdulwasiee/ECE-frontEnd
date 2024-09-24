@@ -162,48 +162,50 @@ const CreateUserPage = () => {
           ))}
 
           {/* Batch selection for Department and Admin */}
-          {(userInfo.role_id === 1 || userInfo.role_id === 4) && (
-            <div className={styles.formGroup}>
-              <label className={styles.label}>
-                Batch:
-                <select
-                  name="batch_id"
-                  value={formData.batch_id}
-                  onChange={handleChange}
-                  className={styles.select}
-                >
-                  {batchOptions.map((batch) => (
-                    <option key={batch.id} value={batch.id}>
-                      {batch.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          )}
+          {(userInfo.role_id === 1 || userInfo.role_id === 4) &&
+            (formData.role_id === "3" || formData.role_id === "5") && (
+              <div className={styles.formGroup}>
+                <label className={styles.label}>
+                  Batch:
+                  <select
+                    name="batch_id"
+                    value={formData.batch_id}
+                    onChange={handleChange}
+                    className={styles.select}
+                  >
+                    {batchOptions.map((batch) => (
+                      <option key={batch.id} value={batch.id}>
+                        {batch.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            )}
 
           {/* Semester selection for Staff only */}
-          {formData.role_id === "3" && (
-            <div className={styles.formGroup}>
-              <label className={styles.label}>
-                Semester:
-                <select
-                  name="semester_id"
-                  value={formData.semester_id}
-                  onChange={handleChange}
-                  className={styles.select}
-                >
-                  <option value="">Select Semester</option>
-                  <option value="1">Semester 1</option>
-                  <option value="2">Semester 2</option>
-                </select>
-              </label>
-            </div>
-          )}
+          {formData.role_id === "3" ||
+            (formData.role_id === "5" && formData.batch_id === "3" && (
+              <div className={styles.formGroup}>
+                <label className={styles.label}>
+                  Semester:
+                  <select
+                    name="semester_id"
+                    value={formData.semester_id}
+                    onChange={handleChange}
+                    className={styles.select}
+                  >
+                    <option value="">Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                  </select>
+                </label>
+              </div>
+            ))}
 
           {/* Stream selection for Staff and Representative based on batch */}
-          {["3", "4"].includes(formData.batch_id) &&
-            (formData.role_id === "3" || formData.role_id === "5") && (
+          {["3", "5"].includes(formData.batch_id) &&
+            formData.semester_id == "2" && (
               <div className={styles.formGroup}>
                 <label className={styles.label}>
                   Stream:
