@@ -89,6 +89,13 @@ const UsersPage = () => {
 
   return (
     <Layout>
+      {/* Add User Button for admins, representatives, and department */}
+      {(role_id === 1 || role_id === 5 || role_id === 4) && (
+        <button onClick={handleAddUser} className={styles.addUserButton}>
+          Add User
+        </button>
+      )}
+
       <div className={styles.usersPageContainer}>
         <h1 className={styles.heading}>
           {role_id === 1 ? "Users List" : "Staff List"}
@@ -178,13 +185,6 @@ const UsersPage = () => {
             </select>
           </div>
         ) : null}
-
-        {/* Add User Button for admins, representatives, and department */}
-        {(role_id === 1 || role_id === 5 || role_id === 4) && (
-          <button onClick={handleAddUser} className={styles.addUserButton}>
-            Add User
-          </button>
-        )}
 
         {/* Display list of users */}
         <UsersList usersData={usersData} role_id={role_id} />

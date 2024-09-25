@@ -29,6 +29,7 @@
   font-size: 16px;
 }
 
+/* Add User Button: top-right and sticky */
 .addUserButton {
   background-color: #4caf50;
   color: white;
@@ -36,8 +37,11 @@
   padding: 12px 20px;
   font-size: 16px;
   cursor: pointer;
-  display: block;
-  margin: 20px auto;
+  position: sticky;
+  top: 100px;
+  right: 20px;
+  float: right;
+  z-index: 1000;
 }
 
 .addUserButton:hover {
