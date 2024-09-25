@@ -114,28 +114,30 @@ const UsersPage = () => {
         )}
 
         {/* Batch selection only for staff */}
-        {(role_id === 1 || role_id === 4) && selectedRoleId === "3" && (
-          <div className={styles.batchSelection}>
-            <label htmlFor="batchSelect" className={styles.label}>
-              Select Batch:
-            </label>
-            <select
-              id="batchSelect"
-              value={batchId}
-              onChange={handleBatchChange}
-              className={styles.select}
-            >
-              <option value="">Select Batch</option>
-              <option value="1">2nd Year</option>
-              <option value="2">3rd Year</option>
-              <option value="3">4th Year</option>
-              <option value="4">5th Year</option>
-            </select>
-          </div>
-        )}
+        {(role_id === 1 || role_id === 4) &&
+          (selectedRoleId === "3" || selectedRoleId === "5") && (
+            <div className={styles.batchSelection}>
+              <label htmlFor="batchSelect" className={styles.label}>
+                Select Batch:
+              </label>
+              <select
+                id="batchSelect"
+                value={batchId}
+                onChange={handleBatchChange}
+                className={styles.select}
+              >
+                <option value="">Select Batch</option>
+                <option value="1">2nd Year</option>
+                <option value="2">3rd Year</option>
+                <option value="3">4th Year</option>
+                <option value="4">5th Year</option>
+              </select>
+            </div>
+          )}
 
         {/* Semester selection for staff only */}
-        {selectedRoleId === "3" && batchId === "3" && (
+        {(selectedRoleId === "3" ||
+          (selectedRoleId === "5" && batchId === "3")) && (
           <div className={styles.semesterSelection}>
             <label htmlFor="semesterSelect" className={styles.label}>
               Select Semester:
@@ -154,7 +156,9 @@ const UsersPage = () => {
         )}
 
         {/* Stream selection for staff only */}
-        {(selectedRoleId === "3" && batchId === "3" && semesterId === "2") ||
+        {((selectedRoleId === "3" || selectedRoleId === "5") &&
+          batchId === "3" &&
+          semesterId === "2") ||
         batchId === "4" ? (
           <div className={styles.streamSelection}>
             <label htmlFor="streamSelect" className={styles.label}>

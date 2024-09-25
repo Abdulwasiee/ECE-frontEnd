@@ -87,7 +87,7 @@ const UsersList = ({ usersData, isStudentData }) => {
                   </td>{" "}
                   {/* Display semester */}
                   <td className={styles.tableCell}>
-                    {item.stream_name ? item.stream_name : "N/A"}
+                    {item.stream_name ? item.stream_name : "-"}
                   </td>{" "}
                   {/* Display stream if available */}
                   <td className={styles.tableCell}>
