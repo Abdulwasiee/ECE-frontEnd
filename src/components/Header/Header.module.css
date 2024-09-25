@@ -18,6 +18,7 @@
 .logoText {
   font-size: 24px;
   font-weight: bold;
+  color: white;
 }
 
 .navContainer {
@@ -68,7 +69,8 @@
 }
 
 /* Colorful Icons */
-.profileIcon ,.homeIcon{
+.profileIcon,
+.homeIcon {
   color: #4caf50; /* Green */
 }
 

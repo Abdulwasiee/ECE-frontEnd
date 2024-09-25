@@ -21,7 +21,6 @@ const StaffCoursePage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response);
         if (response.data.result.success) {
           setStaffCourses(response.data.result.courses);
         } else {
@@ -43,7 +42,7 @@ const StaffCoursePage = () => {
 
   const handlePostMaterialClick = () => {
     // Navigate to the postmaterial route
-    navigate("/postMaterial");
+    navigate(`/postMaterial/${courseId}`);
   };
 
   return (

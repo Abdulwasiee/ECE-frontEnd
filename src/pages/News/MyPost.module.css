@@ -3,7 +3,7 @@
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #877474;
+  background-color: hsl(0, 25%, 94%);
   min-height: 75vh;
 }
 
