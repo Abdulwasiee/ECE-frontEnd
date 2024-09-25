@@ -19,7 +19,7 @@ const CoursePage = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState(1); // Default batch for students and representatives
-  const [selectedSemester, setSelectedSemester] = useState(null);
+  const [selectedSemester, setSelectedSemester] = useState(1);
   const [selectedStream, setSelectedStream] = useState(null); // State for selected stream
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
