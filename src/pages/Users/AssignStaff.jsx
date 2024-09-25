@@ -37,6 +37,7 @@ const AssignStaffPage = () => {
         },
       });
       setStaffMembers(response.data.users);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
       setErrorMessage("Failed to fetch staff members.");
@@ -109,10 +110,10 @@ const AssignStaffPage = () => {
             className={styles.select}
           >
             <option value="">Select Batch</option>
-            <option value="2">Batch 2</option>
-            <option value="3">Batch 3</option>
-            <option value="4">Batch 4</option>
-            <option value="5">Batch 5</option>
+            <option value="1">2 year</option>
+            <option value="2">3 year</option>
+            <option value="3">4 year</option>
+            <option value="4">5 year</option>
           </select>
         </div>
         <div className={styles.formGroup}>
@@ -129,7 +130,7 @@ const AssignStaffPage = () => {
             <option value="2">Semester 2</option>
           </select>
         </div>
-        {(batchId === "4" && semesterId === "2") || batchId === "5" ? (
+        {(batchId === "3" && semesterId === "2") || batchId === "4" ? (
           <div className={styles.formGroup}>
             <label htmlFor="stream" className={styles.label}>
               Stream:

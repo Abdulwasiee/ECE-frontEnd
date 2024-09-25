@@ -16,6 +16,7 @@ const UsersPage = () => {
   const [streamId, setStreamId] = useState("");
   const [usersData, setUsersData] = useState([]);
   const [staffData, setStaffData] = useState([]);
+  const [displayData, setDisplayData] = useState([]); // Only display data based on selected role
   const navigate = useNavigate();
 
   const fetchUsers = async (
@@ -26,28 +27,42 @@ const UsersPage = () => {
   ) => {
     const token = localStorage.getItem("authToken");
     try {
-      const response = await axiosInstance.get(`/api/getUsers/${roleParam}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: {
-          semester_id: semesterParam || null,
-          batch_id: batchParam || null,
-          stream_id: streamParam || null,
-        },
-      });
-      setUsersData(response.data.users);
-      if (roleParam == 3) {
+      if (roleParam === "3") {
+        // Fetch staff if role is staff
+        const response = await axiosInstance.get(`/api/getUsers/${roleParam}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          params: {
+            semester_id: semesterParam || null,
+            batch_id: batchParam || null,
+            stream_id: streamParam || null,
+          },
+        });
+        setUsersData(response.data.users);
+
         const anotherResponse = await axiosInstance.get(`/api/getStaffs`, {
           headers: { Authorization: `Bearer ${token}` },
           params: {
-            semester_id: semesterParam || 2,
+            semester_id: semesterParam || 1,
             batch_id: batchParam || 1,
             stream_id: streamParam || null,
           },
         });
-        console.log(anotherResponse);
+
         if (anotherResponse.data.result.success) {
           setStaffData(anotherResponse.data.result.users);
         }
+      } else {
+        // If selected role is not staff, fetch only users
+        const response = await axiosInstance.get(`/api/getUsers/${roleParam}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          params: {
+            semester_id: semesterParam || null,
+            batch_id: batchParam || null,
+            stream_id: streamParam || null,
+          },
+        });
+        setUsersData(response.data.users);
+        setStaffData([]); // Clear staff data if not staff
       }
     } catch (error) {
       setError("Error fetching users data");
@@ -58,16 +73,23 @@ const UsersPage = () => {
     fetchUsers("3", null, batchId, null);
   }, []);
 
+  // Update displayData based on selected role and fetched data
+  useEffect(() => {
+    if (selectedRoleId === "3") {
+      setDisplayData(usersData); // Display users for staff
+    } else if (selectedRoleId === "5") {
+      setDisplayData(usersData); // Display users for representatives
+    } else {
+      setDisplayData(staffData); // Display staff data for other roles
+    }
+  }, [usersData, staffData, selectedRoleId]);
+
   const handleRoleSelection = (event) => {
     const roleParam = event.target.value;
     setSelectedRoleId(roleParam);
-
-    // Reset batch, semester, and stream for specific roles
-    if (roleParam === "4" || roleParam === "5") {
-      setBatchId("");
-      setSemesterId("");
-      setStreamId("");
-    }
+    setBatchId("");
+    setSemesterId("");
+    setStreamId("");
 
     fetchUsers(roleParam, null, null, null);
   };
@@ -75,12 +97,10 @@ const UsersPage = () => {
   const handleBatchChange = (event) => {
     const batchParam = event.target.value;
     setBatchId(batchParam);
-
     if (selectedRoleId === "4") {
       setSemesterId("");
       setStreamId("");
     }
-
     fetchUsers(selectedRoleId, null, batchParam, null);
   };
 
@@ -101,9 +121,6 @@ const UsersPage = () => {
   };
 
   if (error) return <p className={styles.error}>{error}</p>;
-
-  // Merge usersData and staffData
-  const combinedData = [...usersData, ...staffData];
 
   return (
     <Layout>
@@ -204,9 +221,9 @@ const UsersPage = () => {
           </div>
         ) : null}
 
-        {/* Display list of combined users and staff */}
+        {/* Display list of users or staff based on the selection */}
         <UsersList
-          usersData={combinedData} // Pass combined data here
+          usersData={displayData} // Pass only the relevant data here
           role_id={role_id}
         />
       </div>

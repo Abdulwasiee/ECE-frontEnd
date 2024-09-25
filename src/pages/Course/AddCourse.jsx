@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
-import styles from "./addCourse.module.css"
+import styles from "./addCourse.module.css";
 import {
   Button,
   TextField,
@@ -34,7 +34,7 @@ const AddCoursePage = () => {
       course_code: courseCode,
       batch_id: batchId,
       semesterId,
-      streamId: role_id === 5 ? stream_id : streamId,
+      streamId: role_id === 5 ? stream_id : streamId || null,
     };
 
     try {
@@ -80,34 +80,34 @@ const AddCoursePage = () => {
     );
   };
 
- const renderStreamSelection = () => {
-   // Make sure batchId and semesterId are compared as numbers
-   if (
-     (Number(batchId) === 3 && Number(semesterId) === 2) ||
-     Number(batchId) === 4
-   ) {
-     return (
-       <FormControl fullWidth margin="normal">
-         <InputLabel id="stream-label">Stream</InputLabel>
-         <Select
-           labelId="stream-label"
-           id="stream_id"
-           value={streamId}
-           onChange={(e) => setStreamId(e.target.value)}
-           label="Stream"
-           required
-         >
-           <MenuItem value="">Select Stream</MenuItem>
-           <MenuItem value={1}>Computer</MenuItem>
-           <MenuItem value={2}>Communication</MenuItem>
-           <MenuItem value={3}>Control</MenuItem>
-           <MenuItem value={4}>Power</MenuItem>
-         </Select>
-       </FormControl>
-     );
-   }
-   return null;
- };
+  const renderStreamSelection = () => {
+    // Make sure batchId and semesterId are compared as numbers
+    if (
+      (Number(batchId) === 3 && Number(semesterId) === 2) ||
+      Number(batchId) === 4
+    ) {
+      return (
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="stream-label">Stream</InputLabel>
+          <Select
+            labelId="stream-label"
+            id="stream_id"
+            value={streamId}
+            onChange={(e) => setStreamId(e.target.value)}
+            label="Stream"
+            required
+          >
+            <MenuItem value="">Select Stream</MenuItem>
+            <MenuItem value={1}>Computer</MenuItem>
+            <MenuItem value={2}>Communication</MenuItem>
+            <MenuItem value={3}>Control</MenuItem>
+            <MenuItem value={4}>Power</MenuItem>
+          </Select>
+        </FormControl>
+      );
+    }
+    return null;
+  };
 
   return (
     <Layout>
