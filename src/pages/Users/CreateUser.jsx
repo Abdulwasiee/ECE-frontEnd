@@ -184,24 +184,24 @@ const CreateUserPage = () => {
             )}
 
           {/* Semester selection for Staff only */}
-          {formData.role_id === "3" ||
-            (formData.role_id === "5" && formData.batch_id === "3" && (
-              <div className={styles.formGroup}>
-                <label className={styles.label}>
-                  Semester:
-                  <select
-                    name="semester_id"
-                    value={formData.semester_id}
-                    onChange={handleChange}
-                    className={styles.select}
-                  >
-                    <option value="">Select Semester</option>
-                    <option value="1">Semester 1</option>
-                    <option value="2">Semester 2</option>
-                  </select>
-                </label>
-              </div>
-            ))}
+          {(formData.role_id === "3" ||
+            (formData.role_id === "5" && formData.batch_id === "3")) && (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                Semester:
+                <select
+                  name="semester_id"
+                  value={formData.semester_id}
+                  onChange={handleChange}
+                  className={styles.select}
+                >
+                  <option value="">Select Semester</option>
+                  <option value="1">Semester 1</option>
+                  <option value="2">Semester 2</option>
+                </select>
+              </label>
+            </div>
+          )}
 
           {/* Stream selection for Staff and Representative based on batch */}
           {["3", "5"].includes(formData.batch_id) &&
