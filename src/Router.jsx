@@ -16,6 +16,7 @@ import MaterialPage from "./pages/Material/MaterialPage";
 import StaffCoursePage from "./pages/Course/staffCourse";
 import ContactPage from "./pages/Contact/ContactPage";
 import PostContactInfo from "./pages/Contact/PostContact";
+import AssignStaffPage from "./pages/Users/AssignStaff";
 function Router() {
   return (
     <>
@@ -130,6 +131,14 @@ function Router() {
           element={
             <Protect>
               <PostContactInfo />
+            </Protect>
+          }
+        />
+        <Route
+          path="/assignstaff/:batchCourseId"
+          element={
+            <Protect>
+              <AssignStaffPage />
             </Protect>
           }
         />

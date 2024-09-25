@@ -7,14 +7,14 @@ import { AuthContext } from "../../components/Auth/Auth";
 const CreateUserPage = () => {
   const { userInfo } = useContext(AuthContext);
   const [formData, setFormData] = useState({
-    role_id: "",
+    role_id: "3",
     id_number: "",
     name: "",
     email: "",
     password: "",
     batch_id: "2",
     semester_id: "",
-    stream_id: "",
+    stream_id: null,
     course_id: "",
   });
 
@@ -144,6 +144,21 @@ const CreateUserPage = () => {
               </label>
             </div>
           )}
+          {userInfo.role_id === 4 && (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                Role:
+                <select
+                  name="role_id"
+                  value={formData.role_id}
+                  onChange={handleChange}
+                  className={styles.select}
+                >
+                  <option value="3">Staff</option>
+                </select>
+              </label>
+            </div>
+          )}
 
           {/* ID number, name, email, and password inputs for all roles */}
           {["id_number", "name", "email", "password"].map((field) => (
@@ -162,7 +177,7 @@ const CreateUserPage = () => {
           ))}
 
           {/* Batch selection for Department and Admin */}
-          {(userInfo.role_id === 1 || userInfo.role_id === 4) &&
+          {(userInfo.role_id == 1 || userInfo.role_id == 4) &&
             (formData.role_id === "3" || formData.role_id === "5") && (
               <div className={styles.formGroup}>
                 <label className={styles.label}>

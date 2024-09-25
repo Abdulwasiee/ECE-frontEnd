@@ -1,6 +1,11 @@
 import React, { useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai"; // Icons for profile and settings
+import {
+  AiOutlineUser,
+  AiOutlineSetting,
+  AiOutlineLogout,
+  AiOutlineHome, // Import the Home icon
+} from "react-icons/ai"; // Icons for profile, settings, logout, and home
 import { AuthContext } from "../Auth/Auth";
 import styles from "./Header.module.css";
 
@@ -64,7 +69,7 @@ const Header = () => {
         <ul className={styles.navList}>
           {isAuthenticated ? (
             <li onClick={logout} className={styles.navItem}>
-              Logout
+              <AiOutlineLogout className={styles.icon} /> {/* Logout Icon */}
             </li>
           ) : (
             <li className={styles.navItem}>
@@ -79,22 +84,40 @@ const Header = () => {
       {/* Render conditional menu based on role and route */}
       {isAuthenticated && location.pathname !== "/home" && renderMenu()}
 
-      {/* Profile and Settings with Icons */}
+      {/* Profile, Settings, Home, and Logout Icons */}
       {isAuthenticated && (
         <div className={styles.lowerHeader}>
           <ul className={styles.profileMenu}>
+            <li className={styles.navItem}>
+              <Link to="/home" className={styles.navLink}>
+                {" "}
+                {/* Home Icon */}
+                <AiOutlineHome
+                  className={`${styles.icon} ${styles.homeIcon}`}
+                />
+              </Link>
+            </li>
             <li className={styles.navItem}>
               <Link
                 to={`/profile/${userInfo.user_id}`}
                 className={styles.navLink}
               >
-                <AiOutlineUser className={styles.icon} />
+                <AiOutlineUser
+                  className={`${styles.icon} ${styles.profileIcon}`}
+                />
               </Link>
             </li>
             <li className={styles.navItem}>
               <Link to="/settings" className={styles.navLink}>
-                <AiOutlineSetting className={styles.icon} />
+                <AiOutlineSetting
+                  className={`${styles.icon} ${styles.settingIcon}`}
+                />
               </Link>
+            </li>
+            <li className={styles.navItem} onClick={logout}>
+              <AiOutlineLogout
+                className={`${styles.icon} ${styles.logoutIcon}`}
+              />
             </li>
           </ul>
         </div>

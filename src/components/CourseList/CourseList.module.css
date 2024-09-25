@@ -16,7 +16,8 @@
   margin-bottom: 30px;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 12px 15px;
   border: 1px solid #ddd;
   text-align: left;
@@ -38,6 +39,11 @@
 .editIcon {
   color: #007bff;
   cursor: pointer;
+}
+.assignIcon {
+  color: #007bff;
+  cursor: pointer;
+  margin-left: 40px;
 }
 
 .editIcon:hover {

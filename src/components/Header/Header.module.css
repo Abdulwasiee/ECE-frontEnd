@@ -5,6 +5,10 @@
   padding: 10px 20px;
   background-color: #333;
   color: white;
+  top: 0;
+  position: sticky;
+  height: 10vh;
+  z-index: 1000;
 }
 
 .logoContainer {
@@ -59,7 +63,21 @@
 }
 
 .icon {
-  margin-right: 8px; /* Add space between the icon and text */
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+/* Colorful Icons */
+.profileIcon ,.homeIcon{
+  color: #4caf50; /* Green */
+}
+
+.settingIcon {
+  color: #2196f3; /* Blue */
+}
+
+.logoutIcon {
+  color: #f44336; /* Red */
 }
 
 .menuList {
