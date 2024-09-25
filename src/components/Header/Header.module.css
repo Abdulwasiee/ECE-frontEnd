@@ -1,111 +1,70 @@
-/* General reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Header container styling for mobile */
 .headerContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-  background-color: #003366; /* ECE department color theme */
+  padding: 10px 20px;
+  background-color: #333;
   color: white;
-  border-bottom: 3px solid #ffd700; /* Gold accent color */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
 }
 
-/* Logo container for mobile */
 .logoContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
+  flex: 1;
 }
 
-/* Logo text styling for mobile */
 .logoText {
-  font-size: 1.2rem;
+  font-size: 24px;
   font-weight: bold;
-  color: #ffd700; /* Gold color for the logo */
 }
 
-/* Navigation container for mobile */
 .navContainer {
+  flex: 1;
+  text-align: right;
+}
+
+.navList {
+  list-style-type: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+}
+
+.navItem {
+  margin-left: 20px;
+  display: flex;
   align-items: center;
 }
 
-/* Navigation list styling for mobile */
-.navList {
+.navLink {
+  color: white;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+.lowerHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.profileMenu {
+  list-style-type: none;
+  display: flex;
+}
+
+.profileMenu li {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 8px; /* Add space between the icon and text */
+}
+
+.menuList {
+  list-style-type: none;
   display: flex;
   justify-content: center;
-  list-style: none;
-}
-
-/* Navigation list item styling for mobile */
-.navItem {
-  margin-left: 15px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-/* Navigation link styling for mobile */
-.navLink {
-  text-decoration: none;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-/* Hover effect for mobile */
-.navLink:hover,
-.navItem:hover {
-  color: #ffd700; /* Gold color on hover */
-}
-
-/* Tablet and larger viewports */
-@media (min-width: 768px) {
-  .headerContainer {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px 40px;
-  }
-
-  .logoText {
-    font-size: 1.5rem;
-  }
-
-  .navItem {
-    font-size: 1rem;
-    margin-left: 20px;
-  }
-
-  .navLink {
-    font-size: 1rem;
-  }
-}
-
-/* Desktop and larger viewports */
-@media (min-width: 1024px) {
-  .logoText {
-    font-size: 1.8rem;
-  }
-
-  .navItem {
-    font-size: 1.1rem;
-    margin-left: 30px;
-  }
-
-  .navLink {
-    font-size: 1.1rem;
-  }
+  padding: 0;
 }
