@@ -15,6 +15,7 @@ const UsersPage = () => {
   const [semesterId, setSemesterId] = useState("");
   const [streamId, setStreamId] = useState("");
   const [usersData, setUsersData] = useState([]);
+  const [staffData, setStaffData] = useState([]);
   const navigate = useNavigate();
 
   const fetchUsers = async (
@@ -34,6 +35,20 @@ const UsersPage = () => {
         },
       });
       setUsersData(response.data.users);
+      if (roleParam == 3) {
+        const anotherResponse = await axiosInstance.get(`/api/getStaffs`, {
+          headers: { Authorization: `Bearer ${token}` },
+          params: {
+            semester_id: semesterParam || 2,
+            batch_id: batchParam || 1,
+            stream_id: streamParam || null,
+          },
+        });
+        console.log(anotherResponse);
+        if (anotherResponse.data.result.success) {
+          setStaffData(anotherResponse.data.result.users);
+        }
+      }
     } catch (error) {
       setError("Error fetching users data");
     }
@@ -86,6 +101,9 @@ const UsersPage = () => {
   };
 
   if (error) return <p className={styles.error}>{error}</p>;
+
+  // Merge usersData and staffData
+  const combinedData = [...usersData, ...staffData];
 
   return (
     <Layout>
@@ -186,8 +204,11 @@ const UsersPage = () => {
           </div>
         ) : null}
 
-        {/* Display list of users */}
-        <UsersList usersData={usersData} role_id={role_id} />
+        {/* Display list of combined users and staff */}
+        <UsersList
+          usersData={combinedData} // Pass combined data here
+          role_id={role_id}
+        />
       </div>
     </Layout>
   );

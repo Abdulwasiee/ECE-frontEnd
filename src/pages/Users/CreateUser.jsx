@@ -36,7 +36,7 @@ const CreateUserPage = () => {
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
-    if (formData.batch_id && formData.semester_id && formData.stream_id) {
+    if (formData.batch_id && formData.semester_id) {
       fetchCourseOptions(
         formData.batch_id,
         formData.semester_id,
