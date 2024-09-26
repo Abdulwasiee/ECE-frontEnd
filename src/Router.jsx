@@ -18,6 +18,7 @@ import ContactPage from "./pages/Contact/ContactPage";
 import PostContactInfo from "./pages/Contact/PostContact";
 import AssignStaffPage from "./pages/Users/AssignStaff";
 import ProfilePage from "./pages/Profile/Profile";
+import SettingsPage from "./pages/Setting/Setting";
 function Router() {
   return (
     <>
@@ -148,6 +149,14 @@ function Router() {
           element={
             <Protect>
               <ProfilePage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <Protect>
+              <SettingsPage />
             </Protect>
           }
         />
