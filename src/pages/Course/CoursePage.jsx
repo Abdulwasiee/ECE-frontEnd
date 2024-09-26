@@ -22,7 +22,8 @@ const CoursePage = () => {
   const [selectedSemester, setSelectedSemester] = useState(1);
   const [selectedStream, setSelectedStream] = useState(null); // State for selected stream
   const { userInfo } = useContext(AuthContext);
-  const { role_id } = userInfo;
+  const { role_id, batch_ids } = userInfo;
+  const batchId = batch_ids[0];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,8 +118,14 @@ const CoursePage = () => {
         label="Select Semester"
         onChange={handleSemesterSelection}
       >
-        <MenuItem value={1}>1st Semester</MenuItem>
-        <MenuItem value={2}>2nd Semester</MenuItem>
+        {batchId == 3 ? (
+          <MenuItem value={1}>1st Semester</MenuItem>
+        ) : (
+          <>
+            <MenuItem value={1}>1st Semester</MenuItem>
+            <MenuItem value={2}>2nd Semester</MenuItem>
+          </>
+        )}
       </Select>
     </FormControl>
   );
