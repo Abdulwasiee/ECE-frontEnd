@@ -219,27 +219,27 @@ const CreateUserPage = () => {
           )}
 
           {/* Stream selection for Staff and Representative based on batch */}
-          {["3", "5"].includes(formData.batch_id) &&
-            formData.semester_id == "2" && (
-              <div className={styles.formGroup}>
-                <label className={styles.label}>
-                  Stream:
-                  <select
-                    name="stream_id"
-                    value={formData.stream_id}
-                    onChange={handleChange}
-                    className={styles.select}
-                  >
-                    <option value="">Select Stream</option>
-                    {streamOptions.map((stream) => (
-                      <option key={stream.id} value={stream.id}>
-                        {stream.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            )}
+          {((formData.batch_id == 3 && formData.semester_id == "2") ||
+            formData.batch_id === "4") && (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                Stream:
+                <select
+                  name="stream_id"
+                  value={formData.stream_id}
+                  onChange={handleChange}
+                  className={styles.select}
+                >
+                  <option value="">Select Stream</option>
+                  {streamOptions.map((stream) => (
+                    <option key={stream.id} value={stream.id}>
+                      {stream.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
 
           {/* Course selection for Staff only */}
           {formData.role_id === "3" && courseOptions.length > 0 && (

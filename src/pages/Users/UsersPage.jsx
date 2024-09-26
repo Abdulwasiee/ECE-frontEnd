@@ -10,110 +10,79 @@ const UsersPage = () => {
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
   const [error, setError] = useState(null);
-  const [selectedRoleId, setSelectedRoleId] = useState("3");
-  const [batchId, setBatchId] = useState("");
-  const [semesterId, setSemesterId] = useState("");
-  const [streamId, setStreamId] = useState("");
-  const [usersData, setUsersData] = useState([]);
-  const [staffData, setStaffData] = useState([]);
-  const [displayData, setDisplayData] = useState([]); // Only display data based on selected role
+  const [selectedRoleId, setSelectedRoleId] = useState("3"); // Default to Staff
+  const [batchId, setBatchId] = useState("1"); // Default to 2nd Year
+  const [semesterId, setSemesterId] = useState("1"); // Default to Semester 1
+  const [streamId, setStreamId] = useState(""); // No default stream
+  const [displayData, setDisplayData] = useState([]); // Data to be displayed
   const navigate = useNavigate();
 
   const fetchUsers = async (
-    roleParam = "3",
-    semesterParam,
-    batchParam,
-    streamParam
+    roleParam,
+    semesterParam = null,
+    batchParam = null,
+    streamParam = null
   ) => {
     const token = localStorage.getItem("authToken");
     try {
-      if (roleParam === "3") {
-        // Fetch staff if role is staff
-        const response = await axiosInstance.get(`/api/getUsers/${roleParam}`, {
-          headers: { Authorization: `Bearer ${token}` },
-          params: {
-            semester_id: semesterParam || null,
-            batch_id: batchParam || null,
-            stream_id: streamParam || null,
-          },
-        });
-        setUsersData(response.data.users);
+      let usersData = [];
 
-        const anotherResponse = await axiosInstance.get(`/api/getStaffs`, {
-          headers: { Authorization: `Bearer ${token}` },
-          params: {
-            semester_id: semesterParam || 1,
-            batch_id: batchParam || 1,
-            stream_id: streamParam || null,
-          },
-        });
+      // Fetch either from getStaff or getUsers based on selected role
+      const endpoint =
+        roleParam === "3" ? `/api/getStaffs` : `/api/getUsers/${roleParam}`;
+      const response = await axiosInstance.get(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          semester_id: semesterParam || null,
+          batch_id: batchParam || null,
+          stream_id: streamParam || null,
+        },
+      });
 
-        if (anotherResponse.data.result.success) {
-          setStaffData(anotherResponse.data.result.users);
-        }
-      } else {
-        // If selected role is not staff, fetch only users
-        const response = await axiosInstance.get(`/api/getUsers/${roleParam}`, {
-          headers: { Authorization: `Bearer ${token}` },
-          params: {
-            semester_id: semesterParam || null,
-            batch_id: batchParam || null,
-            stream_id: streamParam || null,
-          },
-        });
-        setUsersData(response.data.users);
-        setStaffData([]); // Clear staff data if not staff
-      }
+      // Assign the fetched data to usersData
+      usersData =
+        roleParam === "3" ? response.data.result.users : response.data.users;
+
+      // Set the fetched data for display
+      setDisplayData(usersData);
     } catch (error) {
       setError("Error fetching users data");
     }
   };
 
   useEffect(() => {
-    fetchUsers("3", null, batchId, null);
-  }, []);
-
-  // Update displayData based on selected role and fetched data
-  useEffect(() => {
-    if (selectedRoleId === "3") {
-      setDisplayData(usersData); // Display users for staff
-    } else if (selectedRoleId === "5") {
-      setDisplayData(usersData); // Display users for representatives
-    } else {
-      setDisplayData(staffData); // Display staff data for other roles
-    }
-  }, [usersData, staffData, selectedRoleId]);
+    fetchUsers(selectedRoleId, null, batchId, null);
+  }, [selectedRoleId, batchId]); // Fetch users when role or batch changes
 
   const handleRoleSelection = (event) => {
     const roleParam = event.target.value;
     setSelectedRoleId(roleParam);
-    setBatchId("");
-    setSemesterId("");
-    setStreamId("");
-
-    fetchUsers(roleParam, null, null, null);
+    setBatchId(""); // Clear batch ID
+    setSemesterId(""); // Clear semester ID
+    setStreamId(""); // Clear stream ID
+    fetchUsers(roleParam); // Fetch users for the selected role
   };
 
   const handleBatchChange = (event) => {
     const batchParam = event.target.value;
     setBatchId(batchParam);
     if (selectedRoleId === "4") {
-      setSemesterId("");
-      setStreamId("");
+      setSemesterId(""); // Clear semester if department is selected
+      setStreamId(""); // Clear stream if department is selected
     }
-    fetchUsers(selectedRoleId, null, batchParam, null);
+    fetchUsers(selectedRoleId, null, batchParam); // Fetch users for the selected batch
   };
 
   const handleStreamChange = (event) => {
     const streamParam = event.target.value;
     setStreamId(streamParam);
-    fetchUsers(selectedRoleId, semesterId, batchId, streamParam);
+    fetchUsers(selectedRoleId, semesterId, batchId, streamParam); // Fetch users with the selected stream
   };
 
   const handleSemesterChange = (event) => {
     const semesterParam = event.target.value;
     setSemesterId(semesterParam);
-    fetchUsers(selectedRoleId, semesterParam, batchId, streamId);
+    fetchUsers(selectedRoleId, semesterParam, batchId, streamId); // Fetch users with the selected semester
   };
 
   const handleAddUser = () => {
@@ -155,7 +124,7 @@ const UsersPage = () => {
           </div>
         )}
 
-        {/* Batch selection only for staff */}
+        {/* Batch selection for staff and representatives */}
         {(role_id === 1 || role_id === 4) &&
           (selectedRoleId === "3" || selectedRoleId === "5") && (
             <div className={styles.batchSelection}>
@@ -197,7 +166,7 @@ const UsersPage = () => {
           </div>
         )}
 
-        {/* Stream selection for staff only */}
+        {/* Stream selection for specific conditions */}
         {((selectedRoleId === "3" || selectedRoleId === "5") &&
           batchId === "3" &&
           semesterId === "2") ||
