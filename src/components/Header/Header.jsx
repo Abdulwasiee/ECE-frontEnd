@@ -99,7 +99,7 @@ const Header = () => {
             </li>
             <li className={styles.navItem}>
               <Link
-                to={`/profile/${userInfo.user_id}`}
+                to={`/profile`}
                 className={styles.navLink}
               >
                 <AiOutlineUser

@@ -17,6 +17,7 @@ import StaffCoursePage from "./pages/Course/staffCourse";
 import ContactPage from "./pages/Contact/ContactPage";
 import PostContactInfo from "./pages/Contact/PostContact";
 import AssignStaffPage from "./pages/Users/AssignStaff";
+import ProfilePage from "./pages/Profile/Profile";
 function Router() {
   return (
     <>
@@ -139,6 +140,14 @@ function Router() {
           element={
             <Protect>
               <AssignStaffPage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Protect>
+              <ProfilePage />
             </Protect>
           }
         />

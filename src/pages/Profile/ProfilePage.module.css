@@ -1,0 +1,124 @@
+/* ProfilePage.module.css */
+
+.profilePage {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: 75vh;
+}
+
+.profileTitle {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profileInfo {
+  margin-bottom: 20px;
+}
+
+.profileDetail {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.profileDetail svg {
+  margin-right: 10px;
+  color: #007bff; /* Icon color */
+}
+
+.deleteAccountButton {
+  display: inline-block;
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 20px 0;
+}
+
+.deleteAccountButton:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+.universityPortal {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.universityPortal h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.portalLink {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.portalLink:hover {
+  background-color: #0056b3;
+}
+
+.portalLink svg {
+  margin-left: 5px; /* Space between text and icon */
+}
+
+/* Modal Styles */
+.modalOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px; /* Limit max width */
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modalContent h2 {
+  margin-bottom: 20px;
+}
+
+.modalContent button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px; /* Spacing between buttons */
+}
+
+.modalContent button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.modalContent button.cancel {
+  background-color: #dc3545; /* Red for cancel */
+}
+
+.modalContent button.cancel:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
