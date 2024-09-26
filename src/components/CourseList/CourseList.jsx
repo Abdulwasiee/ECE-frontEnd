@@ -75,12 +75,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
       <h2 className={styles.title}>Courses</h2>
       {courses.length > 0 && renderCoursesTable(courses)}
 
-      {staffCourses.length > 0 && (
-        <div>
-          <h2 className={styles.title}>Staff Courses</h2>
-          {renderCoursesTable(staffCourses)}
-        </div>
-      )}
+      {staffCourses.length > 0 && <div>{renderCoursesTable(staffCourses)}</div>}
     </div>
   );
 };

@@ -40,22 +40,11 @@ const StaffCoursePage = () => {
     navigate(`/materials/${courseId}`);
   };
 
-  const handlePostMaterialClick = () => {
-    // Navigate to the postmaterial route
-    navigate(`/postMaterial/${courseId}`);
-  };
-
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Your Courses</h2>
-          <button
-            className={styles.postMaterialButton}
-            onClick={handlePostMaterialClick}
-          >
-            Post Material
-          </button>
         </div>
         {/* Pass staff courses to CourseList */}
         <CourseList

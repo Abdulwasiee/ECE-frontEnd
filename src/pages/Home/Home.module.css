@@ -1,5 +1,5 @@
 .homeContainer {
-  min-height: 70vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   align-items: flex-start; /* Align items to the start */
