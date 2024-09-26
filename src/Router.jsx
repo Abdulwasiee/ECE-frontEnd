@@ -137,7 +137,7 @@ function Router() {
           }
         />
         <Route
-          path="/assignstaff/:batchCourseId"
+          path="/assignstaff/:batchCourseId/:courseId"
           element={
             <Protect>
               <AssignStaffPage />

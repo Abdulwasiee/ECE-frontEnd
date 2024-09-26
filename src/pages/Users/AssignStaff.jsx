@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
-import styles from "./AssignStaff.module.css"; // Import the CSS module
+import styles from "./AssignStaff.module.css";
 import Layout from "../../components/Layout/Layout";
+import { FaTrash } from "react-icons/fa"; // Importing delete icon
 
 const AssignStaffPage = () => {
-  const { batchCourseId } = useParams(); // Get the batch course ID from URL params
+  const { batchCourseId, courseId } = useParams(); // Get the batch course ID and course ID from URL params
   const [batchId, setBatchId] = useState("");
   const [semesterId, setSemesterId] = useState("");
   const [streamId, setStreamId] = useState("");
   const [staffMembers, setStaffMembers] = useState([]); // To hold staff users
   const [selectedStaff, setSelectedStaff] = useState(""); // Selected staff member
+  const [assignedStaff, setAssignedStaff] = useState([]); // To hold assigned staff members
   const [errorMessage, setErrorMessage] = useState(""); // For displaying error messages
   const [successMessage, setSuccessMessage] = useState(""); // For displaying success messages
-  const role_id =3; // Default role ID for staff
+  const role_id = 3; // Default role ID for staff
   const navigate = useNavigate();
 
   // Streams based on your requirements
@@ -24,7 +26,7 @@ const AssignStaffPage = () => {
     { id: 4, name: "Power" },
   ];
 
-  // Fetch users based on batchId, semesterId, streamId
+  // Fetch staff users based on batchId, semesterId, streamId
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken"); // Retrieve token from local storage
@@ -44,10 +46,29 @@ const AssignStaffPage = () => {
     }
   };
 
+  // Fetch assigned staff based on courseId
+  const fetchAssignedStaff = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axiosInstance.get(`/api/assignedStaff`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { courseId },
+      });
+
+      if (response.data.response.success) {
+        setAssignedStaff(response.data.response.staff);
+      }
+    } catch (error) {
+      console.error("Error fetching assigned staff:", error);
+      setErrorMessage("Failed to fetch assigned staff.");
+    }
+  };
+
   useEffect(() => {
     if (batchId && semesterId) {
       fetchUsers(); // Fetch users when batchId or semesterId changes
     }
+    fetchAssignedStaff(); // Fetch assigned staff on component mount
   }, [batchId, semesterId, streamId]);
 
   const handleAssignStaff = async () => {
@@ -90,8 +111,57 @@ const AssignStaffPage = () => {
     }
   };
 
+  const handleDeleteStaff = async (staffId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      await axiosInstance.delete(`/api/deleteAssignedStaff/${staffId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSuccessMessage("Staff removed successfully!");
+      fetchAssignedStaff(); // Refresh assigned staff
+    } catch (error) {
+      console.error("Error deleting staff:", error);
+      setErrorMessage("Failed to delete staff.");
+    }
+  };
+
   return (
     <Layout>
+      {/* Display Assigned Staff Section */}
+      <div className={styles.assignedStaffSection}>
+        <h2>Assigned Staff Members</h2>
+        {assignedStaff.length > 0 ? (
+          <ul>
+            {assignedStaff.map((staff) => (
+              <li key={staff.user_id} className={styles.assignedStaffItem}>
+                <div className={styles.staffDetails}>
+                  <div>
+                    <strong>Name:</strong> {staff.name}
+                  </div>
+                  <div>
+                    <strong>Batch Year:</strong> {staff.batch_year}
+                  </div>
+                  <div>
+                    <strong>Semester:</strong> {staff.semester_name}
+                  </div>
+                  <div>
+                    <strong>Stream:</strong> {staff.stream_name}
+                  </div>
+                </div>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => handleDeleteStaff(staff.user_id)}
+                  aria-label="Delete staff"
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No staff members assigned to this course.</p>
+        )}
+      </div>
       <div className={styles.assignStaffPage}>
         <h1>Assign Staff to Course</h1>
         {errorMessage && (
@@ -100,6 +170,8 @@ const AssignStaffPage = () => {
         {successMessage && (
           <div className={styles.successMessage}>{successMessage}</div>
         )}
+
+        {/* Form Section */}
         <div className={styles.formGroup}>
           <label htmlFor="batch" className={styles.label}>
             Batch:
@@ -116,6 +188,7 @@ const AssignStaffPage = () => {
             <option value="4">5 year</option>
           </select>
         </div>
+
         <div className={styles.formGroup}>
           <label htmlFor="semester" className={styles.label}>
             Semester:
@@ -130,6 +203,7 @@ const AssignStaffPage = () => {
             <option value="2">Semester 2</option>
           </select>
         </div>
+
         {(batchId === "3" && semesterId === "2") || batchId === "4" ? (
           <div className={styles.formGroup}>
             <label htmlFor="stream" className={styles.label}>
@@ -149,6 +223,7 @@ const AssignStaffPage = () => {
             </select>
           </div>
         ) : null}
+
         <div className={styles.formGroup}>
           <label htmlFor="staff" className={styles.label}>
             Select Staff:
@@ -166,6 +241,7 @@ const AssignStaffPage = () => {
             ))}
           </select>
         </div>
+
         <button className={styles.assignButton} onClick={handleAssignStaff}>
           Assign Staff
         </button>

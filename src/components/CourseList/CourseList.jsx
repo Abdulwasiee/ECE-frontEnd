@@ -13,9 +13,9 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
     navigate(`/editCourse/${courseId}`);
   };
 
-  const handleAssign = (batchCourseId, e) => {
+  const handleAssign = (batchCourseId, e, courseId) => {
     e.stopPropagation(); // Prevent click event on list item
-    navigate(`/assignStaff/${batchCourseId}`); // Navigate to assignStaff route
+    navigate(`/assignStaff/${batchCourseId}/${courseId}`); // Navigate to assignStaff route
   };
 
   const renderEditIcon = (courseId, e) => {
@@ -60,7 +60,9 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
                 />
                 <FaUserPlus
                   className={styles.assignIcon}
-                  onClick={(e) => handleAssign(course.batch_course_id, e)} // Handle assign click
+                  onClick={(e) =>
+                    handleAssign(course.batch_course_id, e, course.course_id)
+                  } // Handle assign click
                 />
               </td>
             )}

@@ -1,16 +1,64 @@
-.assignStaffPage {
-  max-width: 600px;
-  margin: auto;
+.assignedStaffSection {
+  margin: 20px 0;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+.assignedStaffSection h2 {
   color: #333;
+  margin-bottom: 15px;
+}
+
+.assignedStaffItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.assignedStaffItem:last-child {
+  border-bottom: none;
+}
+
+.assignedStaffItem div {
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  color: #dc3545;
+  font-size: 1.2em;
+}
+
+.deleteIcon:hover {
+  color: #c82333;
+}
+
+.assignStaffPage {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.assignStaffPage h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.errorMessage {
+  color: #dc3545;
+  margin-bottom: 15px;
+}
+
+.successMessage {
+  color: #28a745;
+  margin-bottom: 15px;
 }
 
 .formGroup {
@@ -20,52 +68,47 @@ h1 {
 .label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  color: #495057;
 }
 
 .select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ced4da;
   border-radius: 4px;
-  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  border-color: #80bdff;
+  outline: none;
 }
 
 .assignButton {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  padding: 10px 15px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  background-color: #007bff;
+  color: white;
   font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .assignButton:hover {
   background-color: #0056b3;
 }
 
-.errorMessage {
-  color: #ff0000;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.successMessage {
-  color: #28a745;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-@media (max-width: 600px) {
-  .assignStaffPage {
-    padding: 15px;
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .assignedStaffItem {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .select, .assignButton {
-    font-size: 14px;
+  .deleteIcon {
+    margin-top: 10px;
+    align-self: flex-end;
   }
 }
