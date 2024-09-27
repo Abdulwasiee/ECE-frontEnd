@@ -11,7 +11,6 @@ const CreateUserPage = () => {
     id_number: "",
     name: "",
     email: "",
-    password: "",
     batch_id: "2",
     semester_id: "",
     stream_id: null,
@@ -161,12 +160,12 @@ const CreateUserPage = () => {
           )}
 
           {/* ID number, name, email, and password inputs for all roles */}
-          {["id_number", "name", "email", "password"].map((field) => (
+          {["id_number", "name", "email"].map((field) => (
             <div className={styles.formGroup} key={field}>
               <label className={styles.label}>
                 {field.charAt(0).toUpperCase() + field.slice(1)}:
                 <input
-                  type={field === "password" ? "password" : "text"}
+                  type={"text"}
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
