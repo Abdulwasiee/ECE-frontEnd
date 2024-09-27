@@ -10,6 +10,7 @@ const UsersList = ({ usersData, isStudentData }) => {
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+  const [isConfirmed, setIsConfirmed] = useState(false); // State for checkbox confirmation
   const token = localStorage.getItem("authToken");
 
   if (!usersData || usersData.length === 0) {
@@ -40,6 +41,7 @@ const UsersList = ({ usersData, isStudentData }) => {
 
   const confirmDelete = (userId) => {
     setDeleteConfirmation(userId);
+    setIsConfirmed(false); // Reset checkbox when new confirmation is triggered
   };
 
   return (
@@ -53,10 +55,8 @@ const UsersList = ({ usersData, isStudentData }) => {
               <>
                 <th className={styles.tableHeader}>Course</th>
                 <th className={styles.tableHeader}>Batch Year</th>
-                <th className={styles.tableHeader}>Semester</th>{" "}
-                {/* New column for semester */}
-                <th className={styles.tableHeader}>Stream</th>{" "}
-                {/* New column for stream */}
+                <th className={styles.tableHeader}>Semester</th>
+                <th className={styles.tableHeader}>Stream</th>
                 <th className={styles.tableHeader}>Created Date</th>
               </>
             )}
@@ -82,14 +82,10 @@ const UsersList = ({ usersData, isStudentData }) => {
                 <>
                   <td className={styles.tableCell}>{item.course_name}</td>
                   <td className={styles.tableCell}>{item.batch_year}</td>
-                  <td className={styles.tableCell}>
-                    {item.semester_name}
-                  </td>{" "}
-                  {/* Display semester */}
+                  <td className={styles.tableCell}>{item.semester_name}</td>
                   <td className={styles.tableCell}>
                     {item.stream_name ? item.stream_name : "-"}
-                  </td>{" "}
-                  {/* Display stream if available */}
+                  </td>
                   <td className={styles.tableCell}>
                     {new Date(item.created_at).toLocaleDateString()}
                   </td>
@@ -122,10 +118,30 @@ const UsersList = ({ usersData, isStudentData }) => {
       {deleteConfirmation && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
+            <h1>Warning</h1>
+            <p>
+              Deleting the user is not recommended as it will remove the user
+              from all batches if assigned to other courses.
+            </p>
+            <p>
+              Instead, navigate to courses and remove the user for specific
+              courses.
+            </p>
             <p>Are you sure you want to delete this user?</p>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={isConfirmed}
+                onChange={(e) => setIsConfirmed(e.target.checked)}
+              />
+              I understand the consequences and want to delete this user.
+            </label>
+
             <button
               onClick={() => handleDeleteUser(deleteConfirmation)}
               className={styles.confirmButton}
+              disabled={!isConfirmed} // Disable button unless checkbox is checked
             >
               Yes, Delete
             </button>

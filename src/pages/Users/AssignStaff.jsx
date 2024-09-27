@@ -15,6 +15,8 @@ const AssignStaffPage = () => {
   const [assignedStaff, setAssignedStaff] = useState([]); // To hold assigned staff members
   const [errorMessage, setErrorMessage] = useState(""); // For displaying error messages
   const [successMessage, setSuccessMessage] = useState(""); // For displaying success messages
+  const [showModal, setShowModal] = useState(false); // Control modal visibility
+  const [staffToRemove, setStaffToRemove] = useState(null); // Staff ID to remove
   const role_id = 3; // Default role ID for staff
   const navigate = useNavigate();
 
@@ -111,18 +113,32 @@ const AssignStaffPage = () => {
     }
   };
 
-  const handleDeleteStaff = async (staffId) => {
+  const handleDeleteStaff = async (user_id) => {
     try {
       const token = localStorage.getItem("authToken");
-      await axiosInstance.delete(`/api/deleteAssignedStaff/${staffId}`, {
+      const response = await axiosInstance.delete(`/api/removeStaffCourse`, {
+        params: { user_id, course_id: courseId },
         headers: { Authorization: `Bearer ${token}` },
       });
-      setSuccessMessage("Staff removed successfully!");
-      fetchAssignedStaff(); // Refresh assigned staff
+      if (response.data.result.success) {
+        setSuccessMessage(response.data.result.message);
+      }
+      fetchAssignedStaff();
+      setShowModal(false); // Close modal after deletion
     } catch (error) {
       console.error("Error deleting staff:", error);
       setErrorMessage("Failed to delete staff.");
     }
+  };
+
+  const openModal = (user_id) => {
+    setStaffToRemove(user_id);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setStaffToRemove(null);
   };
 
   return (
@@ -150,7 +166,7 @@ const AssignStaffPage = () => {
                 </div>
                 <button
                   className={styles.deleteButton}
-                  onClick={() => handleDeleteStaff(staff.user_id)}
+                  onClick={() => openModal(staff.user_id)}
                   aria-label="Delete staff"
                 >
                   <FaTrash />
@@ -162,6 +178,7 @@ const AssignStaffPage = () => {
           <p>No staff members assigned to this course.</p>
         )}
       </div>
+
       <div className={styles.assignStaffPage}>
         <h1>Assign Staff to Course</h1>
         {errorMessage && (
@@ -245,6 +262,28 @@ const AssignStaffPage = () => {
         <button className={styles.assignButton} onClick={handleAssignStaff}>
           Assign Staff
         </button>
+
+        {/* Confirmation Modal */}
+        {showModal && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h3>Confirm Deletion</h3>
+              <p>
+                Are you sure you want to remove this staff member from the
+                course?
+              </p>
+              <button
+                className={styles.confirmButton}
+                onClick={() => handleDeleteStaff(staffToRemove)}
+              >
+                Yes, Remove
+              </button>
+              <button className={styles.cancelButton} onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
