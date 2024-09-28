@@ -1,73 +1,65 @@
 .homeContainer {
-  min-height: 75vh;
+  min-height: 80vh;
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: flex-start; /* Align items to the start */
+  flex-direction: column;
+  align-items: flex-start;
   padding: 20px;
 }
 
-.profileCard {
-  color: rgb(125, 68, 10);
-  padding: 15px;
-  margin-bottom: 20px; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-}
-
 .welcomeContainer {
-  text-align: center; /* Center the welcome message and menu */
+  text-align: center;
+  margin: auto;
   width: 100%;
 }
 
 .welcomeMessage {
-  color: #2c3e50; /* Dark text color */
-  margin: 10px 0; /* Space around the message */
+  color: #2c3e50;
+  margin: 10px 0;
 }
 
 .nav {
   width: 100%;
   display: flex;
-  justify-content: center; /* Center the menu */
+  justify-content: center;
 }
 
 .menuList {
   display: flex;
-  flex-wrap: wrap; /* Wrap on smaller screens */
+  flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
 }
 
 .menuItem {
-  margin: 0 15px; /* Space between menu items */
+  margin: 0 15px;
 }
 
 .menuLink {
   text-decoration: none;
-  color: #2980b9; /* Link color */
+  color: #2980b9;
   font-weight: bold;
 }
 
 .menuLink:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline;
 }
 
 .menuItem {
   padding: 10px;
-  background-color: #bdc3c7; /* Menu item background color */
-  border-radius: 5px; /* Rounded corners */
+  background-color: #bdc3c7;
+  border-radius: 5px;
 }
 
 .menuItem:hover {
-  background-color: #95a5a6; /* Darker background on hover */
+  background-color: #95a5a6;
 }
 
-/* Responsive styles */
 @media (max-width: 600px) {
   .menuList {
-    flex-direction: column; /* Vertical layout for small screens */
+    flex-direction: column;
   }
   .menuItem {
-    margin-bottom: 10px; /* Space between vertical items */
-    margin-right: 0; /* Remove horizontal margin */
+    margin-bottom: 10px;
+    margin-right: 0;
   }
 }

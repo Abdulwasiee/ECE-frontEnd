@@ -16,7 +16,7 @@
 }
 
 .addButton {
-  top: 50px;
+  top: 20px;
   right: 20px;
   position: sticky;
   background-color: #3f51b5;
@@ -32,8 +32,6 @@
 .addButton:hover {
   background-color: #303f9f;
 }
-
-/* Responsive dropdown container for different screen sizes */
 .dropdownContainer {
   display: flex;
   flex-wrap: wrap;
@@ -42,7 +40,7 @@
 }
 
 .smallSelect {
-  width: 48%; /* Keep dropdowns side by side for larger screens */
+  width: 30%;
 }
 
 @media (max-width: 768px) {
@@ -51,12 +49,15 @@
   }
 
   .smallSelect {
-    width: 100%; /* Full width on mobile for better usability */
-    margin-bottom: 10px;
+    width: 100%;
+    margin: 10px;
+  }
+  .selectInput {
+    margin-bottom: 1rem;
   }
 
   .buttonContainer {
-    justify-content: center; /* Center button on smaller screens */
+    justify-content: center;
   }
 }
 

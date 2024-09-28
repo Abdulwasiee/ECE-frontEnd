@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   max-width: 90%;
-  margin: auto;
+  margin: 0 auto;
   transition: all 0.3s ease;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .toggleForm {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   text-align: center;
 }
 

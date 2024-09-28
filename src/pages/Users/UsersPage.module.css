@@ -25,9 +25,10 @@
 }
 
 .select {
-  width: 100%;
+  width: 20%;
   padding: 10px;
   font-size: 16px;
+  margin: auto;
 }
 
 /* Add User Button: top-right and sticky */

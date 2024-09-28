@@ -61,11 +61,6 @@ const Home = () => {
   return (
     <Layout>
       <div className={styles.homeContainer}>
-        <div className={styles.profileCard}>
-          <h2>
-            {first_name} {last_name}
-          </h2>
-        </div>
         <div className={styles.welcomeContainer}>
           <h2 className={styles.welcomeMessage}>Welcome to the Dashboard</h2>
           <div className={styles.menuContainer}>{renderMenu()}</div>

@@ -11,7 +11,7 @@ import {
 import Modal from "react-modal";
 import styles from "./ProfilePage.module.css";
 import Layout from "../../components/Layout/Layout";
-
+const token = localStorage.getItem("authToken");
 // Ensure that you set the app element for accessibility
 Modal.setAppElement("#root"); // Adjust as necessary
 
@@ -24,11 +24,15 @@ const ProfilePage = () => {
   const handleDeleteAccount = async () => {
     try {
       const response = await axiosInstance.delete(
-        `/api/student/${userInfo.user_id}`
+        `/api/student/${userInfo.user_id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+      console.log(response);
       if (response.data.success) {
         alert("Account deleted successfully!");
-        logout(); // Call logout after successful deletion
+        logout();
       } else {
         alert("Error deleting account: " + response.data.message);
       }

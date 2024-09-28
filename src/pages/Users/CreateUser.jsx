@@ -32,6 +32,8 @@ const CreateUserPage = () => {
     { id: 3, name: "Control" },
     { id: 4, name: "Power" },
   ]);
+
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -69,7 +71,6 @@ const CreateUserPage = () => {
       [name]: value,
     }));
 
-    // Reset course selection when batch, semester, or stream changes
     if (name === "batch_id" || name === "semester_id" || name === "stream_id") {
       setFormData((prev) => ({ ...prev, course_id: "" }));
     }
@@ -77,6 +78,12 @@ const CreateUserPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isChecked) {
+      setMessage("Please confirm the data is correct.");
+      setIsSuccess(false);
+      return;
+    }
 
     const formDataToSubmit = {
       ...formData,
@@ -108,6 +115,7 @@ const CreateUserPage = () => {
             course_id: "",
           });
           setMessage("");
+          setIsChecked(false); // Reset checkbox
         }, 3000);
       } else {
         setMessage(response.data.result.message);
@@ -119,12 +127,15 @@ const CreateUserPage = () => {
     }
   };
 
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked); // Update checkbox state
+  };
+
   return (
     <Layout>
       <div className={styles.container}>
         <h1 className={styles.heading}>Create User</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Role selection for admin */}
           {userInfo.role_id === 1 && (
             <div className={styles.formGroup}>
               <label className={styles.label}>
@@ -159,7 +170,6 @@ const CreateUserPage = () => {
             </div>
           )}
 
-          {/* ID number, name, email, and password inputs for all roles */}
           {["id_number", "name", "email"].map((field) => (
             <div className={styles.formGroup} key={field}>
               <label className={styles.label}>
@@ -175,7 +185,6 @@ const CreateUserPage = () => {
             </div>
           ))}
 
-          {/* Batch selection for Department and Admin */}
           {(userInfo.role_id == 1 || userInfo.role_id == 4) &&
             (formData.role_id === "3" || formData.role_id === "5") && (
               <div className={styles.formGroup}>
@@ -197,7 +206,6 @@ const CreateUserPage = () => {
               </div>
             )}
 
-          {/* Semester selection for Staff only */}
           {(formData.role_id === "3" ||
             (formData.role_id === "5" && formData.batch_id === "3")) && (
             <div className={styles.formGroup}>
@@ -217,7 +225,6 @@ const CreateUserPage = () => {
             </div>
           )}
 
-          {/* Stream selection for Staff and Representative based on batch */}
           {((formData.batch_id == 3 && formData.semester_id == "2") ||
             formData.batch_id === "4") && (
             <div className={styles.formGroup}>
@@ -240,7 +247,6 @@ const CreateUserPage = () => {
             </div>
           )}
 
-          {/* Course selection for Staff only */}
           {formData.role_id === "3" && courseOptions.length > 0 && (
             <div className={styles.formGroup}>
               <label className={styles.label}>
@@ -262,14 +268,36 @@ const CreateUserPage = () => {
             </div>
           )}
 
-          <button type="submit" className={styles.button}>
+          {/* Confirmation Checkbox */}
+          <div className={styles.formGroup}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+                className={styles.checkbox}
+              />
+              I confirm that the provided data, especially the email, is
+              correct.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={!isChecked} // Disable button unless checkbox is checked
+          >
             Create User
           </button>
 
           {message && (
-            <div className={isSuccess ? styles.success : styles.error}>
+            <p
+              className={
+                isSuccess ? styles.successMessage : styles.errorMessage
+              }
+            >
               {message}
-            </div>
+            </p>
           )}
         </form>
       </div>
