@@ -29,7 +29,6 @@ const ProfilePage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response);
       if (response.data.success) {
         alert("Account deleted successfully!");
         logout();
