@@ -47,6 +47,7 @@ const CoursePage = () => {
           },
         }
       );
+      console.log(response)
       if (response.status === 200) {
         const courseList = response.data.result.courses;
         if (courseList.length === 0) {

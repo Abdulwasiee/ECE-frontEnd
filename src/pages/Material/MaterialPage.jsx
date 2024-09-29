@@ -24,6 +24,7 @@ const MaterialPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(response);
         if (response.status === 200) {
           if (response.data.data.result.length === 0) {
             setError(response.data.data.result.message);

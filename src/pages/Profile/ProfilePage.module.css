@@ -1,5 +1,4 @@
-/* ProfilePage.module.css */
-
+/* General Page Styles */
 .profilePage {
   padding: 20px;
   background-color: #f9f9f9;
@@ -8,7 +7,7 @@
   min-height: 75vh;
 }
 
-.profileTitle {
+.profileTitle, .universityPortal h2 {
   color: #333;
   text-align: center;
   margin-bottom: 20px;
@@ -29,30 +28,53 @@
   color: #007bff; /* Icon color */
 }
 
-.deleteAccountButton {
-  display: inline-block;
-  background-color: #dc3545;
-  color: white;
+/* Button Styles */
+button {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.deleteAccountButton {
+  background-color: #dc3545;
+  color: white;
   margin: 20px 0;
 }
 
 .deleteAccountButton:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333; /* Darker red */
 }
 
+.changePasswordButton,
+.modalContent button {
+  background-color: #007bff;
+  color: white;
+}
+
+.changePasswordButton:hover,
+.modalContent button:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+.modalContent button.cancel {
+  background-color: #dc3545;
+}
+
+.modalContent button.cancel:hover {
+  background-color: #c82333; /* Darker red */
+}
+
+/* University Portal Link */
 .universityPortal {
   margin-top: 20px;
   text-align: center;
-}
-
-.universityPortal h2 {
-  color: #333;
-  margin-bottom: 10px;
 }
 
 .portalLink {
@@ -62,7 +84,7 @@
   padding: 10px 15px;
   border-radius: 5px;
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .portalLink:hover {
@@ -70,7 +92,7 @@
 }
 
 .portalLink svg {
-  margin-left: 5px; /* Space between text and icon */
+  margin-left: 5px;
 }
 
 /* Modal Styles */
@@ -91,7 +113,7 @@
   padding: 20px;
   border-radius: 10px;
   width: 90%;
-  max-width: 500px; /* Limit max width */
+  max-width: 500px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -101,24 +123,75 @@
 }
 
 .modalContent button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
   margin: 5px; /* Spacing between buttons */
 }
 
-.modalContent button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+/* Password Form Styles */
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin-top: 20px;
 }
 
-.modalContent button.cancel {
-  background-color: #dc3545; /* Red for cancel */
+.passwordForm div {
+  margin-bottom: 15px;
+  position: relative; /* Make the div relative for positioning the icon */
 }
 
-.modalContent button.cancel:hover {
-  background-color: #c82333; /* Darker red on hover */
+.passwordForm label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.passwordForm input {
+  padding: 10px;
+  padding-right: 40px; /* Add extra padding on the right to accommodate the icon */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.passwordForm input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Toggle Icon Styles */
+.togglePasswordIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #007bff;
+}
+
+/* Form Button */
+.passwordForm button {
+  background-color: #28a745;
+  color: white;
+}
+
+.passwordForm button:hover {
+  background-color: #218838;
+}
+
+/* Message Styles */
+.errorMessage,
+.successMessage {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.errorMessage {
+  color: #dc3545;
+}
+
+.successMessage {
+  color: #28a745;
 }

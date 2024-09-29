@@ -7,11 +7,14 @@ import {
   FaIdCard,
   FaTrash,
   FaExternalLinkAlt,
+  FaKey,
+  FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
 import Modal from "react-modal";
 import styles from "./ProfilePage.module.css";
 import Layout from "../../components/Layout/Layout";
-const token = localStorage.getItem("authToken");
+
 // Ensure that you set the app element for accessibility
 Modal.setAppElement("#root"); // Adjust as necessary
 
@@ -20,6 +23,18 @@ const ProfilePage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false); // State to toggle password change form
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [showOldPassword, setShowOldPassword] = useState(false); // Toggle old password visibility
+  const [showNewPassword, setShowNewPassword] = useState(false); // Toggle new password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Toggle confirm password visibility
+
+  const token = localStorage.getItem("authToken");
 
   const handleDeleteAccount = async () => {
     try {
@@ -31,7 +46,7 @@ const ProfilePage = () => {
       );
       if (response.data.success) {
         alert("Account deleted successfully!");
-        logout();
+        logout(); // Call logout after successful deletion
       } else {
         alert("Error deleting account: " + response.data.message);
       }
@@ -46,7 +61,6 @@ const ProfilePage = () => {
 
   const getBatchYear = (batchId) => {
     const id = Number(batchId);
-
     switch (id) {
       case 1:
         return "2nd";
@@ -61,7 +75,6 @@ const ProfilePage = () => {
     }
   };
 
-  // Function to map stream ID to stream name
   const getStreamName = (streamId) => {
     switch (streamId) {
       case 1:
@@ -77,7 +90,6 @@ const ProfilePage = () => {
     }
   };
 
-  // Function to map role ID to role name
   const getRoleName = (roleId) => {
     switch (roleId) {
       case 1:
@@ -92,6 +104,46 @@ const ProfilePage = () => {
         return "Representative";
       default:
         return "Unknown Role";
+    }
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await axiosInstance.post(
+        "/api/changePassword",
+        {
+          oldPassword,
+          newPassword,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.result.success) {
+        setPasswordSuccess(response.data.result.message);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        setPasswordError(response.data.result.message);
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      setPasswordError("An error occurred while changing the password.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -137,8 +189,75 @@ const ProfilePage = () => {
             </div>
           )}
         </div>
+        {userInfo.role_id == 2 ? null : (
+          <button
+            className={styles.changePasswordButton}
+            onClick={() => setShowPasswordForm(!showPasswordForm)}
+          >
+            <FaKey /> Change Password
+          </button>
+        )}
 
-        {/* Only show the delete button if the user is a Student (role_id = 2) */}
+        {showPasswordForm && (
+          <form className={styles.passwordForm} onSubmit={handlePasswordChange}>
+            <div className={styles.passwordInputGroup}>
+              <label htmlFor="oldPassword">Old Password</label>
+              <input
+                type={showOldPassword ? "text" : "password"}
+                id="oldPassword"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+              <span
+                className={styles.togglePasswordIcon}
+                onClick={() => setShowOldPassword(!showOldPassword)}
+              >
+                {showOldPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            <div className={styles.passwordInputGroup}>
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <span
+                className={styles.togglePasswordIcon}
+                onClick={() => setShowNewPassword(!showNewPassword)}
+              >
+                {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            <div className={styles.passwordInputGroup}>
+              <label htmlFor="confirmPassword">Confirm New Password</label>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <span
+                className={styles.togglePasswordIcon}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Change Password"}
+            </button>
+
+            {passwordError && (
+              <div className={styles.errorMessage}>{passwordError}</div>
+            )}
+            {passwordSuccess && (
+              <div className={styles.successMessage}>{passwordSuccess}</div>
+            )}
+          </form>
+        )}
+
         {userInfo.role_id === 2 && (
           <button
             className={styles.deleteAccountButton}
@@ -165,18 +284,24 @@ const ProfilePage = () => {
           onRequestClose={() => setIsModalOpen(false)}
           className={styles.modalContent}
           overlayClassName={styles.modalOverlay}
-          contentLabel="Confirm Delete Account"
         >
           <h2>Are you sure you want to delete your account?</h2>
-          <button onClick={handleDeleteAccount} disabled={isDeleting}>
-            {isDeleting ? "Deleting..." : "Yes, delete my account"}
-          </button>
-          <button
-            className={styles.cancel}
-            onClick={() => setIsModalOpen(false)}
-          >
-            Cancel
-          </button>
+          <p>This action is irreversible.</p>
+          <div className={styles.modalButtons}>
+            <button
+              className={styles.confirmButton}
+              onClick={handleDeleteAccount}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </button>
+            <button
+              className={styles.cancelButton}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </Modal>
       </div>
     </Layout>
