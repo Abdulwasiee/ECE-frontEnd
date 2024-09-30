@@ -116,7 +116,7 @@ const CreateUserPage = () => {
           });
           setMessage("");
           setIsChecked(false); // Reset checkbox
-        }, 3000);
+        }, 200);
       } else {
         setMessage(response.data.result.message);
         setIsSuccess(false);
