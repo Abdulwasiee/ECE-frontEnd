@@ -30,7 +30,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,11 +59,11 @@
 }
 
 .cancelButton {
-  background-color: #ccc;
+  background-color: #52c521;
 }
 
 .confirmButton {
-  background-color: #28a745; /* Green */
+  background-color: #c4390b; 
   color: white;
 }
 

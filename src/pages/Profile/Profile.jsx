@@ -45,8 +45,9 @@ const ProfilePage = () => {
         }
       );
       if (response.data.success) {
-        alert("Account deleted successfully!");
-        logout(); // Call logout after successful deletion
+        setTimeout(() => {
+          logout();
+        }, 1000);
       } else {
         alert("Error deleting account: " + response.data.message);
       }
@@ -286,7 +287,6 @@ const ProfilePage = () => {
           overlayClassName={styles.modalOverlay}
         >
           <h2>Are you sure you want to delete your account?</h2>
-          <p>This action is irreversible.</p>
           <div className={styles.modalButtons}>
             <button
               className={styles.confirmButton}
