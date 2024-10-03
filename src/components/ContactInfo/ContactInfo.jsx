@@ -32,8 +32,6 @@ const ContactInfo = ({ contactData }) => {
       );
 
       if (response.status === 200) {
-        alert("Contact deleted successfully");
-        // Refresh the page
         window.location.reload();
       } else {
         alert("Error deleting contact");
@@ -113,7 +111,7 @@ const ContactInfo = ({ contactData }) => {
       {isDialogOpen && (
         <div className={styles.overlay}>
           <div className={styles.dialog}>
-            <h3>Are you sure you want to delete this contact?</h3>
+            <h3>Are you sure you want to delete your contact information?</h3>
             <div className={styles.actions}>
               <button className={styles.confirm} onClick={handleDelete}>
                 Yes

@@ -5,6 +5,7 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 .heading {
@@ -57,16 +58,18 @@
 }
 
 .dialog {
-  background: white;
+  background: rgb(243, 235, 235);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
+  width: 30%;
+  margin: auto;
 }
 
 .confirm,

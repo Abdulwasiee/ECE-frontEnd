@@ -55,7 +55,6 @@ const MaterialList = ({ materials }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Materials</h2>
       <ul className={styles.list}>
         {materials.length > 0 ? (
           materials.map((material) => (

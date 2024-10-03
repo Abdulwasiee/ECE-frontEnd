@@ -9,6 +9,7 @@ const PostNews = () => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,6 +21,8 @@ const PostNews = () => {
       return;
     }
 
+    setIsLoading(true); // Set loading to true when starting the request
+
     try {
       const response = await axiosInstance.post(
         "/api/postNews",
@@ -30,7 +33,7 @@ const PostNews = () => {
           },
         }
       );
-      console.log(response);
+
       if (response.data.result.success) {
         setSuccess("News added successfully!");
         setTitle("");
@@ -42,6 +45,8 @@ const PostNews = () => {
     } catch (err) {
       setError("Network error or failed request");
       console.error("Error posting news:", err);
+    } finally {
+      setIsLoading(false); // Reset loading state after the request is complete
     }
   };
 
@@ -77,8 +82,16 @@ const PostNews = () => {
           </div>
           {error && <p className={styles.error}>{error}</p>}
           {success && <p className={styles.success}>{success}</p>}
-          <button type="submit" className={styles.submitButton}>
-            Submit
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className={styles.spinner}></span> // Spinner element
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

@@ -119,7 +119,7 @@ const UsersPage = () => {
             >
               <option value="5">Representative</option>
               <option value="3">Staff</option>
-              <option value="4">Department</option>
+              {role_id === 1 ? <option value="4">Department</option> : null}
             </select>
           </div>
         )}

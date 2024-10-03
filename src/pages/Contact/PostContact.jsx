@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { axiosInstance } from "../../utility/Axios";
 import contactStyles from "./PostContact.module.css";
 import Layout from "../../components/Layout/Layout";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../components/Auth/Auth";
 
 const PostContactInfo = () => {
+  const { userInfo } = useContext(AuthContext);
+  const { user_id } = userInfo;
   const [officeRoom, setOfficeRoom] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [availability, setAvailability] = useState("");
-  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("authToken");
+    setIsLoading(true);
+
     try {
       const response = await axiosInstance.post(
         "/api/addContact",
@@ -22,7 +29,6 @@ const PostContactInfo = () => {
           office_room: officeRoom,
           phone_number: phoneNumber,
           availability: availability,
-          email: email,
         },
         {
           headers: {
@@ -30,26 +36,29 @@ const PostContactInfo = () => {
           },
         }
       );
-      console.log(response);
-      if (response.data.result.status) {
+      if (response.data.result.success) {
         setSuccess(response.data.result.message);
         setOfficeRoom("");
         setPhoneNumber("");
         setAvailability("");
-        setEmail("");
         setError("");
+
         setTimeout(() => {
-          window.location.reload();
-        }, 200);
+          navigate(`/contact/${user_id}`);
+          setSuccess("");
+        }, 2000);
       } else {
         setError(response.data.result.message);
         setSuccess("");
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || "Error adding contact information."
+        err.response?.data?.result.message ||
+          "Error adding contact information."
       );
       setSuccess("");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -102,22 +111,17 @@ const PostContactInfo = () => {
               required
             />
           </div>
-          <div className={contactStyles.formGroup}>
-            <label className={contactStyles.label} htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className={contactStyles.input}
-              value={email}
-              placeholder="Enter email address"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className={contactStyles.submitButton}>
-            Submit
+
+          <button
+            type="submit"
+            className={contactStyles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className={contactStyles.spinner}></span> // Spinner element
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

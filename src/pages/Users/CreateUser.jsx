@@ -3,6 +3,7 @@ import { axiosInstance } from "../../utility/Axios";
 import styles from "./CreateUser.module.css";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
+import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
 
 const CreateUserPage = () => {
   const { userInfo } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const CreateUserPage = () => {
   ]);
 
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
+  const [loading, setLoading] = useState(false); // State for loading spinner
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -90,6 +92,7 @@ const CreateUserPage = () => {
       role_id: formData.role_id || userInfo.role_id,
     };
 
+    setLoading(true); // Start loading
     try {
       const response = await axiosInstance.post(
         "/api/addUsers",
@@ -103,20 +106,9 @@ const CreateUserPage = () => {
         setMessage("User created successfully.");
         setIsSuccess(true);
         setTimeout(() => {
-          setFormData({
-            role_id: "",
-            id_number: "",
-            name: "",
-            email: "",
-            password: "",
-            batch_id: "2",
-            semester_id: "",
-            stream_id: "",
-            course_id: "",
-          });
-          setMessage("");
-          setIsChecked(false); // Reset checkbox
-        }, 200);
+          // Refresh the page after 1 second
+          window.location.reload();
+        }, 1000); // 1000 ms = 1 second
       } else {
         setMessage(response.data.result.message);
         setIsSuccess(false);
@@ -124,6 +116,8 @@ const CreateUserPage = () => {
     } catch (error) {
       setMessage("An error occurred while creating the user.");
       setIsSuccess(false);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -285,9 +279,22 @@ const CreateUserPage = () => {
           <button
             type="submit"
             className={styles.button}
-            disabled={!isChecked} // Disable button unless checkbox is checked
+            disabled={!isChecked || loading} // Disable button unless checkbox is checked or loading
           >
-            Create User
+            {loading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                .....Creating User
+              </>
+            ) : (
+              "Create User"
+            )}
           </button>
 
           {message && (
