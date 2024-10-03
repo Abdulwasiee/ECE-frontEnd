@@ -22,7 +22,8 @@ const NewsList = ({ newsData }) => {
               </Typography>
               <NewsContent content={news.content} />
               <Typography variant="caption" className={styles.newsInfo}>
-                Posted by {news.posted_by} - {news.role} on{" "}
+                Posted by {news.posted_by ? news.posted_by : "you"} <br />
+                Role : department <br /> On :
                 {new Date(news.created_at).toLocaleDateString()}
               </Typography>
             </CardContent>

@@ -9,12 +9,37 @@ import {
 import { AuthContext } from "../Auth/Auth";
 import styles from "./Header.module.css";
 
+// Modal Component
+const Modal = ({ message, onConfirm, onCancel, isLoading }) => {
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <h2>{message}</h2>
+        <div className={styles.modalActions}>
+          <button onClick={onCancel} className={styles.cancelButton}>
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className={styles.confirmButton}
+            disabled={isLoading}
+          >
+            {isLoading ? <span className={styles.spinner}></span> : "Logout"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Header = () => {
   const { isAuthenticated, logout, userInfo } = useContext(AuthContext);
   const roleId = userInfo.role_id;
   const location = useLocation();
   const navigate = useNavigate(); // Hook to navigate programmatically
   const [navVisible, setNavVisible] = useState(false); // State to manage nav visibility
+  const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
+  const [isLoading, setIsLoading] = useState(false); // State for loading spinner
 
   const renderMenu = () => {
     if (!roleId || location.pathname === "/home") return null;
@@ -40,6 +65,7 @@ const Header = () => {
         { to: "/news", text: "News" },
         { to: "/users", text: "Staff" },
         { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: "/students", text: "Students" },
       ],
       5: [
         { to: "/users", text: "Staff" },
@@ -68,6 +94,13 @@ const Header = () => {
 
   const toggleNav = () => {
     setNavVisible(!navVisible); // Toggle visibility
+  };
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    await logout();
+    setIsLoading(false);
+    navigate("/signIn"); // Redirect to login after logout
   };
 
   return (
@@ -123,7 +156,10 @@ const Header = () => {
                       />
                     </Link>
                   </li>
-                  <li className={styles.navItem} onClick={logout}>
+                  <li
+                    className={styles.navItem}
+                    onClick={() => setIsModalVisible(true)}
+                  >
                     <AiOutlineLogout
                       className={`${styles.icon} ${styles.logoutIcon}`}
                     />
@@ -134,6 +170,16 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {isModalVisible && (
+        <Modal
+          message="Are you sure you want to logout?"
+          onConfirm={handleLogout}
+          onCancel={() => setIsModalVisible(false)}
+          isLoading={isLoading}
+        />
+      )}
     </header>
   );
 };

@@ -21,7 +21,7 @@ const PostNews = () => {
       return;
     }
 
-    setIsLoading(true); // Set loading to true when starting the request
+    setIsLoading(true); 
 
     try {
       const response = await axiosInstance.post(

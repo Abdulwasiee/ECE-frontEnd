@@ -51,48 +51,49 @@ const StudentPage = () => {
     <Layout>
       <div className={styles.studentPageContainer}>
         <h1 className={styles.heading}>Student List</h1>
+        <div className={styles.selectionInputs}>
+          {/* Conditionally render batch selection based on role */}
+          {!isRepresentative && (
+            <div className={styles.batchSelection}>
+              <label htmlFor="batchSelect" className={styles.label}>
+                Select Batch Year:
+              </label>
+              <select
+                id="batchSelect"
+                value={batchId}
+                onChange={handleBatchChange}
+                className={`${styles.select}`} // Add custom class for styling
+              >
+                <option value="1">2nd Year</option>
+                <option value="2">3rd Year</option>
+                <option value="3">4th Year</option>
+                <option value="4">5th Year</option>
+              </select>
+            </div>
+          )}
 
-        {/* Conditionally render batch selection based on role */}
-        {!isRepresentative && (
-          <div className={styles.batchSelection}>
-            <label htmlFor="batchSelect" className={styles.label}>
-              Select Batch Year:
-            </label>
-            <select
-              id="batchSelect"
-              value={batchId}
-              onChange={handleBatchChange}
-              className={`${styles.select} ${styles.customSelect}`} // Add custom class for styling
-            >
-              <option value="1">2nd Year</option>
-              <option value="2">3rd Year</option>
-              <option value="3">4th Year</option>
-              <option value="4">5th Year</option>
-            </select>
-          </div>
-        )}
-
-        {/* Conditionally render stream selection for 4th and 5th year batches */}
-        {(batchId === 3 || batchId === 4) && !isRepresentative && (
-          <div className={styles.streamSelection}>
-            <label htmlFor="streamSelect" className={styles.label}>
-              Select Stream:
-            </label>
-            <select
-              id="streamSelect"
-              value={streamId || ""}
-              onChange={handleStreamChange}
-              className={`${styles.select} ${styles.customSelect}`} // Add custom class for styling
-            >
-              <option value="">Select Stream</option>
-              <option value="1">Computer</option>
-              <option value="2">Communication</option>
-              <option value="3">Control</option>
-              <option value="4">Power</option>
-            </select>
-          </div>
-        )}
-
+          {/* Conditionally render stream selection for 4th and 5th year batches */}
+          {(batchId === 3 || batchId === 4) && !isRepresentative && (
+            <div className={styles.streamSelection}>
+              <label htmlFor="streamSelect" className={styles.label}>
+                Select Stream:
+              </label>
+              <br />
+              <select
+                id="streamSelect"
+                value={streamId || ""}
+                onChange={handleStreamChange}
+                className={`${styles.select}`}
+              >
+                <option value="">Select Stream</option>
+                <option value="1">Computer</option>
+                <option value="2">Communication</option>
+                <option value="3">Control</option>
+                <option value="4">Power</option>
+              </select>
+            </div>
+          )}
+        </div>
         <UsersList
           usersData={studentsData}
           isStudentData={true}

@@ -32,6 +32,7 @@ const Home = () => {
         { to: "/news", text: "News" },
         { to: "/users", text: "Staff" },
         { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: "/students", text: "Students" },
       ],
       5: [
         { to: "/users", text: "Staff" },

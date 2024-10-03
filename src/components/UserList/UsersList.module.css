@@ -6,6 +6,9 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow-x: auto; /* Allow horizontal scrolling for small screens */
 }
+.noUsers {
+  margin: 30px;
+}
 
 .usersTable {
   width: 100%;

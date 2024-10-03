@@ -7,18 +7,26 @@
   font-size: 24px;
   margin-bottom: 20px;
 }
-
-.batchSelection {
+.selectionInputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.batchSelection,
+.streamSelection {
+  width: 45%;
   margin-bottom: 20px;
 }
 
 .label {
-  margin-right: 10px;
+  margin: 20px;
 }
 
 .select {
   padding: 5px;
-  width: 30%;
+  width: 80%;
+  margin: auto;
 }
 
 .error {

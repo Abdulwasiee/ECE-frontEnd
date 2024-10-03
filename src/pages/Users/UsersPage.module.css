@@ -10,12 +10,15 @@
   text-align: center;
   margin-bottom: 20px;
 }
-
-.roleSelection,
-.batchSelection,
-.streamSelection,
-.semesterSelection {
+.selectionContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.selectionInput {
   margin-bottom: 20px;
+  width: 25%;
 }
 
 .label {
@@ -25,10 +28,8 @@
 }
 
 .select {
-  width: 20%;
   padding: 10px;
   font-size: 16px;
-  margin: auto;
 }
 
 /* Add User Button: top-right and sticky */

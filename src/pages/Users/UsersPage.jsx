@@ -104,91 +104,92 @@ const UsersPage = () => {
         <h1 className={styles.heading}>
           {role_id === 1 ? "Users List" : "Staff List"}
         </h1>
-
-        {/* Role selection for admin and department */}
-        {(role_id === 1 || role_id === 4) && (
-          <div className={styles.roleSelection}>
-            <label htmlFor="roleSelect" className={styles.label}>
-              Select User Role:
-            </label>
-            <select
-              id="roleSelect"
-              value={selectedRoleId}
-              onChange={handleRoleSelection}
-              className={styles.select}
-            >
-              <option value="5">Representative</option>
-              <option value="3">Staff</option>
-              {role_id === 1 ? <option value="4">Department</option> : null}
-            </select>
-          </div>
-        )}
-
-        {/* Batch selection for staff and representatives */}
-        {(role_id === 1 || role_id === 4) &&
-          (selectedRoleId === "3" || selectedRoleId === "5") && (
-            <div className={styles.batchSelection}>
-              <label htmlFor="batchSelect" className={styles.label}>
-                Select Batch:
+        <div className={styles.selectionContainer}>
+          {/* Role selection for admin and department */}
+          {(role_id === 1 || role_id === 4) && (
+            <div className={styles.selectionInput}>
+              <label htmlFor="roleSelect" className={styles.label}>
+                Select User Role:
               </label>
               <select
-                id="batchSelect"
-                value={batchId}
-                onChange={handleBatchChange}
+                id="roleSelect"
+                value={selectedRoleId}
+                onChange={handleRoleSelection}
                 className={styles.select}
               >
-                <option value="">Select Batch</option>
-                <option value="1">2nd Year</option>
-                <option value="2">3rd Year</option>
-                <option value="3">4th Year</option>
-                <option value="4">5th Year</option>
+                <option value="5">Representative</option>
+                <option value="3">Staff</option>
+                {role_id === 1 ? <option value="4">Department</option> : null}
               </select>
             </div>
           )}
 
-        {/* Semester selection for staff only */}
-        {(selectedRoleId === "3" ||
-          (selectedRoleId === "5" && batchId === "3")) && (
-          <div className={styles.semesterSelection}>
-            <label htmlFor="semesterSelect" className={styles.label}>
-              Select Semester:
-            </label>
-            <select
-              id="semesterSelect"
-              value={semesterId}
-              onChange={handleSemesterChange}
-              className={styles.select}
-            >
-              <option value="">Select Semester</option>
-              <option value="1">Semester 1</option>
-              <option value="2">Semester 2</option>
-            </select>
-          </div>
-        )}
+          {/* Batch selection for staff and representatives */}
+          {(role_id === 1 || role_id === 4) &&
+            (selectedRoleId === "3" || selectedRoleId === "5") && (
+              <div className={styles.selectionInput}>
+                <label htmlFor="batchSelect" className={styles.label}>
+                  Select Batch:
+                </label>
+                <select
+                  id="batchSelect"
+                  value={batchId}
+                  onChange={handleBatchChange}
+                  className={styles.select}
+                >
+                  <option value="">Select Batch</option>
+                  <option value="1">2nd Year</option>
+                  <option value="2">3rd Year</option>
+                  <option value="3">4th Year</option>
+                  <option value="4">5th Year</option>
+                </select>
+              </div>
+            )}
 
-        {/* Stream selection for specific conditions */}
-        {((selectedRoleId === "3" || selectedRoleId === "5") &&
-          batchId === "3" &&
-          semesterId === "2") ||
-        batchId === "4" ? (
-          <div className={styles.streamSelection}>
-            <label htmlFor="streamSelect" className={styles.label}>
-              Select Stream:
-            </label>
-            <select
-              id="streamSelect"
-              value={streamId}
-              onChange={handleStreamChange}
-              className={styles.select}
-            >
-              <option value="">Select Stream</option>
-              <option value="1">Computer Engineering</option>
-              <option value="2">Communication</option>
-              <option value="3">Control</option>
-              <option value="4">Power Engineering</option>
-            </select>
-          </div>
-        ) : null}
+          {/* Semester selection for staff only */}
+          {(selectedRoleId === "3" ||
+            (selectedRoleId === "5" && batchId === "3")) && (
+            <div className={styles.selectionInput}>
+              <label htmlFor="semesterSelect" className={styles.label}>
+                Select Semester:
+              </label>
+              <select
+                id="semesterSelect"
+                value={semesterId}
+                onChange={handleSemesterChange}
+                className={styles.select}
+              >
+                <option value="">Select Semester</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+              </select>
+            </div>
+          )}
+
+          {/* Stream selection for specific conditions */}
+          {((selectedRoleId === "3" || selectedRoleId === "5") &&
+            batchId === "3" &&
+            semesterId === "2") ||
+          batchId === "4" ? (
+            <div className={styles.selectionInput}>
+              <label htmlFor="streamSelect" className={styles.label}>
+                Select Stream:
+              </label>
+              <select
+                id="streamSelect"
+                value={streamId}
+                onChange={handleStreamChange}
+                className={styles.select}
+              >
+                <option value="">Select Stream</option>
+                <option value="1">Computer Engineering</option>
+                <option value="2">Communication</option>
+                <option value="3">Control</option>
+                <option value="4">Power Engineering</option>
+              </select>
+            </div>
+          ) : null}
+        </div>
 
         {/* Display list of users or staff based on the selection */}
         <UsersList
