@@ -3,24 +3,26 @@ import { useParams, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import styles from "./AssignStaff.module.css";
 import Layout from "../../components/Layout/Layout";
-import { FaTrash } from "react-icons/fa"; // Importing delete icon
+import { FaTrash } from "react-icons/fa";
+import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
 
 const AssignStaffPage = () => {
-  const { batchCourseId, courseId } = useParams(); // Get the batch course ID and course ID from URL params
+  const { batchCourseId, courseId } = useParams();
   const [batchId, setBatchId] = useState("");
   const [semesterId, setSemesterId] = useState("");
   const [streamId, setStreamId] = useState("");
-  const [staffMembers, setStaffMembers] = useState([]); // To hold staff users
-  const [selectedStaff, setSelectedStaff] = useState(""); // Selected staff member
-  const [assignedStaff, setAssignedStaff] = useState([]); // To hold assigned staff members
-  const [errorMessage, setErrorMessage] = useState(""); // For displaying error messages
-  const [successMessage, setSuccessMessage] = useState(""); // For displaying success messages
-  const [showModal, setShowModal] = useState(false); // Control modal visibility
-  const [staffToRemove, setStaffToRemove] = useState(null); // Staff ID to remove
-  const role_id = 3; // Default role ID for staff
+  const [staffMembers, setStaffMembers] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState("");
+  const [assignedStaff, setAssignedStaff] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [staffToRemove, setStaffToRemove] = useState(null);
+  const [loadingAssign, setLoadingAssign] = useState(false);
+  const [loadingRemove, setLoadingRemove] = useState(false);
+  const role_id = 3;
   const navigate = useNavigate();
 
-  // Streams based on your requirements
   const streams = [
     { id: 1, name: "Computer" },
     { id: 2, name: "Communication" },
@@ -28,10 +30,9 @@ const AssignStaffPage = () => {
     { id: 4, name: "Power" },
   ];
 
-  // Fetch staff users based on batchId, semesterId, streamId
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem("authToken"); // Retrieve token from local storage
+      const token = localStorage.getItem("authToken");
       const response = await axiosInstance.get(`/api/getUsers/${role_id}`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
@@ -48,7 +49,6 @@ const AssignStaffPage = () => {
     }
   };
 
-  // Fetch assigned staff based on courseId
   const fetchAssignedStaff = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -68,13 +68,12 @@ const AssignStaffPage = () => {
 
   useEffect(() => {
     if (batchId && semesterId) {
-      fetchUsers(); // Fetch users when batchId or semesterId changes
+      fetchUsers();
     }
-    fetchAssignedStaff(); // Fetch assigned staff on component mount
-  }, [batchId, semesterId, streamId]);
+    fetchAssignedStaff();
+  }, [batchId, semesterId]);
 
   const handleAssignStaff = async () => {
-    // Validate fields
     if (
       !batchId ||
       !semesterId ||
@@ -84,8 +83,9 @@ const AssignStaffPage = () => {
       setErrorMessage("Please select all required fields.");
       return;
     }
-    setErrorMessage(""); // Clear previous errors
-    setSuccessMessage(""); // Clear previous success message
+    setErrorMessage("");
+    setSuccessMessage("");
+    setLoadingAssign(true); // Set loading state
 
     try {
       const token = localStorage.getItem("authToken");
@@ -100,7 +100,14 @@ const AssignStaffPage = () => {
         }
       );
       setSuccessMessage("Staff assigned successfully!");
-      navigate("/courses"); // Redirect to the courses page or desired route
+
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
+      await fetchAssignedStaff();
+
+      // Reset success message after a delay
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 2000); // Reset after 2 seconds
     } catch (error) {
       console.error("Error assigning staff:", error);
       if (error.response && error.response.data) {
@@ -110,10 +117,13 @@ const AssignStaffPage = () => {
       } else {
         setErrorMessage("An unexpected error occurred. Please try again.");
       }
+    } finally {
+      setLoadingAssign(false); // Reset loading state
     }
   };
 
   const handleDeleteStaff = async (user_id) => {
+    setLoadingRemove(true); // Set loading state for removal
     try {
       const token = localStorage.getItem("authToken");
       const response = await axiosInstance.delete(`/api/removeStaffCourse`, {
@@ -122,12 +132,21 @@ const AssignStaffPage = () => {
       });
       if (response.data.result.success) {
         setSuccessMessage(response.data.result.message);
+
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
+        fetchAssignedStaff();
+        closeModal();
+
+        // Reset success message after a delay
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 2000); // Reset after 2 seconds
       }
-      fetchAssignedStaff();
-      setShowModal(false); // Close modal after deletion
     } catch (error) {
       console.error("Error deleting staff:", error);
       setErrorMessage("Failed to delete staff.");
+    } finally {
+      setLoadingRemove(false); // Reset loading state
     }
   };
 
@@ -141,44 +160,12 @@ const AssignStaffPage = () => {
     setStaffToRemove(null);
   };
 
+  const handleStaffSelection = (userId) => {
+    setSelectedStaff(userId);
+  };
+
   return (
     <Layout>
-      {/* Display Assigned Staff Section */}
-      <div className={styles.assignedStaffSection}>
-        <h2>Assigned Staff Members</h2>
-        {assignedStaff.length > 0 ? (
-          <ul>
-            {assignedStaff.map((staff) => (
-              <li key={staff.user_id} className={styles.assignedStaffItem}>
-                <div className={styles.staffDetails}>
-                  <div>
-                    <strong>Name:</strong> {staff.name}
-                  </div>
-                  <div>
-                    <strong>Batch Year:</strong> {staff.batch_year}
-                  </div>
-                  <div>
-                    <strong>Semester:</strong> {staff.semester_name}
-                  </div>
-                  <div>
-                    <strong>Stream:</strong> {staff.stream_name}
-                  </div>
-                </div>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => openModal(staff.user_id)}
-                  aria-label="Delete staff"
-                >
-                  <FaTrash />
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No staff members assigned to this course.</p>
-        )}
-      </div>
-
       <div className={styles.assignStaffPage}>
         <h1>Assign Staff to Course</h1>
         {errorMessage && (
@@ -187,83 +174,125 @@ const AssignStaffPage = () => {
         {successMessage && (
           <div className={styles.successMessage}>{successMessage}</div>
         )}
-
-        {/* Form Section */}
-        <div className={styles.formGroup}>
-          <label htmlFor="batch" className={styles.label}>
-            Batch:
-          </label>
-          <select
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">Select Batch</option>
-            <option value="1">2 year</option>
-            <option value="2">3 year</option>
-            <option value="3">4 year</option>
-            <option value="4">5 year</option>
-          </select>
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="semester" className={styles.label}>
-            Semester:
-          </label>
-          <select
-            value={semesterId}
-            onChange={(e) => setSemesterId(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">Select Semester</option>
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
-          </select>
-        </div>
-
-        {(batchId === "3" && semesterId === "2") || batchId === "4" ? (
+        <div className={styles.formInputs}>
           <div className={styles.formGroup}>
-            <label htmlFor="stream" className={styles.label}>
-              Stream:
+            <label htmlFor="batch" className={styles.label}>
+              Batch:
             </label>
             <select
-              value={streamId}
-              onChange={(e) => setStreamId(e.target.value)}
+              value={batchId}
+              onChange={(e) => setBatchId(e.target.value)}
               className={styles.select}
             >
-              <option value="">Select Stream</option>
-              {streams.map((stream) => (
-                <option key={stream.id} value={stream.id}>
-                  {stream.name}
-                </option>
-              ))}
+              <option value="">Select Batch</option>
+              <option value="1">2 year</option>
+              <option value="2">3 year</option>
+              <option value="3">4 year</option>
+              <option value="4">5 year</option>
             </select>
           </div>
-        ) : null}
 
-        <div className={styles.formGroup}>
-          <label htmlFor="staff" className={styles.label}>
-            Select Staff:
-          </label>
-          <select
-            value={selectedStaff}
-            onChange={(e) => setSelectedStaff(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">Select Staff Member</option>
+          <div className={styles.formGroup}>
+            <label htmlFor="semester" className={styles.label}>
+              Semester:
+            </label>
+            <select
+              value={semesterId}
+              onChange={(e) => setSemesterId(e.target.value)}
+              className={styles.select}
+            >
+              <option value="">Select Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+            </select>
+          </div>
+
+          {(batchId === "3" && semesterId === "2") || batchId === "4" ? (
+            <div className={styles.formGroup}>
+              <label htmlFor="stream" className={styles.label}>
+                Stream:
+              </label>
+              <select
+                value={streamId}
+                onChange={(e) => setStreamId(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Select Stream</option>
+                {streams.map((stream) => (
+                  <option key={stream.id} value={stream.id}>
+                    {stream.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+        </div>
+
+        <div className={styles.staffList}>
+          <h3>Select Staff Member:</h3>
+          <ul>
             {staffMembers.map((staff) => (
-              <option key={staff.user_id} value={staff.user_id}>
-                {staff.name}
-              </option>
+              <li key={staff.user_id}>
+                <label className={styles.staffItem}>
+                  <input
+                    type="radio"
+                    name="staff"
+                    value={staff.user_id}
+                    checked={selectedStaff === staff.user_id}
+                    onChange={() => handleStaffSelection(staff.user_id)}
+                  />
+                  {staff.name}
+                </label>
+              </li>
             ))}
-          </select>
+          </ul>
         </div>
 
         <button className={styles.assignButton} onClick={handleAssignStaff}>
-          Assign Staff
+          {loadingAssign ? (
+            <Spinner animation="border" size="sm" />
+          ) : (
+            "Assign Staff"
+          )}
         </button>
 
-        {/* Confirmation Modal */}
+        <div className={styles.assignedStaffSection}>
+          <h2 className={styles.staffHeader}>Assigned Staff Member</h2>
+          {assignedStaff.length > 0 ? (
+            <table className={styles.assignedStaffTable}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Batch Year</th>
+                  <th>Semester</th>
+                  <th>Stream</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {assignedStaff.map((staff) => (
+                  <tr key={staff.user_id}>
+                    <td>{staff.name}</td>
+                    <td>{staff.batch_year}</td>
+                    <td>{staff.semester_name}</td>
+                    <td>{staff.stream_name}</td>
+                    <td>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => openModal(staff.user_id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No staff members assigned to this course.</p>
+          )}
+        </div>
+
         {showModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
@@ -276,7 +305,11 @@ const AssignStaffPage = () => {
                 className={styles.confirmButton}
                 onClick={() => handleDeleteStaff(staffToRemove)}
               >
-                Yes, Remove
+                {loadingRemove ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  "Yes, Remove"
+                )}
               </button>
               <button className={styles.cancelButton} onClick={closeModal}>
                 Cancel

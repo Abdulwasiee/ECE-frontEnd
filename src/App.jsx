@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
 import "./App.css";
 import { AuthProvider } from "./components/Auth/Auth.jsx"; // Use AuthProvider here
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
