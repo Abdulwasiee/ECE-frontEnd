@@ -33,6 +33,7 @@ const Home = () => {
         { to: "/users", text: "Staff" },
         { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
         { to: "/students", text: "Students" },
+        { to: "/myCourses", text: "My Courses" },
       ],
       5: [
         { to: "/users", text: "Staff" },

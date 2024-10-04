@@ -1,143 +1,143 @@
 .assignStaffPage {
   padding: 20px;
+  max-width: 800px;
+  margin: auto;
   min-height: 100vh;
 }
 
 h1 {
+  font-size: 24px;
+  color: #333;
   text-align: center;
-  color: #333;
-  font-size: 1.8em;
+  margin-bottom: 20px;
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 1.5em;
+h3 {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 10px;
 }
 
-/* Error and Success Messages */
 .errorMessage,
 .successMessage {
   padding: 10px;
+  margin-bottom: 20px;
   border-radius: 5px;
-  margin-bottom: 15px;
   text-align: center;
-  width: 20%;
-  margin: 30px auto;
+  font-weight: bold;
 }
 
 .errorMessage {
-  color: #d9534f;
-  background-color: #f2dede;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 .successMessage {
-  color: #5cb85c;
-  background-color: #dff0d8;
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.assignedStaffTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-.staffHeader {
-  text-align: center;
-  color: #4cae4f;
-  margin: 40px auto;
-}
-.assignedStaffTable th,
-.assignedStaffTable td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.assignedStaffTable th {
-  background-color: #f2f2f2;
-}
-
-.deleteButton {
-  background: none;
-  border: none;
-  color: red;
-  cursor: pointer;
-}
-.formInputs {
+.assignToggle {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-/* Form Styles */
-.formGroup {
+  justify-content: center;
   margin-bottom: 20px;
-  width: 30%;
 }
-.staffList {
-  width: 100%;
+
+.assignToggle label {
+  margin: 0 15px;
+  font-weight: 500;
 }
-.staffList h3 {
-  text-align: center;
-  color: #4cae4f;
-  margin: 30px;
+
+.formInputs {
+  margin-bottom: 20px;
 }
-.staffList ul {
-  width: 60%;
-  margin: auto;
+
+.formGroup {
+  margin-bottom: 15px;
 }
-.staffList li {
-  width: 90%;
-  color: blue;
-  margin: 20px;
-}
+
 .label {
   display: block;
+  font-size: 16px;
+  color: #333;
   margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
 }
 
 .select {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff;
-  color: #333;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s ease;
 }
 
 .select:focus {
-  border-color: #5cb85c;
+  border-color: #007bff;
   outline: none;
 }
 
-/* Assign Button */
+.availableMembers,
+.assignedMembers {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.member:last-child {
+  border-bottom: none;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  color: #dc3545;
+  transition: color 0.3s ease;
+}
+
+.deleteIcon:hover {
+  color: #c82333;
+}
+
 .assignButton {
-  width: 20%;
-  margin: auto;
-  padding: 10px;
-  background-color: #5cb85c;
-  color: white;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 20%;
+  margin: 20px auto;
+  text-align: center;
 }
 
-.assignButton:hover {
-  background-color: #4cae4f;
+.assignButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
-/* Modal Styles */
+.assignButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,87 +145,68 @@ h2 {
 }
 
 .modalContent {
-  background-color: white;
+  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   max-width: 400px;
-  width: 90%; /* Responsive width */
+  width: 100%;
+  text-align: center;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
 .confirmButton,
 .cancelButton {
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
+  padding: 8px 12px;
   border-radius: 5px;
+  border: none;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .confirmButton {
-  background-color: #d9534f;
-  color: white;
-}
-
-.confirmButton:hover {
-  background-color: #c9302c;
+  background-color: #dc3545;
+  color: #fff;
 }
 
 .cancelButton {
-  background-color: #5bc0de;
-  color: white;
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.confirmButton:hover {
+  background-color: #c82333;
 }
 
 .cancelButton:hover {
-  background-color: #31b0d5;
+  background-color: #5a6268;
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .assignStaffPage {
     padding: 15px;
   }
 
   h1 {
-    font-size: 1.5em;
+    font-size: 20px;
   }
 
-  h2 {
-    font-size: 1.3em;
+  h3 {
+    font-size: 18px;
   }
-  .formInputs {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
-  }
-  /* Form Styles */
-  .formGroup {
-    margin-bottom: 20px;
-    width: 100%;
-  }
-  .errorMessage,
-  .successMessage {
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-    width: 100%;
-    margin: 30px auto;
-  }
-  .assignButton {
-    width: 60%;
-    margin: auto;
+
+  .select {
+    font-size: 14px;
   }
 
   .assignButton {
-    font-size: 1em;
-  }
-
-  .modalContent {
-    width: 90%;
+    font-size: 14px;
   }
 }

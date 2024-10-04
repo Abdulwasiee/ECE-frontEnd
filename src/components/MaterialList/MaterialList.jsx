@@ -71,7 +71,10 @@ const MaterialList = ({ materials }) => {
                   <p>Last Updated: {timeago.format(material.updated_at)}</p>
                 </div>
 
-                {(roleId === 1 || roleId === 3 || roleId === 5) && (
+                {(roleId === 1 ||
+                  roleId === 3 ||
+                  roleId === 5 ||
+                  roleId === 4) && (
                   <div className={styles.actionIcons}>
                     <FaTrashAlt
                       className={styles.deleteIcon}

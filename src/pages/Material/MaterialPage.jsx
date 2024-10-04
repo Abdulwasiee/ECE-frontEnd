@@ -56,13 +56,16 @@ const MaterialPage = () => {
   return (
     <Layout>
       {/* Conditionally render "Post Material" button for Admin, Staff, and Representative */}
-      {(roleId === 1 || roleId === 3 || roleId === 5) && (
-        <div className={styles.postButtonContainer}>
-          <button className={styles.postButton} onClick={handlePostMaterial}>
-            Post Material
-          </button>
-        </div>
-      )}
+      {roleId === 1 ||
+        roleId === 3 ||
+        roleId === 5 ||
+        (roleId === 4 && (
+          <div className={styles.postButtonContainer}>
+            <button className={styles.postButton} onClick={handlePostMaterial}>
+              Post Material
+            </button>
+          </div>
+        ))}
       <div className={styles.container}>
         <h1 className={styles.title}>Course Materials</h1>
         <MaterialList materials={materials} roleId={roleId} />

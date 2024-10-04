@@ -1,26 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import styles from "./AssignStaff.module.css";
 import Layout from "../../components/Layout/Layout";
 import { FaTrash } from "react-icons/fa";
 import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
+import { AuthContext } from "../../components/Auth/Auth";
 
 const AssignStaffPage = () => {
+  const { userInfo } = useContext(AuthContext);
+  const role = userInfo.role_id; // Admin if role === 1
   const { batchCourseId, courseId } = useParams();
   const [batchId, setBatchId] = useState("");
   const [semesterId, setSemesterId] = useState("");
   const [streamId, setStreamId] = useState("");
-  const [staffMembers, setStaffMembers] = useState([]);
-  const [selectedStaff, setSelectedStaff] = useState("");
-  const [assignedStaff, setAssignedStaff] = useState([]);
+  const [members, setMembers] = useState([]); // For both staff and departments
+  const [selectedMember, setSelectedMember] = useState(""); // For both staff and department
+  const [assignedMembers, setAssignedMembers] = useState([]); // For both staff and departments
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [staffToRemove, setStaffToRemove] = useState(null);
+  const [memberToRemove, setMemberToRemove] = useState(null);
   const [loadingAssign, setLoadingAssign] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
-  const role_id = 3;
+  const [assignType, setAssignType] = useState("staff"); // Default assign type is staff
+  const role_id = assignType === "staff" ? 3 : 4; // 3 for staff, 4 for department
   const navigate = useNavigate();
 
   const streams = [
@@ -30,26 +34,27 @@ const AssignStaffPage = () => {
     { id: 4, name: "Power" },
   ];
 
+  // Fetch Users based on the assign type (staff/department)
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axiosInstance.get(`/api/getUsers/${role_id}`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          batch_id: batchId,
-          semester_id: semesterId,
-          stream_id: streamId,
+          batch_id: assignType === "staff" ? batchId : null,
+          semester_id: assignType === "staff" ? semesterId : null,
+          stream_id: assignType === "staff" ? streamId : null,
         },
       });
-      setStaffMembers(response.data.users);
-      console.log(response.data);
+      setMembers(response.data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
-      setErrorMessage("Failed to fetch staff members.");
+      setErrorMessage(`Failed to fetch ${assignType}.`);
     }
   };
 
-  const fetchAssignedStaff = async () => {
+  // Fetch already assigned members
+  const fetchAssignedMembers = async () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axiosInstance.get(`/api/assignedStaff`, {
@@ -58,27 +63,26 @@ const AssignStaffPage = () => {
       });
 
       if (response.data.response.success) {
-        setAssignedStaff(response.data.response.staff);
+        setAssignedMembers(response.data.response.staff);
       }
     } catch (error) {
       console.error("Error fetching assigned staff:", error);
-      setErrorMessage("Failed to fetch assigned staff.");
+      setErrorMessage(`Failed to fetch assigned ${assignType}.`);
     }
   };
 
   useEffect(() => {
-    if (batchId && semesterId) {
-      fetchUsers();
-    }
-    fetchAssignedStaff();
-  }, [batchId, semesterId]);
+    fetchUsers();
+    fetchAssignedMembers();
+  }, [assignType, batchId, semesterId]);
 
-  const handleAssignStaff = async () => {
+  const handleAssignMember = async () => {
     if (
-      !batchId ||
-      !semesterId ||
-      (batchId === "4" && semesterId === "2" && !streamId) ||
-      !selectedStaff
+      (assignType === "staff" &&
+        (!batchId ||
+          !semesterId ||
+          (batchId === "4" && semesterId === "2" && !streamId))) ||
+      !selectedMember
     ) {
       setErrorMessage("Please select all required fields.");
       return;
@@ -90,39 +94,37 @@ const AssignStaffPage = () => {
     try {
       const token = localStorage.getItem("authToken");
       await axiosInstance.post(
-        `/api/assignStaff`,
+        `/api/assignStaff`, // This would need to be adapted if different for department
         {
-          user_id: selectedStaff,
+          user_id: selectedMember,
           batch_course_id: batchCourseId,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setSuccessMessage("Staff assigned successfully!");
+      setSuccessMessage(
+        `${
+          assignType.charAt(0).toUpperCase() + assignType.slice(1)
+        } assigned successfully!`
+      );
 
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
-      await fetchAssignedStaff();
+      await fetchAssignedMembers();
 
       // Reset success message after a delay
       setTimeout(() => {
         setSuccessMessage("");
       }, 2000); // Reset after 2 seconds
     } catch (error) {
-      console.error("Error assigning staff:", error);
-      if (error.response && error.response.data) {
-        setErrorMessage(
-          error.response.data.message || "Failed to assign staff."
-        );
-      } else {
-        setErrorMessage("An unexpected error occurred. Please try again.");
-      }
+      console.error(`Error assigning ${assignType}:`, error);
+      setErrorMessage(`Failed to assign ${assignType}.`);
     } finally {
       setLoadingAssign(false); // Reset loading state
     }
   };
 
-  const handleDeleteStaff = async (user_id) => {
+  const handleDeleteMember = async (user_id) => {
     setLoadingRemove(true); // Set loading state for removal
     try {
       const token = localStorage.getItem("authToken");
@@ -134,186 +136,202 @@ const AssignStaffPage = () => {
         setSuccessMessage(response.data.result.message);
 
         await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
-        fetchAssignedStaff();
+        fetchAssignedMembers();
         closeModal();
 
-        // Reset success message after a delay
         setTimeout(() => {
           setSuccessMessage("");
         }, 2000); // Reset after 2 seconds
       }
     } catch (error) {
-      console.error("Error deleting staff:", error);
-      setErrorMessage("Failed to delete staff.");
+      console.error(`Error deleting ${assignType}:`, error);
+      setErrorMessage(`Failed to delete ${assignType}.`);
     } finally {
       setLoadingRemove(false); // Reset loading state
     }
   };
 
   const openModal = (user_id) => {
-    setStaffToRemove(user_id);
+    setMemberToRemove(user_id);
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    setStaffToRemove(null);
-  };
-
-  const handleStaffSelection = (userId) => {
-    setSelectedStaff(userId);
+    setMemberToRemove(null);
   };
 
   return (
     <Layout>
       <div className={styles.assignStaffPage}>
-        <h1>Assign Staff to Course</h1>
+        <h1>
+          Assign {assignType === "staff" ? "Staff" : "Department"} to Course
+        </h1>
         {errorMessage && (
           <div className={styles.errorMessage}>{errorMessage}</div>
         )}
         {successMessage && (
           <div className={styles.successMessage}>{successMessage}</div>
         )}
-        <div className={styles.formInputs}>
-          <div className={styles.formGroup}>
-            <label htmlFor="batch" className={styles.label}>
-              Batch:
-            </label>
-            <select
-              value={batchId}
-              onChange={(e) => setBatchId(e.target.value)}
-              className={styles.select}
-            >
-              <option value="">Select Batch</option>
-              <option value="1">2 year</option>
-              <option value="2">3 year</option>
-              <option value="3">4 year</option>
-              <option value="4">5 year</option>
-            </select>
-          </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="semester" className={styles.label}>
-              Semester:
+        {/* Admin can toggle between assigning staff or department */}
+        {role === 1 && (
+          <div className={styles.assignToggle}>
+            <label>
+              <input
+                type="radio"
+                name="assignType"
+                value="staff"
+                checked={assignType === "staff"}
+                onChange={() => setAssignType("staff")}
+              />
+              Assign Staff
             </label>
-            <select
-              value={semesterId}
-              onChange={(e) => setSemesterId(e.target.value)}
-              className={styles.select}
-            >
-              <option value="">Select Semester</option>
-              <option value="1">Semester 1</option>
-              <option value="2">Semester 2</option>
-            </select>
+            <label>
+              <input
+                type="radio"
+                name="assignType"
+                value="department"
+                checked={assignType === "department"}
+                onChange={() => setAssignType("department")}
+              />
+              Assign Department
+            </label>
           </div>
+        )}
 
-          {(batchId === "3" && semesterId === "2") || batchId === "4" ? (
+        {/* Form for staff assignment if applicable */}
+        {assignType === "staff" && (
+          <div className={styles.formInputs}>
             <div className={styles.formGroup}>
-              <label htmlFor="stream" className={styles.label}>
-                Stream:
+              <label htmlFor="batch" className={styles.label}>
+                Batch:
               </label>
               <select
-                value={streamId}
-                onChange={(e) => setStreamId(e.target.value)}
+                value={batchId}
+                onChange={(e) => setBatchId(e.target.value)}
                 className={styles.select}
               >
-                <option value="">Select Stream</option>
-                {streams.map((stream) => (
-                  <option key={stream.id} value={stream.id}>
-                    {stream.name}
-                  </option>
-                ))}
+                <option value="">Select Batch</option>
+                <option value="1">2 year</option>
+                <option value="2">3 year</option>
+                <option value="3">4 year</option>
+                <option value="4">5 year</option>
               </select>
             </div>
-          ) : null}
-        </div>
 
-        <div className={styles.staffList}>
-          <h3>Select Staff Member:</h3>
-          <ul>
-            {staffMembers.map((staff) => (
-              <li key={staff.user_id}>
-                <label className={styles.staffItem}>
-                  <input
-                    type="radio"
-                    name="staff"
-                    value={staff.user_id}
-                    checked={selectedStaff === staff.user_id}
-                    onChange={() => handleStaffSelection(staff.user_id)}
-                  />
-                  {staff.name}
+            <div className={styles.formGroup}>
+              <label htmlFor="semester" className={styles.label}>
+                Semester:
+              </label>
+              <select
+                value={semesterId}
+                onChange={(e) => setSemesterId(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Select Semester</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+              </select>
+            </div>
+
+            {/* Stream select only appears when batch and semester are selected */}
+            {((batchId === "3" && semesterId === "2") || batchId ==="4") && (
+              <div className={styles.formGroup}>
+                <label htmlFor="stream" className={styles.label}>
+                  Stream:
                 </label>
-              </li>
-            ))}
-          </ul>
+                <select
+                  value={streamId}
+                  onChange={(e) => setStreamId(e.target.value)}
+                  className={styles.select}
+                >
+                  <option value="">Select Stream</option>
+                  {streams.map((stream) => (
+                    <option key={stream.id} value={stream.id}>
+                      {stream.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* List of available members (both staff and department) */}
+        <div className={styles.availableMembers}>
+          <h3>Available {assignType === "staff" ? "Staff" : "Departments"}:</h3>
+          {members.length === 0 ? (
+            <p>No members available for this selection.</p>
+          ) : (
+            <ul>
+              {members.map((member) => (
+                <li key={member.user_id} className={styles.member}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="selectedMember"
+                      value={member.user_id}
+                      checked={selectedMember === member.user_id}
+                      onChange={() => setSelectedMember(member.user_id)}
+                    />
+                    {member.name}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        <button className={styles.assignButton} onClick={handleAssignStaff}>
-          {loadingAssign ? (
-            <Spinner animation="border" size="sm" />
-          ) : (
-            "Assign Staff"
-          )}
+        {/* Assign button */}
+        <button
+          className={styles.assignButton}
+          onClick={handleAssignMember}
+          disabled={loadingAssign || !selectedMember}
+        >
+          {loadingAssign ? <Spinner animation="border" size="sm" /> : "Assign"}
         </button>
 
-        <div className={styles.assignedStaffSection}>
-          <h2 className={styles.staffHeader}>Assigned Staff Member</h2>
-          {assignedStaff.length > 0 ? (
-            <table className={styles.assignedStaffTable}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Batch Year</th>
-                  <th>Semester</th>
-                  <th>Stream</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {assignedStaff.map((staff) => (
-                  <tr key={staff.user_id}>
-                    <td>{staff.name}</td>
-                    <td>{staff.batch_year}</td>
-                    <td>{staff.semester_name}</td>
-                    <td>{staff.stream_name}</td>
-                    <td>
-                      <button
-                        className={styles.deleteButton}
-                        onClick={() => openModal(staff.user_id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Already assigned members */}
+        <div className={styles.assignedMembers}>
+          <h3>Assigned {assignType === "staff" ? "Staff" : "Departments"}:</h3>
+          {assignedMembers.length === 0 ? (
+            <p>No members assigned yet.</p>
           ) : (
-            <p>No staff members assigned to this course.</p>
+            <ul>
+              {assignedMembers.map((member) => (
+                <li key={member.user_id} className={styles.member}>
+                  {member.name}
+                  <FaTrash
+                    className={styles.deleteIcon}
+                    onClick={() => openModal(member.user_id)}
+                  />
+                </li>
+              ))}
+            </ul>
           )}
         </div>
 
+        {/* Confirmation Modal */}
         {showModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
-              <h3>Confirm Deletion</h3>
-              <p>
-                Are you sure you want to remove this staff member from the
-                course?
-              </p>
-              <button
-                className={styles.confirmButton}
-                onClick={() => handleDeleteStaff(staffToRemove)}
-              >
-                {loadingRemove ? (
-                  <Spinner animation="border" size="sm" />
-                ) : (
-                  "Yes, Remove"
-                )}
-              </button>
-              <button className={styles.cancelButton} onClick={closeModal}>
-                Cancel
-              </button>
+              <p>Are you sure you want to remove this member?</p>
+              <div className={styles.modalActions}>
+                <button
+                  className={styles.confirmButton}
+                  onClick={() => handleDeleteMember(memberToRemove)}
+                >
+                  {loadingRemove ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    "Yes, Remove"
+                  )}
+                </button>
+                <button className={styles.cancelButton} onClick={closeModal}>
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}
