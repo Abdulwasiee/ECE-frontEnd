@@ -2,7 +2,7 @@
   position: relative;
   padding: 20px;
   margin: 0 auto;
-  min-height: 75vh;
+  min-height: 100vh;
 }
 
 .title {
@@ -16,7 +16,12 @@
   font-size: 16px;
   margin-top: 10px;
 }
-
+.postButtonContainer {
+  position: sticky;
+  top: 100px;
+  margin-bottom: 100px;
+  z-index: 1000;
+}
 .postButton {
   position: absolute;
   top: 20px;

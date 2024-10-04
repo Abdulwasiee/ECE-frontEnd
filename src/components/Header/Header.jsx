@@ -121,7 +121,7 @@ const Header = () => {
       )}
       <div>
         <div className={styles.toggleMenu} onClick={toggleNav}>
-          {navVisible ? "❌" : "☰"} {/* Toggle icon */}
+          {navVisible ? "❌" : "☰"} 
         </div>
         <div
           className={`${styles.navContainer} ${

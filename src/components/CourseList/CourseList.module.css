@@ -1,7 +1,9 @@
+/* CourseList.module.css */
+
 .container {
   padding: 20px;
   max-width: 1200px;
-  margin: auto;
+  margin: 20px auto;
 }
 
 .title {
@@ -14,6 +16,8 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 30px;
+  table-layout: auto;
+  overflow-x: auto;
 }
 
 .table th,
@@ -36,37 +40,64 @@
   background-color: #f1f1f1;
 }
 
-.editIcon {
-  color: #007bff;
-  cursor: pointer;
-}
+.editIcon,
 .assignIcon {
   color: #007bff;
   cursor: pointer;
-  margin-left: 40px;
+  font-size: 18px;
 }
 
-.editIcon:hover {
+.assignIcon {
+  margin-left: 20px;
+}
+
+.editIcon:hover,
+.assignIcon:hover {
   color: #0056b3;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
-  .table {
-    font-size: 14px;
+  .container {
+    padding: 10px;
   }
 
   .title {
     font-size: 20px;
   }
+
+  .table {
+    font-size: 14px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 10px;
+  }
+
+  .editIcon,
+  .assignIcon {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 480px) {
   .table {
-    font-size: 12px;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table th,
+  .table td {
+    padding: 6px 8px;
   }
 
   .title {
     font-size: 18px;
+  }
+
+  .editIcon,
+  .assignIcon {
+    font-size: 14px;
   }
 }

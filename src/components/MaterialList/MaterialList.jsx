@@ -49,10 +49,6 @@ const MaterialList = ({ materials }) => {
     }
   };
 
-  const handleEdit = (materialId) => {
-    navigate(`/editMaterial/${materialId}`);
-  };
-
   return (
     <div className={styles.container}>
       <ul className={styles.list}>
@@ -77,10 +73,6 @@ const MaterialList = ({ materials }) => {
 
                 {(roleId === 1 || roleId === 3 || roleId === 5) && (
                   <div className={styles.actionIcons}>
-                    <FaEdit
-                      className={styles.editIcon}
-                      onClick={() => handleEdit(material.material_id)}
-                    />
                     <FaTrashAlt
                       className={styles.deleteIcon}
                       onClick={() => openModal(material)}

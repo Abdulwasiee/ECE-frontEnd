@@ -44,7 +44,7 @@ const NewsPage = () => {
         {error && <p className={styles.error}>{error}</p>}
         {!loading && !error && <NewsList newsData={newsData} />}
 
-        {roleId === 4 && (
+        {(roleId === 4 || roleId === 1) && (
           <div className={styles.stickyButtons}>
             <button
               className={styles.addButton}

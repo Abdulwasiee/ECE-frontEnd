@@ -4,6 +4,7 @@ import { axiosInstance } from "../../utility/Axios";
 import uploadStyles from "./PostMaterial.module.css";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
+import { Spinner, Button } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 const FileUploadPage = () => {
   const { courseId } = useParams(); // Get courseId from params
@@ -11,6 +12,7 @@ const FileUploadPage = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false); // State for loading spinner
 
   const { userInfo } = useContext(AuthContext);
   const token = localStorage.getItem("authToken");
@@ -22,6 +24,8 @@ const FileUploadPage = () => {
       setError("Title and file are required");
       return;
     }
+
+    setLoading(true); // Start loading
 
     const formData = new FormData();
     formData.append("title", title);
@@ -37,12 +41,15 @@ const FileUploadPage = () => {
       });
       setSuccess(response.data.message);
       setError(null);
+      setLoading(false); // Stop loading
+
       setTimeout(() => {
         window.location.reload();
       }, 300);
     } catch (error) {
       setError(error.response?.data?.message || "Error uploading file");
       setSuccess(null);
+      setLoading(false); // Stop loading
     }
   };
 
@@ -78,9 +85,26 @@ const FileUploadPage = () => {
             />
           </div>
 
-          <button type="submit" className={uploadStyles.submitButton}>
-            Upload
-          </button>
+          <Button
+            type="submit"
+            className={uploadStyles.submitButton}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Uploading...
+              </>
+            ) : (
+              "Upload"
+            )}
+          </Button>
         </form>
       </div>
     </Layout>

@@ -13,11 +13,13 @@
 
 .logoContainer {
   flex: 1;
+  color: white;
 }
 
 .toggleMenu {
   display: none;
   cursor: pointer;
+  color: white;
 }
 
 .navContainer {
@@ -63,7 +65,7 @@
 }
 
 .confirmButton {
-  background-color: #c4390b; 
+  background-color: #c4390b;
   color: white;
 }
 
@@ -77,8 +79,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .profileMenu {
@@ -101,7 +107,7 @@
 
 .navLink {
   text-decoration: none;
-  color: black;
+  color: rgb(218, 205, 205);
   margin-left: 20px;
   font-weight: bold;
 }
@@ -146,17 +152,17 @@
     flex-direction: column;
     position: absolute;
     top: 70px;
-    left: -100%; /* Start off-screen to the left */
+    left: -100%;
     background: #212529;
     z-index: 100000;
-    transition: left 0.5s ease, opacity 0.5s ease; /* Transition for left position */
+    transition: left 0.5s ease, opacity 0.5s ease;
     opacity: 4;
     height: 90vh;
   }
 
   .navContainer.active {
     display: flex;
-    left: 0; /* Move into view */
+    left: 0;
     opacity: 1;
   }
 

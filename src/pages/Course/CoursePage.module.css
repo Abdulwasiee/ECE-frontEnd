@@ -1,24 +1,24 @@
-/* CoursePage.module.css */
-
 .container {
-  width: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-height: 70vh;
+  min-height: 100vh;
   padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 16px;
+  position: sticky;
+  top: 100px;
+  right: 50px;
 }
 
 .addButton {
-  top: 20px;
-  right: 20px;
-  position: sticky;
   background-color: #3f51b5;
   color: white;
   padding: 10px 20px;
@@ -32,10 +32,12 @@
 .addButton:hover {
   background-color: #303f9f;
 }
+
 .dropdownContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
@@ -43,21 +45,30 @@
   width: 30%;
 }
 
+@media (max-width: 1024px) {
+  .smallSelect {
+    width: 45%;
+  }
+}
+
 @media (max-width: 768px) {
   .dropdownContainer {
     flex-direction: column;
   }
-
+  .buttonContainer {
+    position: sticky;
+    top: 100px;
+  }
   .smallSelect {
     width: 100%;
-    margin: 10px;
-  }
-  .selectInput {
-    margin-bottom: 1rem;
   }
 
   .buttonContainer {
     justify-content: center;
+  }
+
+  .selectInput {
+    margin-bottom: 1rem;
   }
 }
 

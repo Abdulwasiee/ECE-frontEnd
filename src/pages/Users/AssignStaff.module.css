@@ -1,5 +1,6 @@
 .assignStaffPage {
   padding: 20px;
+  min-height: 100vh;
 }
 
 h1 {
@@ -43,6 +44,7 @@ h2 {
 .staffHeader {
   text-align: center;
   color: #4cae4f;
+  margin: 40px auto;
 }
 .assignedStaffTable th,
 .assignedStaffTable td {

@@ -4,7 +4,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: hsl(0, 25%, 94%);
-  min-height: 75vh;
+  min-height: 100vh;
 }
 
 .heading {
@@ -13,5 +13,3 @@
   color: #f6f5f5;
   text-align: center;
 }
-
-
