@@ -49,6 +49,7 @@
   color: #4a90e2;
   font-size: 1.2em;
   transition: color 0.2s;
+  margin: 7px auto;
 }
 
 .editIcon:hover {

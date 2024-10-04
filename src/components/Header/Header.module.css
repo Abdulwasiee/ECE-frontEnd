@@ -96,6 +96,7 @@
 
 .navItem {
   margin: 0 10px;
+  color: white;
 }
 
 .menuList {
@@ -126,12 +127,14 @@
 
 .logoutIcon {
   color: #dc3545;
+  margin-right: 5px;
 }
 
 .icon {
   font-size: 24px;
   transition: color 0.5s ease, transform 0.5s ease;
   font-weight: bold;
+  margin-right: 10px;
 }
 
 .icon:hover {
@@ -168,8 +171,6 @@
 
   .profileMenu {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
     padding: 10px 0;
   }
 
@@ -178,7 +179,6 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
     color: white;
   }
   .navLink {

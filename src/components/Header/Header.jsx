@@ -140,6 +140,7 @@ const Header = () => {
                       <AiOutlineHome
                         className={`${styles.icon} ${styles.homeIcon}`}
                       />
+                      Home
                     </Link>
                   </li>
                   <li className={styles.navItem}>
@@ -147,13 +148,14 @@ const Header = () => {
                       <AiOutlineUser
                         className={`${styles.icon} ${styles.profileIcon}`}
                       />
+                      Profile
                     </Link>
                   </li>
                   <li className={styles.navItem}>
                     <Link to="/settings" className={styles.navLink}>
                       <AiOutlineSetting
                         className={`${styles.icon} ${styles.settingIcon}`}
-                      />
+                      /> Setting
                     </Link>
                   </li>
                   <li
@@ -163,6 +165,7 @@ const Header = () => {
                     <AiOutlineLogout
                       className={`${styles.icon} ${styles.logoutIcon}`}
                     />
+                    Logout
                   </li>
                 </ul>
               </div>

@@ -136,10 +136,6 @@ const UsersList = ({ usersData, isStudentData }) => {
             <h1>Warning</h1>
             {isStudentData ? (
               <>
-                <p>
-                  Deleting a student will remove them from all courses and their
-                  records will be permanently lost.
-                </p>
                 <p>Are you sure you want to delete this student?</p>
               </>
             ) : (
