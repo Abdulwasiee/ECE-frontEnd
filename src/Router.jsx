@@ -105,7 +105,7 @@ function Router() {
           }
         />
         <Route
-          path="/materials/:courseId"
+          path="/materials/:encryptedId"
           element={
             <Protect>
               <MaterialPage />

@@ -7,7 +7,8 @@ import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
 
 const MaterialPage = () => {
-  const { courseId } = useParams();
+  const { encryptedId } = useParams();
+
   const [materials, setMaterials] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,12 +20,16 @@ const MaterialPage = () => {
     const fetchMaterials = async () => {
       const token = localStorage.getItem("authToken");
       try {
-        const response = await axiosInstance.get(`/api/materials/${courseId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response);
+        console.log(encryptedId);
+        const response = await axiosInstance.get(
+          `/api/materials/${encryptedId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
         if (response.status === 200) {
           if (response.data.data.result.length === 0) {
             setError(response.data.data.result.message);
@@ -46,10 +51,10 @@ const MaterialPage = () => {
     };
 
     fetchMaterials();
-  }, [courseId]);
+  }, [encryptedId]);
 
   const handlePostMaterial = () => {
-    navigate(`/postMaterial/${courseId}`);
+    navigate(`/postMaterial/${encryptedId}`);
   };
 
   return (

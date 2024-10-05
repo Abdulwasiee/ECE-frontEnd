@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import Layout from "../../components/Layout/Layout";
 import styles from "./CoursePage.module.css";
+import Encryptor from "../../components/Protection/Encryptor";
 
 const CoursePage = () => {
   const [courses, setCourses] = useState([]);
@@ -66,7 +67,9 @@ const CoursePage = () => {
   };
 
   const handleCourseSelection = (courseId) => {
-    navigate(`/materials/${courseId}`);
+    console.log(courseId)
+    const encryptedId = Encryptor.encrypt(courseId);
+    navigate(`/materials/${encryptedId}`);
   };
 
   const handleBatchSelection = (event) => {

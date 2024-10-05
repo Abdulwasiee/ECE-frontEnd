@@ -7,7 +7,7 @@ import { AuthContext } from "../../components/Auth/Auth";
 import { Spinner, Button } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 const FileUploadPage = () => {
-  const { courseId } = useParams(); // Get courseId from params
+  const { courseId } = useParams(); 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
