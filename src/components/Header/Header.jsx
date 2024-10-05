@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 import { AuthContext } from "../Auth/Auth";
 import styles from "./Header.module.css";
+import Encryptor from "../Protection/Encryptor";
 
 // Modal Component
 const Modal = ({ message, onConfirm, onCancel, isLoading }) => {
@@ -35,6 +36,7 @@ const Modal = ({ message, onConfirm, onCancel, isLoading }) => {
 const Header = () => {
   const { isAuthenticated, logout, userInfo } = useContext(AuthContext);
   const roleId = userInfo.role_id;
+  const user_id=Encryptor.encrypt(userInfo.user_id);
   const location = useLocation();
   const navigate = useNavigate(); // Hook to navigate programmatically
   const [navVisible, setNavVisible] = useState(false); // State to manage nav visibility
@@ -58,13 +60,13 @@ const Header = () => {
       ],
       3: [
         { to: "/myCourses", text: "My Courses" },
-        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
         { to: "/news", text: "News" },
       ],
       4: [
         { to: "/news", text: "News" },
         { to: "/users", text: "Staff" },
-        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
         { to: "/students", text: "Students" },
         { to: "/myCourses", text: "My Courses" },
         { to: "/courses", text: "Courses" },
@@ -74,6 +76,7 @@ const Header = () => {
         { to: "/courses", text: "Courses" },
         { to: "/news", text: "News" },
         { to: "/students", text: "Students" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
       ],
     };
 

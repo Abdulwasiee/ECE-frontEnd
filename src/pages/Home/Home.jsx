@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import styles from "./Home.module.css";
 import { AuthContext } from "../../components/Auth/Auth";
+import Encryptor from "../../components/Protection/Encryptor";
 
 const Home = () => {
   const { userInfo } = useContext(AuthContext);
-  const { first_name, last_name, role_id } = userInfo;
+  const user_id = Encryptor.encrypt(userInfo.user_id);
+  const { role_id } = userInfo;
 
   const renderMenu = () => {
     if (!role_id) return null;
@@ -25,13 +27,13 @@ const Home = () => {
       ],
       3: [
         { to: "/myCourses", text: "My Courses" },
-        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
         { to: "/news", text: "News" },
       ],
       4: [
         { to: "/news", text: "News" },
         { to: "/users", text: "Staff" },
-        { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
         { to: "/students", text: "Students" },
         { to: "/myCourses", text: "My Courses" },
         { to: "/courses", text: "Courses" },
@@ -41,6 +43,7 @@ const Home = () => {
         { to: "/courses", text: "Courses" },
         { to: "/news", text: "News" },
         { to: "/students", text: "Students" },
+        { to: `/contact/${user_id}`, text: "Contact Address" },
       ],
     };
 

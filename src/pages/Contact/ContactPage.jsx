@@ -50,6 +50,7 @@ const ContactPage = () => {
           <p className={styles.loadingMessage}>Loading...</p>
         ) : contactData.length === 0 &&
           (role_id === 3 ||
+            role_id == 5 ||
             (role_id === 4 && userId === user_id.toString())) ? (
           <div className={styles.addContactSection}>
             <p>No contact information found.</p>

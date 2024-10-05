@@ -5,6 +5,7 @@ import styles from "./UsersList.module.css";
 import { axiosInstance } from "../../utility/Axios";
 import { AuthContext } from "../Auth/Auth";
 import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
+import Encryptor from "../Protection/Encryptor";
 
 const UsersList = ({ usersData, isStudentData }) => {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ const UsersList = ({ usersData, isStudentData }) => {
 
   const handleRowClick = (id) => {
     if (!isStudentData) {
-      navigate(`/contact/${id}`);
+      const encryptedId = Encryptor.encrypt(id);
+      navigate(`/contact/${encryptedId}`);
     }
   };
 

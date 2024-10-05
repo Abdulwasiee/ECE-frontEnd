@@ -95,7 +95,7 @@ const ContactInfo = ({ contactData }) => {
           </p>
         )}
       </div>
-      {(roleId === 3 || roleId === 4) && currentUserId === user_id && (
+      {(roleId === 3 || roleId === 4||roleId===5) && currentUserId === user_id && (
         <div className={styles.actionIcons}>
           <FaEdit
             className={styles.editIcon}
