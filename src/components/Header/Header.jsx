@@ -66,6 +66,8 @@ const Header = () => {
         { to: "/users", text: "Staff" },
         { to: `/contact/${userInfo.user_id}`, text: "Contact Address" },
         { to: "/students", text: "Students" },
+        { to: "/myCourses", text: "My Courses" },
+        { to: "/courses", text: "Courses" },
       ],
       5: [
         { to: "/users", text: "Staff" },
@@ -121,7 +123,7 @@ const Header = () => {
       )}
       <div>
         <div className={styles.toggleMenu} onClick={toggleNav}>
-          {navVisible ? "❌" : "☰"} 
+          {navVisible ? "❌" : "☰"}
         </div>
         <div
           className={`${styles.navContainer} ${
@@ -155,7 +157,8 @@ const Header = () => {
                     <Link to="/settings" className={styles.navLink}>
                       <AiOutlineSetting
                         className={`${styles.icon} ${styles.settingIcon}`}
-                      /> Setting
+                      />{" "}
+                      Setting
                     </Link>
                   </li>
                   <li

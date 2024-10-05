@@ -1,7 +1,6 @@
 .usersPageContainer {
   padding: 20px;
   padding-top: 200px;
-  max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
 }
@@ -32,6 +31,7 @@
 .select {
   padding: 10px;
   font-size: 16px;
+  width: 95%;
 }
 
 /* Add User Button: top-right and sticky */
@@ -47,7 +47,6 @@
   right: 50px;
   float: right;
   z-index: 1000;
- 
 }
 
 .addUserButton:hover {
@@ -63,24 +62,24 @@
   .select {
     font-size: 14px;
     padding: 8px;
+    width: 100%;
   }
 
   .addUserButton {
     font-size: 14px;
     padding: 10px 16px;
   }
-   .selectionContainer {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-left: 20px;
-  margin-top: 10px;
-}
-.selectionInput {
-  margin-bottom: 20px;
-  width: 70%;
-}
+  .selectionContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 10px auto;
+  }
+  .selectionInput {
+    margin-bottom: 20px;
+    width: 100%;
+  }
 }
 
 /* Tablet responsiveness */
@@ -92,6 +91,7 @@
   .select {
     font-size: 15px;
     padding: 9px;
+    width: 100%;
   }
 
   .addUserButton {
@@ -99,5 +99,4 @@
     padding: 11px 18px;
     right: 10px;
   }
- 
 }

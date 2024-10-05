@@ -9,7 +9,7 @@ import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for lo
 const UsersList = ({ usersData, isStudentData }) => {
   const navigate = useNavigate();
   const { userInfo } = useContext(AuthContext);
-  const { role_id } = userInfo;
+  const { role_id, user_id } = userInfo;
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false); // Loading state for delete
@@ -71,7 +71,7 @@ const UsersList = ({ usersData, isStudentData }) => {
                 <th className={styles.tableHeader}>Created Date</th>
               </>
             )}
-            {(role_id === 1 || role_id === 4 || role_id === 5) && (
+            {(role_id === 1 || role_id === 4) && (
               <th className={styles.tableHeader}>Actions</th>
             )}
           </tr>
@@ -81,10 +81,13 @@ const UsersList = ({ usersData, isStudentData }) => {
             <tr
               key={item.user_id || item.student_id}
               className={styles.tableRow}
-              onClick={() => handleRowClick(item.user_id || item.student_id)}
+              onClick={() => handleRowClick(item.user_id)}
             >
               <td className={styles.tableCell}>
-                {item.first_name || item.name} {item.last_name || ""}
+                {/* If the user_id matches the logged-in user's id, show 'You' */}
+                {item.user_id === user_id
+                  ? "You"
+                  : `${item.first_name || item.name} ${item.last_name || ""}`}
               </td>
               {isStudentData && (
                 <td className={styles.tableCell}>{item.id_number}</td>
@@ -103,25 +106,32 @@ const UsersList = ({ usersData, isStudentData }) => {
                 </>
               )}
 
-              {(role_id === 1 || role_id === 4 || role_id === 5) && (
+              {(role_id === 1 || role_id === 4) && (
                 <td className={styles.actionButtons}>
-                  {!isStudentData && (
-                    <FaTrashAlt
-                      className={styles.deleteIcon}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        confirmDelete(item.user_id);
-                      }}
-                    />
-                  )}
-                  {isStudentData && (
-                    <FaTrashAlt
-                      className={styles.deleteIcon}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        confirmDelete(item.student_id); // Use student_id for student data
-                      }}
-                    />
+                  {/* If the user_id matches the logged-in user's id, show '-' instead of the delete icon */}
+                  {item.user_id === user_id ? (
+                    "-"
+                  ) : (
+                    <>
+                      {!isStudentData && (
+                        <FaTrashAlt
+                          className={styles.deleteIcon}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            confirmDelete(item.user_id);
+                          }}
+                        />
+                      )}
+                      {isStudentData && (
+                        <FaTrashAlt
+                          className={styles.deleteIcon}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            confirmDelete(item.student_id); // Use student_id for student data
+                          }}
+                        />
+                      )}
+                    </>
                   )}
                 </td>
               )}

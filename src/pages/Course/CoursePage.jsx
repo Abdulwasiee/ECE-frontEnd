@@ -154,7 +154,7 @@ const CoursePage = () => {
   return (
     <Layout>
       <Box className={styles.buttonContainer}>
-        {(role_id === 4 || role_id === 1 || role_id === 5) && (
+        {(role_id === 4 || role_id === 1) && (
           <Button
             variant="contained"
             color="primary"

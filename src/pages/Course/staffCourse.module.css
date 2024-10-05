@@ -35,6 +35,7 @@ h2 {
 }
 
 .error {
-  color: red;
+  color: rgb(162, 32, 32);
   font-size: 14px;
+  text-align: center;
 }

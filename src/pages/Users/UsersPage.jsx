@@ -94,7 +94,7 @@ const UsersPage = () => {
   return (
     <Layout>
       {/* Add User Button for admins, representatives, and department */}
-      {(role_id === 1 || role_id === 5 || role_id === 4) && (
+      {(role_id === 1 || role_id === 4) && (
         <button onClick={handleAddUser} className={styles.addUserButton}>
           Add User
         </button>

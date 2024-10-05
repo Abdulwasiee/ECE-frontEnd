@@ -27,7 +27,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const hasStreamColumn = (courseList) =>
     courseList.some((course) => course.stream_name !== null);
 
-  const renderCoursesTable = (courseList) => (
+  const renderCoursesTable = (courseList, showActions) => (
     <table className={styles.table}>
       <thead>
         <tr>
@@ -36,7 +36,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
           <th>Batch Year</th>
           <th>Semester</th>
           {hasStreamColumn(courseList) && <th>Stream</th>}
-          {(roleId === 1 || roleId === 4 || roleId === 5) && <th>Actions</th>}
+          {showActions && (roleId === 1 || roleId === 4) && <th>Actions</th>}
         </tr>
       </thead>
       <tbody>
@@ -52,7 +52,7 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
               {course.semester_id === 1 ? "1st Semester" : "2nd Semester"}
             </td>
             {course.stream_name && <td>{course.stream_name}</td>}
-            {(roleId === 1 || roleId === 4 || roleId === 5) && (
+            {showActions && (roleId === 1 || roleId === 4) && (
               <td>
                 <FaEdit
                   className={styles.editIcon}
@@ -75,9 +75,10 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Courses</h2>
-      {courses.length > 0 && renderCoursesTable(courses)}
-
-      {staffCourses.length > 0 && <div>{renderCoursesTable(staffCourses)}</div>}
+      {courses.length > 0 && renderCoursesTable(courses, true)}{" "}
+      {/* Show actions */}
+      {staffCourses.length > 0 && renderCoursesTable(staffCourses, false)}{" "}
+      {/* No actions */}
     </div>
   );
 };

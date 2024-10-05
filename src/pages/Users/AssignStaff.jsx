@@ -93,8 +93,8 @@ const AssignStaffPage = () => {
 
     try {
       const token = localStorage.getItem("authToken");
-      await axiosInstance.post(
-        `/api/assignStaff`, // This would need to be adapted if different for department
+      const response = await axiosInstance.post(
+        `/api/assignStaff`,
         {
           user_id: selectedMember,
           batch_course_id: batchCourseId,
@@ -103,6 +103,7 @@ const AssignStaffPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log(response);
       setSuccessMessage(
         `${
           assignType.charAt(0).toUpperCase() + assignType.slice(1)
@@ -132,6 +133,7 @@ const AssignStaffPage = () => {
         params: { user_id, course_id: courseId },
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response);
       if (response.data.result.success) {
         setSuccessMessage(response.data.result.message);
 
@@ -236,7 +238,7 @@ const AssignStaffPage = () => {
             </div>
 
             {/* Stream select only appears when batch and semester are selected */}
-            {((batchId === "3" && semesterId === "2") || batchId ==="4") && (
+            {((batchId === "3" && semesterId === "2") || batchId === "4") && (
               <div className={styles.formGroup}>
                 <label htmlFor="stream" className={styles.label}>
                   Stream:

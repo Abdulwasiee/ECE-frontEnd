@@ -159,6 +159,7 @@ const CreateUserPage = () => {
                   className={styles.select}
                 >
                   <option value="3">Staff</option>
+                  <option value="5">ٌRepresentative</option>
                 </select>
               </label>
             </div>
