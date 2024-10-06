@@ -3,13 +3,45 @@
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: hsl(0, 25%, 94%);
+  background-color: hsl(0, 18%, 96%);
   min-height: 100vh;
 }
 
 .heading {
   font-size: 1.8em;
   margin-bottom: 20px;
-  color: #f6f5f5;
+  color: #392c2c;
   text-align: center;
+}
+.stickyButtons {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.addButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.addButton {
+  background-color: #007bff;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
 }

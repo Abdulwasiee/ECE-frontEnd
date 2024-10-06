@@ -46,6 +46,14 @@ const MyNewsPage = () => {
 
   return (
     <Layout>
+      <div className={styles.stickyButtons}>
+        <button
+          className={styles.addButton}
+          onClick={() => navigate("/postNews")}
+        >
+          Post News
+        </button>
+      </div>
       <div className={styles.newsPage}>
         <h2 className={styles.heading}>My News Posts</h2>
         {loading && <p className={styles.loading}>Loading...</p>}

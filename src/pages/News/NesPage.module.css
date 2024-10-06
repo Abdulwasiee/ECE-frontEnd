@@ -1,7 +1,7 @@
 .newsPage {
   padding: 20px;
   margin-bottom: 80px;
-  position: relative; 
+  position: relative;
   min-height: 100vh;
 }
 
@@ -18,9 +18,9 @@
 }
 
 .stickyButtons {
-  position: fixed; 
-  top: 100px; 
-  right: 20px; 
+  position: fixed;
+  top: 100px;
+  right: 20px;
   background: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .addButton,
