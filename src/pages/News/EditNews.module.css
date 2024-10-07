@@ -1,0 +1,76 @@
+/* Container styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Form styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Action buttons */
+.formActions {
+  text-align: center;
+}
+
+.updateButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.updateButton:disabled {
+  background-color: #ccc;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .formGroup input,
+  .formGroup textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .updateButton {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

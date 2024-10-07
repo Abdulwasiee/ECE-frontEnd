@@ -7,6 +7,8 @@
 .newsCard {
   transition: transform 0.3s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Required for positioning the action buttons */
+  padding-bottom: 40px; /* To accommodate action buttons at the bottom */
 }
 
 .newsCard:hover {
@@ -28,6 +30,24 @@
   font-size: 12px;
 }
 
+/* Positioning for the edit and delete action buttons */
+.actionButtons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px; /* Space between the edit and delete icons */
+}
+
+.actionButtons .MuiIconButton-root {
+  color: #757575; /* Default color */
+  transition: color 0.3s ease;
+}
+
+.actionButtons .MuiIconButton-root:hover {
+  color: #d32f2f; /* Change to red on hover for delete */
+}
+
 .noNewsMessage {
   text-align: center;
   color: gray;
@@ -37,5 +57,26 @@
 
 .readMoreButton {
   margin-top: 8px;
-  text-transform: none; /* Optional: Remove uppercase transformation for button text */
+  text-transform: none; /* Remove uppercase transformation for button text */
+  color: #007bff; /* Standard button color */
+  padding: 0;
+}
+
+.readMoreButton:hover {
+  text-decoration: underline; /* Underline on hover */
+  background-color: transparent; /* Optional: remove background on hover */
+}
+
+/* Delete confirmation modal */
+.dialogTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.dialogContentText {
+  font-size: 1rem;
+}
+
+.dialogActions button {
+  font-size: 0.875rem;
 }

@@ -1,0 +1,141 @@
+/* Container Styles */
+.editCourseContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.formGroup input,
+.formGroup select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.checkboxGroup {
+  margin-top: 10px;
+}
+
+.checkboxGroup label {
+  display: flex;
+  align-items: center;
+}
+
+/* Button Styles */
+.submitButton {
+  padding: 12px 20px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:disabled {
+  background-color: #9e9e9e;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.confirmButton,
+.cancelButton {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.confirmButton {
+  background-color: #4caf50;
+  color: white;
+  margin-right: 10px;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #45a049;
+}
+
+.cancelButton:hover {
+  background-color: #e53935;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .editCourseContainer {
+    padding: 15px;
+  }
+
+  .formContainer {
+    gap: 10px;
+  }
+
+  .formGroup input,
+  .formGroup select {
+    font-size: 14px;
+  }
+
+  .submitButton,
+  .confirmButton,
+  .cancelButton {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

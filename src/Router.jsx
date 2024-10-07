@@ -19,6 +19,8 @@ import PostContactInfo from "./pages/Contact/PostContact";
 import AssignStaffPage from "./pages/Users/AssignStaff";
 import ProfilePage from "./pages/Profile/Profile";
 import SettingsPage from "./pages/Setting/Setting";
+import EditNews from "./pages/News/EditNews";
+import EditCourse from "./pages/Course/EditCourse";
 function Router() {
   return (
     <>
@@ -41,10 +43,26 @@ function Router() {
           }
         />
         <Route
+          path="/editNews/:newsId"
+          element={
+            <Protect>
+              <EditNews />
+            </Protect>
+          }
+        />
+        <Route
           path="/courses"
           element={
             <Protect>
               <CoursePage />
+            </Protect>
+          }
+        />
+        <Route
+          path="/editCourse/:courseId"
+          element={
+            <Protect>
+              <EditCourse />
             </Protect>
           }
         />

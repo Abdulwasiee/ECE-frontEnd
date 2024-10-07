@@ -3,6 +3,7 @@ import { FaEdit, FaUserPlus } from "react-icons/fa"; // Import the assign icon
 import { useNavigate } from "react-router-dom";
 import styles from "./CourseList.module.css";
 import { AuthContext } from "../Auth/Auth";
+import Encryptor from "../Protection/Encryptor";
 
 const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const { userInfo } = useContext(AuthContext);
@@ -10,7 +11,8 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const navigate = useNavigate();
 
   const handleEdit = (courseId) => {
-    navigate(`/editCourse/${courseId}`);
+    const encryptedCourseId = Encryptor.encrypt(courseId);
+    navigate(`/editCourse/${encryptedCourseId}`);
   };
 
   const handleAssign = (batchCourseId, e, courseId) => {

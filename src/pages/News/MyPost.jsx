@@ -58,7 +58,13 @@ const MyNewsPage = () => {
         <h2 className={styles.heading}>My News Posts</h2>
         {loading && <p className={styles.loading}>Loading...</p>}
         {error && <p className={styles.error}>{error}</p>}
-        {!loading && !error && <NewsList newsData={newsData} />}
+        {!loading && !error && (
+          <NewsList
+            newsData={newsData}
+            setNewsData={setNewsData} // Pass the setNewsData function here
+            isMypost={true}
+          />
+        )}
       </div>
     </Layout>
   );
