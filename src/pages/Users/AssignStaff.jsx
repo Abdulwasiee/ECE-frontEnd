@@ -24,6 +24,8 @@ const AssignStaffPage = () => {
   const [loadingAssign, setLoadingAssign] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
   const [assignType, setAssignType] = useState("staff"); // Default assign type is staff
+  const [showAlreadyAssignedModal, setShowAlreadyAssignedModal] =
+    useState(false); // New state for already assigned modal
   const role_id = assignType === "staff" ? 3 : 4; // 3 for staff, 4 for department
   const navigate = useNavigate();
 
@@ -87,6 +89,17 @@ const AssignStaffPage = () => {
       setErrorMessage("Please select all required fields.");
       return;
     }
+
+    // Check if the selected member is already assigned
+    const isAlreadyAssigned = assignedMembers.some(
+      (member) => member.user_id == selectedMember
+    );
+
+    if (isAlreadyAssigned) {
+      setShowAlreadyAssignedModal(true); // Show modal if already assigned
+      return;
+    }
+
     setErrorMessage("");
     setSuccessMessage("");
     setLoadingAssign(true); // Set loading state
@@ -163,6 +176,10 @@ const AssignStaffPage = () => {
     setMemberToRemove(null);
   };
 
+  const closeAlreadyAssignedModal = () => {
+    setShowAlreadyAssignedModal(false); // Close the already assigned modal
+  };
+
   return (
     <Layout>
       <div className={styles.assignStaffPage}>
@@ -232,13 +249,12 @@ const AssignStaffPage = () => {
                 className={styles.select}
               >
                 <option value="">Select Semester</option>
-                <option value="1">Semester 1</option>
-                <option value="2">Semester 2</option>
+                <option value="1">1st Semester</option>
+                <option value="2">2nd Semester</option>
               </select>
             </div>
 
-            {/* Stream select only appears when batch and semester are selected */}
-            {((batchId === "3" && semesterId === "2") || batchId === "4") && (
+            {batchId === "4" && semesterId === "2" && (
               <div className={styles.formGroup}>
                 <label htmlFor="stream" className={styles.label}>
                   Stream:
@@ -260,80 +276,67 @@ const AssignStaffPage = () => {
           </div>
         )}
 
-        {/* List of available members (both staff and department) */}
-        <div className={styles.availableMembers}>
-          <h3>Available {assignType === "staff" ? "Staff" : "Departments"}:</h3>
-          {members.length === 0 ? (
-            <p>No members available for this selection.</p>
-          ) : (
-            <ul>
-              {members.map((member) => (
-                <li key={member.user_id} className={styles.member}>
-                  <label>
-                    <input
-                      type="radio"
-                      name="selectedMember"
-                      value={member.user_id}
-                      checked={selectedMember === member.user_id}
-                      onChange={() => setSelectedMember(member.user_id)}
-                    />
-                    {member.name}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          )}
+        {/* Select member to assign */}
+        <div className={styles.selectMember}>
+          <label htmlFor="member" className={styles.label}>
+            Select Member:
+          </label>
+          <select
+            value={selectedMember}
+            onChange={(e) => setSelectedMember(e.target.value)}
+            className={styles.select}
+          >
+            <option value="">Select Member</option>
+            {members.map((member) => (
+              <option key={member.user_id} value={member.user_id}>
+                {member.name}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Assign button */}
-        <button
-          className={styles.assignButton}
-          onClick={handleAssignMember}
-          disabled={loadingAssign || !selectedMember}
-        >
+        <button onClick={handleAssignMember} disabled={loadingAssign}>
           {loadingAssign ? <Spinner animation="border" size="sm" /> : "Assign"}
         </button>
 
-        {/* Already assigned members */}
-        <div className={styles.assignedMembers}>
-          <h3>Assigned {assignType === "staff" ? "Staff" : "Departments"}:</h3>
-          {assignedMembers.length === 0 ? (
-            <p>No members assigned yet.</p>
-          ) : (
-            <ul>
-              {assignedMembers.map((member) => (
-                <li key={member.user_id} className={styles.member}>
-                  {member.name}
-                  <FaTrash
-                    className={styles.deleteIcon}
-                    onClick={() => openModal(member.user_id)}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {/* Assigned members list */}
+        <h2>Assigned Members</h2>
+        {assignedMembers.length === 0 ? (
+          <p>No members assigned.</p>
+        ) : (
+          <ul>
+            {assignedMembers.map((member) => (
+              <li key={member.user_id}>
+                {member.name}{" "}
+                <button onClick={() => openModal(member.user_id)}>
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
 
-        {/* Confirmation Modal */}
+        {/* Modal for confirming removal */}
         {showModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
+              <h2>Confirm Removal</h2>
               <p>Are you sure you want to remove this member?</p>
-              <div className={styles.modalActions}>
-                <button
-                  className={styles.confirmButton}
-                  onClick={() => handleDeleteMember(memberToRemove)}
-                >
-                  {loadingRemove ? (
-                    <Spinner animation="border" size="sm" />
-                  ) : (
-                    "Yes, Remove"
-                  )}
-                </button>
-                <button className={styles.cancelButton} onClick={closeModal}>
-                  Cancel
-                </button>
-              </div>
+              <button onClick={() => handleDeleteMember(memberToRemove)}>
+                Yes
+              </button>
+              <button onClick={closeModal}>No</button>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for already assigned member notification */}
+        {showAlreadyAssignedModal && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h2>Member Already Assigned</h2>
+              <p>This member is already assigned to the course.</p>
+              <button onClick={closeAlreadyAssignedModal}>Close</button>
             </div>
           </div>
         )}
