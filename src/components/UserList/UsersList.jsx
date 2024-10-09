@@ -1,10 +1,14 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTrashAlt } from "react-icons/fa";
+import {
+  FaTrashAlt,
+  FaChalkboardTeacher,
+  FaUserGraduate,
+} from "react-icons/fa"; // Importing icons
 import styles from "./UsersList.module.css";
 import { axiosInstance } from "../../utility/Axios";
 import { AuthContext } from "../Auth/Auth";
-import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
+import { Spinner } from "react-bootstrap";
 import Encryptor from "../Protection/Encryptor";
 
 const UsersList = ({ usersData, isStudentData }) => {
@@ -13,7 +17,7 @@ const UsersList = ({ usersData, isStudentData }) => {
   const { role_id, user_id } = userInfo;
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false); // Loading state for delete
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const token = localStorage.getItem("authToken");
 
   if (!usersData || usersData.length === 0) {
@@ -32,7 +36,7 @@ const UsersList = ({ usersData, isStudentData }) => {
   };
 
   const handleDeleteUser = async (userId) => {
-    setLoadingDelete(true); // Set loading state
+    setLoadingDelete(true);
     try {
       if (isStudentData) {
         await axiosInstance.delete(`/api/student/${userId}`, {
@@ -48,7 +52,7 @@ const UsersList = ({ usersData, isStudentData }) => {
     } catch (error) {
       console.error("Error deleting user:", error);
     } finally {
-      setLoadingDelete(false); // Reset loading state
+      setLoadingDelete(false);
     }
   };
 
@@ -59,97 +63,74 @@ const UsersList = ({ usersData, isStudentData }) => {
 
   return (
     <div className={styles.usersListContainer}>
-      <table className={styles.usersTable}>
-        <thead>
-          <tr>
-            <th className={styles.tableHeader}>Name</th>
-            {isStudentData && <th className={styles.tableHeader}>ID Number</th>}
-            {!isStudentData && (
-              <>
-                <th className={styles.tableHeader}>Course</th>
-                <th className={styles.tableHeader}>Batch Year</th>
-                <th className={styles.tableHeader}>Semester</th>
-                <th className={styles.tableHeader}>Stream</th>
-                <th className={styles.tableHeader}>Created Date</th>
-              </>
-            )}
-            {(role_id === 1 || role_id === 4) && (
-              <th className={styles.tableHeader}>Actions</th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {usersData.map((item) => (
-            <tr
-              key={item.user_id || item.student_id}
-              className={styles.tableRow}
-              onClick={() => handleRowClick(item.user_id)}
-            >
-              <td className={styles.tableCell}>
-                {/* If the user_id matches the logged-in user's id, show 'You' */}
+      <div className={styles.cardsContainer}>
+        {usersData.map((item) => (
+          <div
+            key={item.user_id || item.student_id}
+            className={`${styles.userCard} ${
+              item.isTeacher ? styles.teacherCard : styles.studentCard
+            }`}
+            onClick={() => handleRowClick(item.user_id)}
+          >
+            <div className={styles.userInfo}>
+              <h2>
                 {item.user_id === user_id
                   ? "You"
                   : `${item.first_name || item.name} ${item.last_name || ""}`}
-              </td>
-              {isStudentData && (
-                <td className={styles.tableCell}>{item.id_number}</td>
-              )}
+                {item.isTeacher && (
+                  <FaChalkboardTeacher className={styles.teacherIcon} />
+                )}
+                {!item.isTeacher && (
+                  <FaUserGraduate className={styles.studentIcon} />
+                )}{" "}
+                {/* Student icon */}
+              </h2>
+              {isStudentData && <p>ID Number: {item.id_number}</p>}
               {!isStudentData && (
                 <>
-                  <td className={styles.tableCell}>{item.course_name}</td>
-                  <td className={styles.tableCell}>{item.batch_year}</td>
-                  <td className={styles.tableCell}>{item.semester_name}</td>
-                  <td className={styles.tableCell}>
-                    {item.stream_name ? item.stream_name : "-"}
-                  </td>
-                  <td className={styles.tableCell}>
+                  <p>Course: {item.course_name}</p>
+                  <p>Batch Year: {item.batch_year}</p>
+                  <p>Semester: {item.semester_name}</p>
+                  <p>Stream: {item.stream_name || "-"}</p>
+                  <p>
+                    Created Date:{" "}
                     {new Date(item.created_at).toLocaleDateString()}
-                  </td>
+                  </p>
                 </>
               )}
-
-              {(role_id === 1 || role_id === 4) && (
-                <td className={styles.actionButtons}>
-                  {/* If the user_id matches the logged-in user's id, show '-' instead of the delete icon */}
-                  {item.user_id === user_id ? (
-                    "-"
-                  ) : (
-                    <>
-                      {!isStudentData && (
-                        <FaTrashAlt
-                          className={styles.deleteIcon}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            confirmDelete(item.user_id);
-                          }}
-                        />
-                      )}
-                      {isStudentData && (
-                        <FaTrashAlt
-                          className={styles.deleteIcon}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            confirmDelete(item.student_id); // Use student_id for student data
-                          }}
-                        />
-                      )}
-                    </>
-                  )}
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </div>
+            {(role_id === 1 || role_id === 4) && (
+              <div className={styles.actionButtons}>
+                {item.user_id === user_id ? (
+                  "-"
+                ) : (
+                  <FaTrashAlt
+                    className={styles.deleteIcon}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      confirmDelete(
+                        item.user_id ? item.user_id : item.student_id
+                      );
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            {!isStudentData && (
+              <div className={styles.hoverInfo}>
+                Click to see contact information
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {deleteConfirmation && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <h1>Warning</h1>
             {isStudentData ? (
-              <>
-                <p>Are you sure you want to delete this student?</p>
-              </>
+              <p>Are you sure you want to delete this student?</p>
             ) : (
               <>
                 <p>
@@ -163,7 +144,6 @@ const UsersList = ({ usersData, isStudentData }) => {
                 <p>Are you sure you want to delete this user?</p>
               </>
             )}
-
             <label>
               <input
                 type="checkbox"
@@ -172,7 +152,6 @@ const UsersList = ({ usersData, isStudentData }) => {
               />
               I understand the consequences and want to delete this user.
             </label>
-
             <button
               onClick={() => handleDeleteUser(deleteConfirmation)}
               className={styles.confirmButton}

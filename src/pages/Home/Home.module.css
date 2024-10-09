@@ -1,65 +1,92 @@
 .homeContainer {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
 }
 
 .welcomeContainer {
   text-align: center;
-  margin: auto;
-  width: 100%;
+  margin-bottom: 40px;
 }
 
 .welcomeMessage {
-  color: #2c3e50;
-  margin: 10px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .nav {
-  width: 100%;
   display: flex;
-  justify-content: center;
-}
-
-.menuList {
-  display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  list-style-type: none;
-  padding: 0;
+  justify-content: center;
+  width: 100%;
 }
 
-.menuItem {
-  margin: 0 15px;
+.serviceContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
 }
 
-.menuLink {
+.singleService {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  transition: transform 0.2s;
+  width: calc(33% - 20px);
+  min-width: 250px;
+}
+
+.singleService:hover {
+  transform: translateY(-5px);
+}
+
+.serviceLink {
   text-decoration: none;
-  color: #2980b9;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.serviceIcon {
+  font-size: 2rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.serviceTitle {
+  font-size: 1.25rem;
   font-weight: bold;
+  color: #333;
 }
 
-.menuLink:hover {
-  text-decoration: underline;
+.serviceDescription {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
 }
 
-.menuItem {
-  padding: 10px;
-  background-color: #bdc3c7;
-  border-radius: 5px;
-}
-
-.menuItem:hover {
-  background-color: #95a5a6;
-}
-
-@media (max-width: 600px) {
-  .menuList {
+@media (max-width: 768px) {
+  .nav,
+  .serviceContainer {
     flex-direction: column;
   }
-  .menuItem {
-    margin-bottom: 10px;
-    margin-right: 0;
+
+  .singleService {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .welcomeMessage {
+    font-size: 1.8rem;
   }
 }

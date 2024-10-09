@@ -1,62 +1,98 @@
-/* Base styles for mobile devices */
 .usersListContainer {
   padding: 15px;
- 
-  overflow-x: auto;
+  overflow: hidden;
 }
+
 .noUsers {
   margin: 30px;
-}
-
-.usersTable {
-  width: 70%;
-  border-collapse: collapse;
-  margin: auto;
-}
-
-.tableHeader {
-  background-color: #4a90e2;
-  color: #ffffff;
-  padding: 10px;
-  text-align: left;
+  text-align: center;
+  color: #999;
   font-size: 1em;
 }
 
-.tableRow {
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.userCard {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 15px;
+  flex: 1 1 300px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: transform 0.2s, background-color 0.3s;
+  position: relative;
 }
 
-.tableRow:hover {
-  background-color: #e9f5ff;
+.teacherCard {
+  background-color: #e0f7fa; /* Light blue for teachers */
 }
 
-.tableCell {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  font-size: 0.9em; /* Slightly smaller font size for mobile */
+.studentCard {
+  background-color: #ffe0b2; /* Light orange for students */
+}
+
+.userCard:hover {
+  transform: translateY(-3px);
+  background-color: #f0f0f0; /* Light grey on hover */
+}
+
+.userInfo {
+  margin-bottom: 10px;
+}
+
+.userInfo h2 {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.userInfo p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.teacherIcon {
+  margin-left: 5px;
+  color: #00796b; /* Color for the teacher icon */
+}
+
+.studentIcon {
+  margin-left: 5px;
+  color: #ffb300; /* Color for the student icon */
 }
 
 .actionButtons {
   display: flex;
-  gap: 10px;
+  justify-content: flex-end;
 }
 
-.editIcon,
 .deleteIcon {
   cursor: pointer;
-  color: #4a90e2;
-  font-size: 1.2em;
+  color: #d9534f;
+  font-size: 1.5em;
   transition: color 0.2s;
-  margin: 7px auto;
-}
-
-.editIcon:hover {
-  color: #2b7fda;
 }
 
 .deleteIcon:hover {
-  color: #d9534f;
+  color: #c9302c;
+}
+
+.hoverInfo {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  font-size: 0.8em;
+  color: #555;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s;
+}
+
+.userCard:hover .hoverInfo {
+  opacity: 1; /* Show on hover */
 }
 
 .modal {
@@ -80,7 +116,7 @@
 }
 
 .modalContent h1 {
-  color: #ff4d4d; /* Warning text color */
+  color: #ff4d4d;
   font-size: 24px;
   margin-bottom: 10px;
 }
@@ -88,7 +124,6 @@
 .modalContent p {
   color: #333;
   font-size: 14px;
-  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -111,71 +146,19 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9em; /* Smaller font size for buttons */
 }
 
 .confirmButton {
-  background-color: #4caf50;
+  background-color: #5cb85c;
   color: white;
 }
 
 .cancelButton {
-  background-color: #f44336;
+  background-color: #f0ad4e;
   color: white;
 }
 
-.confirmButton:hover {
-  background-color: #45a049;
-}
-
-.cancelButton:hover {
-  background-color: #e53935;
-}
-
-.noUsers {
-  text-align: center;
-  color: #999;
-  font-size: 1em;
-}
-
-/* Additional CSS for Warning, Checkbox, and Paragraph */
-.modalContent label {
-  font-size: 14px;
-  color: #555;
-}
-
-.modalContent input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-.modalContent p {
-  color: #333;
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Media queries for larger screens */
-@media (min-width: 600px) {
-  .tableHeader {
-    font-size: 1.2em;
-  }
-
-  .tableCell {
-    font-size: 1em;
-  }
-
-  .confirmButton,
-  .cancelButton {
-    font-size: 1em;
-  }
-
-  .actionButtons {
-    gap: 15px;
-  }
-
-  .editIcon,
-  .deleteIcon {
-    font-size: 1.5em;
-  }
+.confirmButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

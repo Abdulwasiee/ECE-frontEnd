@@ -7,28 +7,52 @@
   font-size: 24px;
   margin-bottom: 20px;
 }
+
 .selectionInputs {
-  width: 100%;
+  width: 70%;
+  margin: auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  margin-bottom: 20px;
 }
+
 .batchSelection,
 .streamSelection {
-  width: 45%;
+  width: 100%; 
+  max-width: 300px;
   margin-bottom: 20px;
 }
 
 .label {
-  margin: 20px;
+  width: 100%;
 }
 
 .select {
   padding: 5px;
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 
 .error {
   color: red;
+}
+
+/* Responsive Styles */
+@media (min-width: 600px) {
+  .selectionInputs {
+    flex-direction: row; 
+  }
+
+  .batchSelection,
+  .streamSelection {
+    width: 45%; 
+  }
+}
+
+@media (min-width: 900px) {
+  .batchSelection,
+  .streamSelection {
+    width: 30%; 
+  }
 }

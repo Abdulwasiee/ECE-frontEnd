@@ -11,11 +11,12 @@
   margin-bottom: 20px;
 }
 .selectionContainer {
-  width: 100%;
+  width: 80%;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 20px;
+
 }
 .selectionInput {
   margin-bottom: 20px;
@@ -70,11 +71,11 @@
     padding: 10px 16px;
   }
   .selectionContainer {
-    width: 80%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin-top: 10px auto;
+    margin: 10px auto;
   }
   .selectionInput {
     margin-bottom: 20px;
