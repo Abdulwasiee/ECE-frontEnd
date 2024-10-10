@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import NewsList from "../../components/NewsList/NewsList";
-import styles from "./NesPage.module.css";
+import styles from "./NewsPage.module.css";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
 

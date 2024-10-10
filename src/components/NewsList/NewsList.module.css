@@ -7,8 +7,9 @@
 .newsCard {
   transition: transform 0.3s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Required for positioning the action buttons */
-  padding-bottom: 40px; /* To accommodate action buttons at the bottom */
+  position: relative; 
+  padding-bottom: 40px;
+  min-height: 400px;
 }
 
 .newsCard:hover {
