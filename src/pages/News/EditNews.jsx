@@ -81,7 +81,7 @@ const EditNews = () => {
   return (
     <Layout>
       <div className={styles.container}>
-        <h2 className={styles.heading}>Edit News</h2>
+        <h2 className={styles.heading}>Edit Post</h2>
         <form className={styles.form} onSubmit={handleFormSubmit}>
           <div className={styles.formGroup}>
             <label htmlFor="title">Title</label>
@@ -113,7 +113,7 @@ const EditNews = () => {
               className={styles.updateButton}
               disabled={updating}
             >
-              {updating ? "Updating..." : "Update News"}
+              {updating ? "Updating..." : "Update Post"}
             </button>
           </div>
         </form>

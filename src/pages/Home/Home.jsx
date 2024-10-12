@@ -24,8 +24,9 @@ const Home = () => {
       1: [
         {
           to: "/news",
-          text: "News",
-          description: "Stay updated with the latest news.",
+          text: "Announcement",
+          description:
+            "Stay informed! Click here to view the latest announcements and never miss an update.",
           icon: <FaNewspaper />,
         },
         {
@@ -62,8 +63,9 @@ const Home = () => {
         },
         {
           to: "/news",
-          text: "News",
-          description: "Get the latest updates and announcements.",
+          text: "Announcement",
+          description:
+            "Stay informed! Click here to view the latest announcements and never miss an update.",
           icon: <FaNewspaper />,
         },
       ],
@@ -82,16 +84,18 @@ const Home = () => {
         },
         {
           to: "/news",
-          text: "News",
-          description: "Don't miss out on important updates.",
+          text: "Announcement",
+          description:
+            "Stay informed! Click here to view the latest announcements and never miss an update.",
           icon: <FaNewspaper />,
         },
       ],
       4: [
         {
           to: "/news",
-          text: "News",
-          description: "Stay informed with the latest news.",
+          text: "Announcement",
+          description:
+            "Stay informed! Click here to view the latest announcements and never miss an update.",
           icon: <FaNewspaper />,
         },
         {
@@ -140,8 +144,9 @@ const Home = () => {
         },
         {
           to: "/news",
-          text: "News",
-          description: "Stay in the loop with important news.",
+          text: "Announcement",
+          description:
+            "Stay informed! Click here to view the latest announcements and never miss an update.",
           icon: <FaNewspaper />,
         },
         {

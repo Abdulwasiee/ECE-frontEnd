@@ -53,7 +53,7 @@ const PostNews = () => {
   return (
     <Layout>
       <div className={styles.postNewsContainer}>
-        <h2 className={styles.heading}>Post News</h2>
+        <h2 className={styles.heading}>Publish Announcement</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="title" className={styles.label}>

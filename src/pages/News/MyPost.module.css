@@ -13,9 +13,49 @@
   color: #392c2c;
   text-align: center;
 }
-.stickyButtons {
+
+.iconContainer {
   position: fixed;
   top: 100px;
+  right: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.vibrateIcon {
+  font-size: 24px;
+  color: #007bff;
+  animation: vibrate 1.5s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes vibrate {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+}
+
+.stickyButtons {
+  position: fixed;
+  top: 160px;
   right: 20px;
   background: #ffffff;
   border: 1px solid #ddd;
@@ -26,6 +66,19 @@
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.stickyButtons.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stickyButtons.hidden {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .addButton {
@@ -36,9 +89,6 @@
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.addButton {
   background-color: #007bff;
 }
 

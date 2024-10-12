@@ -1,25 +1,63 @@
 .newsPage {
   padding: 20px;
-  margin-bottom: 80px;
-  position: relative;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: hsl(0, 18%, 96%);
   min-height: 100vh;
 }
 
-.loading {
-  font-size: 1.2rem;
+.heading {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #392c2c;
   text-align: center;
-  color: #007bff;
 }
 
-.error {
-  font-size: 1.2rem;
-  text-align: center;
-  color: #dc3545;
+.iconContainer {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  cursor: pointer;
 }
+
+
+.vibrateIcon {
+  font-size: 24px;
+  color: #007bff;
+  animation: vibrate 1.5s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes vibrate {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+}
+
 
 .stickyButtons {
   position: fixed;
-  top: 100px;
+  top: 160px;
   right: 20px;
   background: #ffffff;
   border: 1px solid #ddd;
@@ -30,6 +68,20 @@
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
+  opacity: 0; 
+  transform: translateY(10px); 
+  transition: opacity 0.7s ease, transform 0.4s ease; 
+}
+
+
+.stickyButtons.visible {
+  opacity: 1;
+  transform: translateY(0); 
+}
+
+.stickyButtons.hidden {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .addButton,
@@ -47,12 +99,12 @@
   background-color: #007bff;
 }
 
-.myPostsButton {
-  background-color: #28a745;
-}
-
 .addButton:hover {
   background-color: #0056b3;
+}
+
+.myPostsButton {
+  background-color: #28a745;
 }
 
 .myPostsButton:hover {

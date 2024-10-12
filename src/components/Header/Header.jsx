@@ -48,7 +48,7 @@ const Header = () => {
 
     const menuItems = {
       1: [
-        { to: "/news", text: "News" },
+        { to: "/news", text: "Announcement" },
         { to: "/courses", text: "Courses" },
         { to: "/students", text: "Students" },
         { to: "/users", text: "Users" },
@@ -56,15 +56,15 @@ const Header = () => {
       2: [
         { to: "/users", text: "Staff" },
         { to: "/courses", text: "Courses" },
-        { to: "/news", text: "News" },
+        { to: "/news", text: "Announcement" },
       ],
       3: [
         { to: "/myCourses", text: "My Courses" },
         { to: `/contact/${user_id}`, text: "Contact Address" },
-        { to: "/news", text: "News" },
+        { to: "/news", text: "Announcement" },
       ],
       4: [
-        { to: "/news", text: "News" },
+        { to: "/news", text: "Announcement" },
         { to: "/users", text: "Staff" },
         { to: `/contact/${user_id}`, text: "Contact Address" },
         { to: "/students", text: "Students" },
@@ -74,7 +74,7 @@ const Header = () => {
       5: [
         { to: "/users", text: "Staff" },
         { to: "/courses", text: "Courses" },
-        { to: "/news", text: "News" },
+        { to: "/news", text: "Announcement" },
         { to: "/students", text: "Students" },
         { to: `/contact/${user_id}`, text: "Contact Address" },
       ],
