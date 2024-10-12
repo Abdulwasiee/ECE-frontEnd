@@ -1,9 +1,10 @@
 /* Container Styles */
 .editCourseContainer {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 100px auto;
   padding: 20px;
   min-height: 100vh;
+  border: solid 1px #85c7f3;
 }
 
 h2 {
@@ -11,7 +12,24 @@ h2 {
   color: #333;
   margin-bottom: 20px;
 }
+.notification {
+  padding: 15px;
+  margin: 20px 0;
+  border: 1px solid #173f78;
+  border-radius: 5px;
+  background-color: #aed4f7;
+}
 
+.notificationTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.notificationContent {
+  font-size: 1em;
+  line-height: 1.5;
+}
 /* Form Styles */
 .formContainer {
   display: flex;
@@ -115,6 +133,10 @@ h2 {
 
 .cancelButton:hover {
   background-color: #e53935;
+}
+
+.checkbox {
+  margin-right: 20px;
 }
 
 /* Responsive Styles */

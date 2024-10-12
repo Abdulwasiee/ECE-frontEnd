@@ -5,6 +5,7 @@
   padding: 20px;
   max-width: 600px;
   min-height: 100vh;
+  margin-top: 50px;
 }
 .container h2 {
   text-align: center;
@@ -14,6 +15,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  border: solid 1px rgb(50, 50, 110);
+  padding: 20px;
 }
 
 .error {

@@ -100,6 +100,20 @@ const EditCourse = () => {
     <Layout>
       <div className={styles.editCourseContainer}>
         <h2>Edit Course</h2>
+
+        <div className={styles.notification}>
+          <div className={styles.notificationTitle}>
+            Important Notice: Course Editing Implications
+          </div>
+          <div className={styles.notificationContent}>
+            When you update a course, it’s important to remember that it’s not
+            just about changing the course name or code. Modifying the batch or
+            semester can cause the course to shift to the updated version for
+            all users, including staff and students.
+            <br />
+            <br />
+          </div>
+        </div>
         <form onSubmit={handleSubmit} className={styles.formContainer}>
           <div className={styles.formGroup}>
             <label>Course Name</label>
@@ -172,6 +186,7 @@ const EditCourse = () => {
                 type="checkbox"
                 checked={isChecked}
                 onChange={() => setIsChecked(!isChecked)}
+                className={styles.checkbox}
               />
               I confirm that I understand the changes I am about to make.
             </label>

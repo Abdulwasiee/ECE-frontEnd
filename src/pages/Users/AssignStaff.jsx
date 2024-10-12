@@ -4,49 +4,35 @@ import { axiosInstance } from "../../utility/Axios";
 import styles from "./AssignStaff.module.css";
 import Layout from "../../components/Layout/Layout";
 import { FaTrash } from "react-icons/fa";
-import { Spinner } from "react-bootstrap"; // Importing Bootstrap Spinner for loading indication
+import { Spinner } from "react-bootstrap";
 import { AuthContext } from "../../components/Auth/Auth";
 
 const AssignStaffPage = () => {
   const { userInfo } = useContext(AuthContext);
-  const role = userInfo.role_id; // Admin if role === 1
-  const { batchCourseId, courseId } = useParams();
-  const [batchId, setBatchId] = useState("");
-  const [semesterId, setSemesterId] = useState("");
-  const [streamId, setStreamId] = useState("");
-  const [members, setMembers] = useState([]); // For both staff and departments
-  const [selectedMember, setSelectedMember] = useState(""); // For both staff and department
-  const [assignedMembers, setAssignedMembers] = useState([]); // For both staff and departments
+  const role = userInfo.role_id;
+  const { batchCourseId, courseId, selectedCourse } = useParams();
+  const [members, setMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [assignedMembers, setAssignedMembers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState(null);
   const [loadingAssign, setLoadingAssign] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
-  const [assignType, setAssignType] = useState("staff"); // Default assign type is staff
+  const [assignType, setAssignType] = useState("staff");
   const [showAlreadyAssignedModal, setShowAlreadyAssignedModal] =
-    useState(false); // New state for already assigned modal
-  const role_id = assignType === "staff" ? 3 : 4; // 3 for staff, 4 for department
+    useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const role_id = assignType === "staff" ? 3 : 4;
   const navigate = useNavigate();
 
-  const streams = [
-    { id: 1, name: "Computer" },
-    { id: 2, name: "Communication" },
-    { id: 3, name: "Control" },
-    { id: 4, name: "Power" },
-  ];
-
-  // Fetch Users based on the assign type (staff/department)
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axiosInstance.get(`/api/getUsers/${role_id}`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: {
-          batch_id: assignType === "staff" ? batchId : null,
-          semester_id: assignType === "staff" ? semesterId : null,
-          stream_id: assignType === "staff" ? streamId : null,
-        },
       });
       setMembers(response.data.users);
     } catch (error) {
@@ -55,7 +41,6 @@ const AssignStaffPage = () => {
     }
   };
 
-  // Fetch already assigned members
   const fetchAssignedMembers = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -66,6 +51,8 @@ const AssignStaffPage = () => {
 
       if (response.data.response.success) {
         setAssignedMembers(response.data.response.staff);
+      } else {
+        setErrorMessage(`Failed to fetch assigned ${assignType}.`);
       }
     } catch (error) {
       console.error("Error fetching assigned staff:", error);
@@ -76,93 +63,94 @@ const AssignStaffPage = () => {
   useEffect(() => {
     fetchUsers();
     fetchAssignedMembers();
-  }, [assignType, batchId, semesterId]);
+  }, [assignType]);
 
   const handleAssignMember = async () => {
-    if (
-      (assignType === "staff" &&
-        (!batchId ||
-          !semesterId ||
-          (batchId === "4" && semesterId === "2" && !streamId))) ||
-      !selectedMember
-    ) {
-      setErrorMessage("Please select all required fields.");
+    if (selectedMembers.length === 0) {
+      setErrorMessage("Please select at least one member to assign.");
       return;
     }
 
-    // Check if the selected member is already assigned
-    const isAlreadyAssigned = assignedMembers.some(
-      (member) => member.user_id == selectedMember
+    const alreadyAssigned = selectedMembers.some((memberId) =>
+      assignedMembers.some((member) => member.user_id == memberId)
     );
 
-    if (isAlreadyAssigned) {
-      setShowAlreadyAssignedModal(true); // Show modal if already assigned
+    if (alreadyAssigned) {
+      setShowAlreadyAssignedModal(true);
       return;
     }
 
     setErrorMessage("");
     setSuccessMessage("");
-    setLoadingAssign(true); // Set loading state
+    setLoadingAssign(true);
 
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axiosInstance.post(
-        `/api/assignStaff`,
-        {
-          user_id: selectedMember,
-          batch_course_id: batchCourseId,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+
+      await Promise.all(
+        selectedMembers.map(async (memberId) => {
+          await axiosInstance.post(
+            `/api/assignStaff`,
+            {
+              user_id: memberId,
+              batch_course_id: batchCourseId,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+        })
       );
-      console.log(response);
+
       setSuccessMessage(
         `${
           assignType.charAt(0).toUpperCase() + assignType.slice(1)
         } assigned successfully!`
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
       await fetchAssignedMembers();
+      setSelectedMembers([]); // Clear selections after assignment
 
-      // Reset success message after a delay
+      // Clear success message after some time
       setTimeout(() => {
         setSuccessMessage("");
-      }, 2000); // Reset after 2 seconds
+      }, 2000);
     } catch (error) {
-      console.error(`Error assigning ${assignType}:`, error);
-      setErrorMessage(`Failed to assign ${assignType}.`);
+      console.error(
+        `Error assigning ${assignType}:`,
+        error.response?.data || error.message
+      );
+      setErrorMessage(
+        `Failed to assign ${assignType}. ${error.response?.data?.message || ""}`
+      );
     } finally {
-      setLoadingAssign(false); // Reset loading state
+      setLoadingAssign(false);
     }
   };
 
   const handleDeleteMember = async (user_id) => {
-    setLoadingRemove(true); // Set loading state for removal
+    setLoadingRemove(true);
     try {
       const token = localStorage.getItem("authToken");
       const response = await axiosInstance.delete(`/api/removeStaffCourse`, {
         params: { user_id, course_id: courseId },
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
+
       if (response.data.result.success) {
         setSuccessMessage(response.data.result.message);
-
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay before refreshing
-        fetchAssignedMembers();
+        await fetchAssignedMembers();
         closeModal();
-
+        // Clear success message after some time
         setTimeout(() => {
           setSuccessMessage("");
-        }, 2000); // Reset after 2 seconds
+        }, 2000);
       }
     } catch (error) {
       console.error(`Error deleting ${assignType}:`, error);
       setErrorMessage(`Failed to delete ${assignType}.`);
     } finally {
-      setLoadingRemove(false); // Reset loading state
+      setLoadingRemove(false);
     }
   };
 
@@ -177,14 +165,54 @@ const AssignStaffPage = () => {
   };
 
   const closeAlreadyAssignedModal = () => {
-    setShowAlreadyAssignedModal(false); // Close the already assigned modal
+    setShowAlreadyAssignedModal(false);
+  };
+
+  // Filter members based on search term
+  const filteredMembers = members.filter((member) => {
+    const fullName = member.name.toLowerCase();
+    const batchYear = member.batch_year.toString();
+    const streamID = member.stream_id.toString();
+    return (
+      fullName.includes(searchTerm.toLowerCase()) ||
+      batchYear.includes(searchTerm) ||
+      streamID.includes(searchTerm)
+    );
+  });
+
+  const handleSelectMember = (user_id) => {
+    setSelectedMembers((prev) =>
+      prev.includes(user_id)
+        ? prev.filter((id) => id !== user_id)
+        : [...prev, user_id]
+    );
+  };
+
+  const handleAssignTypeChange = (type) => {
+    setAssignType(type);
+    setSelectedMembers([]);
+    setErrorMessage("");
+    setSuccessMessage("");
+    setSearchTerm("");
   };
 
   return (
     <Layout>
+      <div className={styles.assignmentInfo}>
+        <h2>Assigned Members</h2>
+        <p>
+          Utilize the search feature below to find and assign a user to this
+          course. If the user is not already assigned, they will receive an
+          email informing them of their new permissions. Furthermore, the staff
+          or department will be updated about the assignment to ensure seamless
+          communication.
+        </p>
+      </div>
+
       <div className={styles.assignStaffPage}>
         <h1>
-          Assign {assignType === "staff" ? "Staff" : "Department"} to Course
+          Assign {assignType === "staff" ? "Staff" : "Department"} to{" "}
+          {selectedCourse} course
         </h1>
         {errorMessage && (
           <div className={styles.errorMessage}>{errorMessage}</div>
@@ -193,7 +221,6 @@ const AssignStaffPage = () => {
           <div className={styles.successMessage}>{successMessage}</div>
         )}
 
-        {/* Admin can toggle between assigning staff or department */}
         {role === 1 && (
           <div className={styles.assignToggle}>
             <label>
@@ -202,7 +229,7 @@ const AssignStaffPage = () => {
                 name="assignType"
                 value="staff"
                 checked={assignType === "staff"}
-                onChange={() => setAssignType("staff")}
+                onChange={() => handleAssignTypeChange("staff")}
               />
               Assign Staff
             </label>
@@ -212,115 +239,79 @@ const AssignStaffPage = () => {
                 name="assignType"
                 value="department"
                 checked={assignType === "department"}
-                onChange={() => setAssignType("department")}
+                onChange={() => handleAssignTypeChange("department")}
               />
               Assign Department
             </label>
           </div>
         )}
 
-        {/* Form for staff assignment if applicable */}
-        {assignType === "staff" && (
-          <div className={styles.formInputs}>
-            <div className={styles.formGroup}>
-              <label htmlFor="batch" className={styles.label}>
-                Batch:
-              </label>
-              <select
-                value={batchId}
-                onChange={(e) => setBatchId(e.target.value)}
-                className={styles.select}
-              >
-                <option value="">Select Batch</option>
-                <option value="1">2 year</option>
-                <option value="2">3 year</option>
-                <option value="3">4 year</option>
-                <option value="4">5 year</option>
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="semester" className={styles.label}>
-                Semester:
-              </label>
-              <select
-                value={semesterId}
-                onChange={(e) => setSemesterId(e.target.value)}
-                className={styles.select}
-              >
-                <option value="">Select Semester</option>
-                <option value="1">1st Semester</option>
-                <option value="2">2nd Semester</option>
-              </select>
-            </div>
-
-            {batchId === "4" && semesterId === "2" && (
-              <div className={styles.formGroup}>
-                <label htmlFor="stream" className={styles.label}>
-                  Stream:
-                </label>
-                <select
-                  value={streamId}
-                  onChange={(e) => setStreamId(e.target.value)}
-                  className={styles.select}
-                >
-                  <option value="">Select Stream</option>
-                  {streams.map((stream) => (
-                    <option key={stream.id} value={stream.id}>
-                      {stream.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Select member to assign */}
         <div className={styles.selectMember}>
           <label htmlFor="member" className={styles.label}>
             Select Member:
           </label>
-          <select
-            value={selectedMember}
-            onChange={(e) => setSelectedMember(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">Select Member</option>
-            {members.map((member) => (
-              <option key={member.user_id} value={member.user_id}>
-                {member.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button onClick={handleAssignMember} disabled={loadingAssign}>
-          {loadingAssign ? <Spinner animation="border" size="sm" /> : "Assign"}
-        </button>
-
-        {/* Assigned members list */}
-        <h2>Assigned Members</h2>
-        {assignedMembers.length === 0 ? (
-          <p>No members assigned.</p>
-        ) : (
-          <ul>
-            {assignedMembers.map((member) => (
-              <li key={member.user_id}>
+          <input
+            type="text"
+            placeholder={
+              assignType === "staff" ? "search Staff" : "search Department"
+            }
+            className={styles.searchInput}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <ul className={styles.memberList}>
+            {filteredMembers.map((member) => (
+              <li key={member.user_id} className={styles.memberItem}>
+                <input
+                  type="checkbox"
+                  checked={selectedMembers.includes(member.user_id)}
+                  onChange={() => handleSelectMember(member.user_id)}
+                  className={styles.checkboxItem}
+                />
                 {member.name}{" "}
-                <button onClick={() => openModal(member.user_id)}>
-                  <FaTrash />
-                </button>
+                <span className={styles.memberDetails}>
+                  ID: {member.id_number}, Role: {member.role_name}, Stream:{" "}
+                  {member.stream_name}, Batch: {member.batch_year}
+                </span>
               </li>
             ))}
           </ul>
-        )}
+        </div>
 
-        {/* Modal for confirming removal */}
+        <button
+          onClick={handleAssignMember}
+          disabled={loadingAssign}
+          className={styles.assignButton}
+        >
+          {loadingAssign ? <Spinner animation="border" size="sm" /> : "Assign"}
+        </button>
+
+        <h2>Assigned Members</h2>
+        <ul className={styles.assignedList}>
+          {assignedMembers.map((member) => (
+            <li key={member.user_id} className={styles.assignedMember}>
+              {member.name}{" "}
+              <span>
+                {" "}
+                {member.batch_year} ,{" "}
+                {member.stream_name ? member.stream_name : null}{" "}
+                {member.semester_name}
+              </span>
+              <button
+                onClick={() => openModal(member.user_id)}
+                className={styles.deleteButton}
+              >
+                <FaTrash />
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {/* Confirmation Modal */}
         {showModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
-              <h2>Confirm Removal</h2>
+              <h3>Confirm Deletion</h3>
               <p>Are you sure you want to remove this member?</p>
               <button onClick={() => handleDeleteMember(memberToRemove)}>
                 Yes
@@ -330,12 +321,12 @@ const AssignStaffPage = () => {
           </div>
         )}
 
-        {/* Modal for already assigned member notification */}
+        {/* Already Assigned Modal */}
         {showAlreadyAssignedModal && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
-              <h2>Member Already Assigned</h2>
-              <p>This member is already assigned to the course.</p>
+              <h3>Already Assigned</h3>
+              <p>One or more selected members are already assigned.</p>
               <button onClick={closeAlreadyAssignedModal}>Close</button>
             </div>
           </div>

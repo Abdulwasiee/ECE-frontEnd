@@ -15,9 +15,13 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
     navigate(`/editCourse/${encryptedCourseId}`);
   };
 
-  const handleAssign = (batchCourseId, e, courseId) => {
+  const handleAssign = (batchCourseId, e, courseId,selctedCourse) => {
+    const encryptedbBatchCourseId = Encryptor.encrypt(batchCourseId);
+    const encryptedCourseId = Encryptor.encrypt(courseId);
     e.stopPropagation(); // Prevent click event on list item
-    navigate(`/assignStaff/${batchCourseId}/${courseId}`); // Navigate to assignStaff route
+    navigate(
+      `/assignStaff/${encryptedbBatchCourseId}/${encryptedCourseId}/${selctedCourse}`
+    ); // Navigate to assignStaff route
   };
 
   const renderEditIcon = (courseId, e) => {
@@ -63,7 +67,12 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
                 <FaUserPlus
                   className={styles.assignIcon}
                   onClick={(e) =>
-                    handleAssign(course.batch_course_id, e, course.course_id)
+                    handleAssign(
+                      course.batch_course_id,
+                      e,
+                      course.course_id,
+                      course.course_name
+                    )
                   } // Handle assign click
                 />
               </td>
