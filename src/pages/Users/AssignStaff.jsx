@@ -201,19 +201,18 @@ const AssignStaffPage = () => {
       <div className={styles.assignmentInfo}>
         <h2>Assigned Members</h2>
         <p>
-          Utilize the search feature below to find and assign a user to this
-          course. If the user is not already assigned, they will receive an
-          email informing them of their new permissions. Furthermore, the staff
-          or department will be updated about the assignment to ensure seamless
-          communication.
+          Use the search feature below to find and assign a user to{" "}
+          <span className={styles.courseName}>{selectedCourse}</span> course. If
+          the user isn't already assigned, they will receive an email with the
+          details of their new assignment.1
         </p>
       </div>
 
       <div className={styles.assignStaffPage}>
-        <h1>
+        <h2>
           Assign {assignType === "staff" ? "Staff" : "Department"} to{" "}
           {selectedCourse} course
-        </h1>
+        </h2>
         {errorMessage && (
           <div className={styles.errorMessage}>{errorMessage}</div>
         )}
@@ -247,9 +246,6 @@ const AssignStaffPage = () => {
         )}
 
         <div className={styles.selectMember}>
-          <label htmlFor="member" className={styles.label}>
-            Select Member:
-          </label>
           <input
             type="text"
             placeholder={

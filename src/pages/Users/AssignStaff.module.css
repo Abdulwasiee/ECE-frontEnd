@@ -17,16 +17,17 @@ h1 {
   justify-content: center;
   margin-bottom: 20px;
 }
-
+.courseName {
+  color: #5cb85c;
+  font-style: italic;
+  background-color: white;
+}
 .assignToggle label {
   margin: 0 10px;
   font-size: 18px;
 }
 
-.label {
-  font-size: 16px;
-  color: #555;
-}
+
 
 .searchInput {
   width: calc(100% - 20px);
@@ -89,7 +90,7 @@ h1 {
   color: white;
   font-size: 16px;
   cursor: pointer;
-    margin: 30px auto;
+  margin: 30px auto;
 
   transition: background-color 0.3s;
 }
@@ -201,9 +202,9 @@ h1 {
 }
 .assignmentInfo {
   width: 60%;
-
+  text-align: center;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #a0c5ee;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
@@ -211,20 +212,19 @@ h1 {
 
 .assignmentInfo h2 {
   font-size: 24px;
-  color: #333;
   margin-bottom: 10px;
 }
 
 .assignmentInfo p {
   font-size: 16px;
-  color: #555;
   line-height: 1.5;
 }
 
 @media (max-width: 768px) {
   .assignmentInfo {
     padding: 15px;
-    width: 100%;
+    width: 90%;
+    margin: 30px auto;
   }
 
   .assignmentInfo h2 {
