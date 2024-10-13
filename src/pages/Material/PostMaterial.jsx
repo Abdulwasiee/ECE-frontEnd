@@ -4,15 +4,15 @@ import { axiosInstance } from "../../utility/Axios";
 import uploadStyles from "./PostMaterial.module.css";
 import Layout from "../../components/Layout/Layout";
 import { AuthContext } from "../../components/Auth/Auth";
-import { Spinner, Button } from "react-bootstrap"; // Import Spinner from react-bootstrap
+import { Spinner, Button } from "react-bootstrap";
 
 const FileUploadPage = () => {
-  const { courseId } = useParams(); 
+  const { courseId } = useParams();
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false); // State for loading spinner
+  const [loading, setLoading] = useState(false);
 
   const { userInfo } = useContext(AuthContext);
   const token = localStorage.getItem("authToken");
@@ -25,12 +25,12 @@ const FileUploadPage = () => {
       return;
     }
 
-    setLoading(true); // Start loading
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("file", file);
-    formData.append("batchCourseId", courseId); // Pass courseId in the request body
+    formData.append("batchCourseId", courseId);
 
     try {
       const response = await axiosInstance.post("/api/uploadFile", formData, {
@@ -41,15 +41,14 @@ const FileUploadPage = () => {
       });
       setSuccess(response.data.message);
       setError(null);
-      setLoading(false); // Stop loading
+      setLoading(false);
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
+      setTitle("");
+      setFile(null);
     } catch (error) {
       setError(error.response?.data?.message || "Error uploading file");
       setSuccess(null);
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 

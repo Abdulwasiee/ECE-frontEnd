@@ -1,17 +1,23 @@
-import React, { useContext, useState } from "react";
-import { FaEdit, FaTrashAlt, FaBook } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { FaTrashAlt, FaBook } from "react-icons/fa";
 import { axiosInstance } from "../../utility/Axios";
 import * as timeago from "timeago.js";
 import styles from "./MaterialList.module.css";
 import { AuthContext } from "../Auth/Auth";
+import { Spinner } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 const MaterialList = ({ materials }) => {
   const { userInfo } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [materialToDelete, setMaterialToDelete] = useState(null);
+  const [materialList, setMaterialList] = useState(materials);
+  const [loading, setLoading] = useState(false); // State for loading spinner
   const roleId = userInfo.role_id;
+
+  // Ensure materialList is updated if materials prop changes
+  useEffect(() => {
+    setMaterialList(materials);
+  }, [materials]);
 
   const openModal = (material) => {
     setIsModalOpen(true);
@@ -26,6 +32,7 @@ const MaterialList = ({ materials }) => {
   const handleDelete = async () => {
     const { material_id, title } = materialToDelete;
     const token = localStorage.getItem("authToken");
+    setLoading(true); // Start loading
 
     try {
       const response = await axiosInstance.delete(`/api/deleteFile`, {
@@ -39,21 +46,28 @@ const MaterialList = ({ materials }) => {
       });
 
       if (response.status === 200) {
+        // Update local materialList after deletion
+        setMaterialList((prevMaterials) =>
+          prevMaterials.filter(
+            (material) => material.material_id !== material_id
+          )
+        );
         closeModal();
-        window.location.reload();
       } else {
         alert("Error deleting material");
       }
     } catch (error) {
       alert("Network error or failed request");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
     <div className={styles.container}>
       <ul className={styles.list}>
-        {materials.length > 0 ? (
-          materials.map((material) => (
+        {materialList && materialList.length > 0 ? (
+          materialList.map((material) => (
             <li key={material.material_id} className={styles.listItem}>
               <div className={styles.materialItem}>
                 <FaBook className={styles.bookIcon} />
@@ -73,8 +87,8 @@ const MaterialList = ({ materials }) => {
 
                 {(roleId === 1 ||
                   roleId === 3 ||
-                  roleId === 5 ||
-                  roleId === 4) && (
+                  roleId === 4 ||
+                  roleId === 5) && (
                   <div className={styles.actionIcons}>
                     <FaTrashAlt
                       className={styles.deleteIcon}
@@ -95,8 +109,25 @@ const MaterialList = ({ materials }) => {
           <div className={styles.modalContent}>
             <p>Are you sure you want to delete this material?</p>
             <div className={styles.modalActions}>
-              <button onClick={handleDelete} className={styles.confirmButton}>
-                Confirm
+              <button
+                onClick={handleDelete}
+                className={styles.confirmButton}
+                disabled={loading} // Disable button when loading
+              >
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    Deleting...
+                  </>
+                ) : (
+                  "Confirm"
+                )}
               </button>
               <button onClick={closeModal} className={styles.cancelButton}>
                 Cancel

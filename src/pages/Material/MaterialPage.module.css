@@ -16,25 +16,91 @@
   font-size: 16px;
   margin-top: 10px;
 }
+
+
 .postButtonContainer {
   position: sticky;
   top: 100px;
   margin-bottom: 100px;
   z-index: 1000;
 }
+
+.postButtonWrapper {
+  position: relative;
+  transition: opacity 0.5s, transform 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(-20px); 
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0); 
+}
+
+.hide {
+  opacity: 0;
+  transform: translateY(-20px); 
+}
+
 .postButton {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50; 
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  position: absolute;
+  top: 20px;
+  right: 120px;
 }
 
 .postButton:hover {
   background-color: #45a049;
 }
+
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #4caf50;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: absolute;
+  right: 10px;
+  top: 40px;
+}
+
+.iconContainer:hover {
+  background-color: #45a049;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+
+
+@keyframes vibrate {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+

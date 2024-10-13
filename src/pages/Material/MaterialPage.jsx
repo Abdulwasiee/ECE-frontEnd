@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import { axiosInstance } from "../../utility/Axios";
 import MaterialList from "../../components/MaterialList/MaterialList";
 import styles from "./MaterialPage.module.css";
@@ -10,11 +11,16 @@ const MaterialPage = () => {
   const { encryptedId } = useParams();
 
   const [materials, setMaterials] = useState([]);
+  const [showPostButton, setShowPostButton] = useState(false);
   const [error, setError] = useState(null);
 
   const { userInfo } = useContext(AuthContext);
   const roleId = userInfo?.role_id;
   const navigate = useNavigate();
+
+  const togglePostButton = () => {
+    setShowPostButton(!showPostButton);
+  };
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -61,9 +67,23 @@ const MaterialPage = () => {
     <Layout>
       {(roleId === 1 || roleId === 3 || roleId === 5 || roleId === 4) && (
         <div className={styles.postButtonContainer}>
-          <button className={styles.postButton} onClick={handlePostMaterial}>
-            Post Material
-          </button>
+          <div className={styles.iconContainer} onClick={togglePostButton}>
+            {showPostButton ? (
+              <FaTimes className={styles.icon} />
+            ) : (
+              <FaPlus className={styles.icon} />
+            )}
+          </div>
+
+          <div
+            className={`${styles.postButtonWrapper} ${
+              showPostButton ? styles.show : styles.hide
+            }`}
+          >
+            <button className={styles.postButton} onClick={handlePostMaterial}>
+              Post Material
+            </button>
+          </div>
         </div>
       )}
       <div className={styles.container}>

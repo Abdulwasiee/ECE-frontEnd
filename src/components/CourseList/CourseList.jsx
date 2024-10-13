@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FaEdit, FaUserPlus, FaBook } from "react-icons/fa"; // Import course icon
+import { FaEdit, FaUserPlus, FaBook } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
 import styles from "./CourseList.module.css";
 import { AuthContext } from "../Auth/Auth";
@@ -18,10 +18,10 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
   const handleAssign = (batchCourseId, e, courseId, selectedCourse) => {
     const encryptedBatchCourseId = Encryptor.encrypt(batchCourseId);
     const encryptedCourseId = Encryptor.encrypt(courseId);
-    e.stopPropagation(); // Prevent click event on list item
+    e.stopPropagation(); 
     navigate(
       `/assignStaff/${encryptedBatchCourseId}/${encryptedCourseId}/${selectedCourse}`
-    ); // Navigate to assignStaff route
+    );
   };
 
   const renderCourses = (courseList, showActions) => (
@@ -74,7 +74,6 @@ const CourseList = ({ courses = [], staffCourses = [], onCourseClick }) => {
       <h2 className={styles.title}>Courses</h2>
       {courses.length > 0 && renderCourses(courses, true)} {/* Show actions */}
       {staffCourses.length > 0 && renderCourses(staffCourses, false)}{" "}
-      {/* No actions */}
     </div>
   );
 };

@@ -9,12 +9,31 @@
   margin: 0 auto;
 }
 
+
+
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 16px;
   position: sticky;
   top: 100px;
+}
+
+.addButtonContainer {
+  position: relative;
+  transition: opacity 0.5s, transform 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(-20px); 
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0); 
+}
+
+.hide {
+  opacity: 0;
+  transform: translateY(-20px); 
 }
 
 .addButton {
@@ -26,11 +45,54 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s;
-  right: 20px;
+  right: 80px;
 }
 
 .addButton:hover {
   background-color: #303f9f;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3f51b5;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.iconContainer:hover {
+  background-color: #303f9f;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+@keyframes vibrate {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
 }
 
 .dropdownContainer {
@@ -52,6 +114,10 @@
 }
 
 @media (max-width: 768px) {
+  .addButton {
+    right: 10px;
+  }
+
   .dropdownContainer {
     flex-direction: column;
   }

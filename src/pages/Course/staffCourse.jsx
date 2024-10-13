@@ -4,6 +4,7 @@ import { axiosInstance } from "../../utility/Axios";
 import CourseList from "../../components/CourseList/CourseList";
 import styles from "./staffCourse.module.css";
 import Layout from "../../components/Layout/Layout";
+import Encryptor from "../../components/Protection/Encryptor";
 
 const StaffCoursePage = () => {
   const [staffCourses, setStaffCourses] = useState([]);
@@ -36,8 +37,8 @@ const StaffCoursePage = () => {
   }, [navigate]);
 
   const handleCourseClick = (courseId) => {
-    // Navigate to the course's materials page
-    navigate(`/materials/${courseId}`);
+    const encryptedCourseId = Encryptor.encrypt(courseId);
+    navigate(`/materials/${encryptedCourseId}`);
   };
 
   return (

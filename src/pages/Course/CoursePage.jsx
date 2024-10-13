@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utility/Axios";
 import CourseList from "../../components/CourseList/CourseList";
 import { AuthContext } from "../../components/Auth/Auth";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import {
   Button,
   MenuItem,
@@ -22,9 +23,14 @@ const CoursePage = () => {
   const [selectedBatch, setSelectedBatch] = useState(1);
   const [selectedSemester, setSelectedSemester] = useState(1);
   const [selectedStream, setSelectedStream] = useState(null);
+   const [showButton, setShowButton] = useState(false);
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
   const navigate = useNavigate();
+
+   const toggleButton = () => {
+     setShowButton(!showButton);
+   };
 
   useEffect(() => {
     if (selectedSemester) {
@@ -158,14 +164,32 @@ const CoursePage = () => {
     <Layout>
       <Box className={styles.buttonContainer}>
         {(role_id === 4 || role_id === 1) && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddCourse}
-            className={styles.addButton}
-          >
-            Add Course
-          </Button>
+          <div>
+            {/* Toggle between plus and X icon */}
+            <div className={styles.iconContainer} onClick={toggleButton}>
+              {showButton ? (
+                <FaTimes className={styles.icon} />
+              ) : (
+                <FaPlus className={styles.icon} />
+              )}
+            </div>
+
+            {/* Add Course button with transition */}
+            <div
+              className={`${styles.addButtonContainer} ${
+                showButton ? styles.show : styles.hide
+              }`}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddCourse}
+                className={styles.addButton}
+              >
+                Add Course
+              </Button>
+            </div>
+          </div>
         )}
       </Box>
 

@@ -204,7 +204,7 @@ const AssignStaffPage = () => {
           Use the search feature below to find and assign a user to{" "}
           <span className={styles.courseName}>{selectedCourse}</span> course. If
           the user isn't already assigned, they will receive an email with the
-          details of their new assignment.1
+          details of their new assignment.
         </p>
       </div>
 
