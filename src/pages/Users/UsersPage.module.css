@@ -1,103 +1,156 @@
+
 .usersPageContainer {
   padding: 20px;
-  padding-top: 200px;
+  max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
 }
 
 .heading {
-  font-size: 24px;
+  font-size: 2rem;
+  font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
 }
-.selectionContainer {
-  width: 80%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
+.error {
+  color: red;
+  text-align: center;
 }
-.selectionInput {
+
+.selectionContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
   margin-bottom: 20px;
-  width: 25%;
+}
+
+.selectionInput {
+  flex: 1 1 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .label {
-  display: block;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 1rem;
 }
 
 .select {
   padding: 10px;
-  font-size: 16px;
-  width: 95%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
-/* Add User Button: top-right and sticky */
-.addUserButton {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  position: sticky;
-  top: 150px;
-  right: 50px;
-  float: right;
+.select:focus {
+  border-color: #4caf50;
+}
+
+.addButtonWrapper {
+  position: fixed;
+  top: 100px;
+  right: 20px;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+
+.addUserButton {
+  background-color: #3f51b5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-left: -200px; 
 }
 
 .addUserButton:hover {
-  background-color: #45a049;
+  background-color: #303f9f;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 766px) {
-  .heading {
+
+.iconContainer {
+  font-size: 30px;
+  color: #e3f2e3;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  background-color: #303f9f;
+  width: 3rem;
+  border-radius: 50%;
+  text-align: center;
+}
+
+
+
+
+.addButtonContainer {
+  transition: opacity 0.4s, transform 0.4s ease-in-out;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.hide {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+
+@media screen and (max-width: 768px) {
+  .addButtonWrapper {
+    top: 100px;
+    right: 10px;
+  }
+
+  .addUserButton {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  .iconContainer {
+    font-size: 25px;
+  }
+
+  .selectionContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .addButtonWrapper {
+    top: 80px;
+    right: 10px;
+  }
+
+  .addUserButton {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  .iconContainer {
     font-size: 20px;
   }
 
-  .select {
-    font-size: 14px;
-    padding: 8px;
-    width: 100%;
-  }
-
-  .addUserButton {
-    font-size: 14px;
-    padding: 10px 16px;
-  }
   .selectionContainer {
-    width: 70%;
-    display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    margin: 10px auto;
-  }
-  .selectionInput {
-    margin-bottom: 20px;
-    width: 100%;
-  }
-}
-
-/* Tablet responsiveness */
-@media (max-width: 998px) {
-  .heading {
-    font-size: 22px;
-  }
-
-  .select {
-    font-size: 15px;
-    padding: 9px;
-    width: 100%;
-  }
-
-  .addUserButton {
-    font-size: 15px;
-    padding: 11px 18px;
-    right: 10px;
   }
 }

@@ -172,11 +172,10 @@ const AssignStaffPage = () => {
   const filteredMembers = members.filter((member) => {
     const fullName = member.name.toLowerCase();
     const batchYear = member.batch_year.toString();
-    const streamID = member.stream_id.toString();
+
     return (
       fullName.includes(searchTerm.toLowerCase()) ||
-      batchYear.includes(searchTerm) ||
-      streamID.includes(searchTerm)
+      batchYear.includes(searchTerm)
     );
   });
 

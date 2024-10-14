@@ -4,19 +4,22 @@ import { axiosInstance } from "../../utility/Axios";
 import Layout from "../../components/Layout/Layout";
 import UsersList from "../../components/UserList/UsersList";
 import { AuthContext } from "../../components/Auth/Auth";
+import { FaPlus, FaTimes } from "react-icons/fa"; // Import icons for + and X
 import styles from "./UsersPage.module.css";
 
 const UsersPage = () => {
   const { userInfo } = useContext(AuthContext);
   const { role_id } = userInfo;
   const [error, setError] = useState(null);
-  const [selectedRoleId, setSelectedRoleId] = useState("3"); // Default to Staff
-  const [batchId, setBatchId] = useState("1"); // Default to 2nd Year
-  const [semesterId, setSemesterId] = useState("1"); // Default to Semester 1
-  const [streamId, setStreamId] = useState(""); // No default stream
-  const [displayData, setDisplayData] = useState([]); // Data to be displayed
+  const [selectedRoleId, setSelectedRoleId] = useState("3");
+  const [batchId, setBatchId] = useState("1");
+  const [semesterId, setSemesterId] = useState("");
+  const [streamId, setStreamId] = useState("");
+  const [displayData, setDisplayData] = useState([]);
+  const [showAddButton, setShowAddButton] = useState(false); // Toggle state for Add button
   const navigate = useNavigate();
 
+  // Fetch users
   const fetchUsers = async (
     roleParam,
     semesterParam = null,
@@ -26,8 +29,6 @@ const UsersPage = () => {
     const token = localStorage.getItem("authToken");
     try {
       let usersData = [];
-
-      // Fetch either from getStaff or getUsers based on selected role
       const endpoint =
         roleParam === "3" ? `/api/getStaffs` : `/api/getUsers/${roleParam}`;
       const response = await axiosInstance.get(endpoint, {
@@ -38,12 +39,8 @@ const UsersPage = () => {
           stream_id: streamParam || null,
         },
       });
-
-      // Assign the fetched data to usersData
       usersData =
         roleParam === "3" ? response.data.result.users : response.data.users;
-
-      // Set the fetched data for display
       setDisplayData(usersData);
     } catch (error) {
       setError("Error fetching users data");
@@ -52,52 +49,64 @@ const UsersPage = () => {
 
   useEffect(() => {
     fetchUsers(selectedRoleId, null, batchId, null);
-  }, [selectedRoleId, batchId]); // Fetch users when role or batch changes
+  }, [selectedRoleId, batchId]);
 
   const handleRoleSelection = (event) => {
     const roleParam = event.target.value;
     setSelectedRoleId(roleParam);
-    setBatchId(""); // Clear batch ID
-    setSemesterId(""); // Clear semester ID
-    setStreamId(""); // Clear stream ID
-    fetchUsers(roleParam); // Fetch users for the selected role
+    setBatchId("");
+    setSemesterId("");
+    setStreamId("");
+    fetchUsers(roleParam);
   };
 
   const handleBatchChange = (event) => {
     const batchParam = event.target.value;
     setBatchId(batchParam);
-    if (selectedRoleId === "4") {
-      setSemesterId(""); // Clear semester if department is selected
-      setStreamId(""); // Clear stream if department is selected
-    }
-    fetchUsers(selectedRoleId, null, batchParam); // Fetch users for the selected batch
+    fetchUsers(selectedRoleId, null, batchParam);
   };
 
   const handleStreamChange = (event) => {
     const streamParam = event.target.value;
     setStreamId(streamParam);
-    fetchUsers(selectedRoleId, semesterId, batchId, streamParam); // Fetch users with the selected stream
+    fetchUsers(selectedRoleId, semesterId, batchId, streamParam);
   };
 
   const handleSemesterChange = (event) => {
     const semesterParam = event.target.value;
     setSemesterId(semesterParam);
-    fetchUsers(selectedRoleId, semesterParam, batchId, streamId); // Fetch users with the selected semester
+    fetchUsers(selectedRoleId, semesterParam, batchId, streamId);
   };
 
   const handleAddUser = () => {
     navigate("/createUser");
   };
 
+  // Toggle the display of Add User button
+  const toggleAddButton = () => {
+    setShowAddButton(!showAddButton);
+  };
+
   if (error) return <p className={styles.error}>{error}</p>;
 
   return (
     <Layout>
-      {/* Add User Button for admins, representatives, and department */}
+      {/* Add User button for admins or department with dynamic icons */}
       {(role_id === 1 || role_id === 4) && (
-        <button onClick={handleAddUser} className={styles.addUserButton}>
-          Add User
-        </button>
+        <div className={styles.addButtonWrapper}>
+          <div className={styles.iconContainer} onClick={toggleAddButton}>
+            {showAddButton ? <FaTimes /> : <FaPlus />}
+          </div>
+          <div
+            className={`${styles.addButtonContainer} ${
+              showAddButton ? styles.show : styles.hide
+            }`}
+          >
+            <button onClick={handleAddUser} className={styles.addUserButton}>
+              Add User
+            </button>
+          </div>
+        </div>
       )}
 
       <div className={styles.usersPageContainer}>
@@ -105,7 +114,6 @@ const UsersPage = () => {
           {role_id === 1 ? "Users List" : "Staff List"}
         </h1>
         <div className={styles.selectionContainer}>
-          {/* Role selection for admin and department */}
           {(role_id === 1 || role_id === 4) && (
             <div className={styles.selectionInput}>
               <label htmlFor="roleSelect" className={styles.label}>
@@ -124,7 +132,6 @@ const UsersPage = () => {
             </div>
           )}
 
-          {/* Batch selection for staff and representatives */}
           {(role_id === 1 || role_id === 4) &&
             (selectedRoleId === "3" || selectedRoleId === "5") && (
               <div className={styles.selectionInput}>
@@ -146,7 +153,6 @@ const UsersPage = () => {
               </div>
             )}
 
-          {/* Semester selection for staff only */}
           {(selectedRoleId === "3" ||
             (selectedRoleId === "5" && batchId === "3")) && (
             <div className={styles.selectionInput}>
@@ -166,7 +172,6 @@ const UsersPage = () => {
             </div>
           )}
 
-          {/* Stream selection for specific conditions */}
           {((selectedRoleId === "3" || selectedRoleId === "5") &&
             batchId === "3" &&
             semesterId === "2") ||
@@ -191,11 +196,7 @@ const UsersPage = () => {
           ) : null}
         </div>
 
-        {/* Display list of users or staff based on the selection */}
-        <UsersList
-          usersData={displayData} // Pass only the relevant data here
-          role_id={role_id}
-        />
+        <UsersList usersData={displayData} role_id={role_id} />
       </div>
     </Layout>
   );
