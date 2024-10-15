@@ -28,16 +28,16 @@
 }
 
 .teacherCard {
-  background-color: #e0f7fa; /* Light blue for teachers */
+  background-color: #e0f7fa; 
 }
 
 .studentCard {
-  background-color: #ffe0b2; /* Light orange for students */
+  background-color: #dacebd; 
 }
 
 .userCard:hover {
   transform: translateY(-3px);
-  background-color: #f0f0f0; /* Light grey on hover */
+  background-color: #f0f0f0;
 }
 
 .userInfo {
@@ -57,12 +57,12 @@
 
 .teacherIcon {
   margin-left: 5px;
-  color: #00796b; /* Color for the teacher icon */
+  color: #00796b; 
 }
 
 .studentIcon {
   margin-left: 5px;
-  color: #ffb300; /* Color for the student icon */
+  color: #7f7b73;
 }
 
 .actionButtons {
@@ -87,12 +87,12 @@
   left: 15px;
   font-size: 0.8em;
   color: #555;
-  opacity: 0; /* Initially hidden */
+  opacity: 0; 
   transition: opacity 0.3s;
 }
 
 .userCard:hover .hoverInfo {
-  opacity: 1; /* Show on hover */
+  opacity: 1; 
 }
 
 .modal {

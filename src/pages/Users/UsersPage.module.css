@@ -54,7 +54,7 @@
 
 .addButtonWrapper {
   position: fixed;
-  top: 100px;
+  top: 150px;
   right: 20px;
   z-index: 1000;
   display: flex;

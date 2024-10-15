@@ -5,6 +5,7 @@ import ContactInfo from "../../components/ContactInfo/ContactInfo";
 import Layout from "../../components/Layout/Layout";
 import styles from "./ContactPage.module.css";
 import { AuthContext } from "../../components/Auth/Auth";
+import Encryptor from "../../components/Protection/Encryptor";
 
 const ContactPage = () => {
   const { userId } = useParams();
@@ -36,7 +37,7 @@ const ContactPage = () => {
 
     fetchContactInfo();
   }, [userId]);
-
+  const decryptedUserId = Encryptor.decrypt(userId);
   const handleAddContact = () => {
     navigate("/addContact");
   };
@@ -51,7 +52,7 @@ const ContactPage = () => {
         ) : contactData.length === 0 &&
           (role_id === 3 ||
             role_id == 5 ||
-            (role_id === 4 && userId === user_id.toString())) ? (
+            (role_id === 4 && decryptedUserId === user_id.toString())) ? (
           <div className={styles.addContactSection}>
             <p>No contact information found.</p>
             <button
