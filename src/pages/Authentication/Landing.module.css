@@ -25,7 +25,10 @@
 .authLink:hover {
   text-decoration: underline;
 }
-
+.forgetPassword{
+  color: #007bff;
+  cursor: pointer;
+}
 /* Tablet styles (min-width: 768px) */
 @media (min-width: 768px) {
   .landingContainer {

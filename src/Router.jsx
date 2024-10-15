@@ -21,6 +21,8 @@ import ProfilePage from "./pages/Profile/Profile";
 import SettingsPage from "./pages/Setting/Setting";
 import EditNews from "./pages/News/EditNews";
 import EditCourse from "./pages/Course/EditCourse";
+import RequestPasswordReset from "./components/Password/requestPassword";
+import ResetPassword from "./components/Password/ResetNewPassword";
 function Router() {
   return (
     <>
@@ -177,6 +179,11 @@ function Router() {
               <SettingsPage />
             </Protect>
           }
+        />
+        <Route path="/requestPassword" element={<RequestPasswordReset/>} />
+        <Route
+          path="/resetPassword/:token"
+          element={<ResetPassword />}
         />
       </Routes>
     </>
