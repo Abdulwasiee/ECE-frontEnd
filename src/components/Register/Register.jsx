@@ -16,6 +16,7 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,6 +30,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start the loading spinner
 
     const dataToSend = {
       first_name: formData.first_name,
@@ -76,8 +78,11 @@ const Register = () => {
     } catch (error) {
       setError(error.message);
       setMessage("");
+    } finally {
+      setLoading(false); // Stop the loading spinner
     }
   };
+
   return (
     <div className={registerStyles.registerContainer}>
       <h2 className={registerStyles.registerTitle}>Register</h2>
@@ -174,8 +179,16 @@ const Register = () => {
             </select>
           </div>
         )}
-        <button type="submit" className={registerStyles.registerButton}>
-          Register
+        <button
+          type="submit"
+          className={registerStyles.registerButton}
+          disabled={loading}
+        >
+          {loading ? (
+            <div className={registerStyles.spinner}></div>
+          ) : (
+            "Register"
+          )}
         </button>
         {error && <p className={registerStyles.errorMessage}>{error}</p>}
         {message && <p className={registerStyles.successMessage}>{message}</p>}

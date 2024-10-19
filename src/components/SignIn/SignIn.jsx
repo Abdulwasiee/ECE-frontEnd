@@ -17,6 +17,7 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,6 +27,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading spinner
 
     const dataToSend = isStudent
       ? { id_number: formData.id_number, first_name: formData.first_name }
@@ -50,14 +52,17 @@ const SignIn = () => {
           id_number: "",
           first_name: "",
         });
+        setLoading(false); // Stop loading spinner
         navigate("/home");
       } else {
         setError(response.data.response.message);
         setMessage("");
+        setLoading(false); // Stop loading spinner
       }
     } catch (error) {
       setError("Error during login. Please try again.");
       setMessage("");
+      setLoading(false); // Stop loading spinner
     }
   };
 
@@ -123,8 +128,16 @@ const SignIn = () => {
             </div>
           </>
         )}
-        <button type="submit" className={signinStyles.signinButton}>
-          Sign In
+        <button
+          type="submit"
+          className={signinStyles.signinButton}
+          disabled={loading}
+        >
+          {loading ? (
+            <div className={signinStyles.spinner}></div> // Spinner element
+          ) : (
+            "Sign In"
+          )}
         </button>
         {error && <p className={signinStyles.errorMessage}>{error}</p>}
         {message && <p className={signinStyles.successMessage}>{message}</p>}
